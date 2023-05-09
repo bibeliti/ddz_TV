@@ -5,7 +5,6 @@
 
 
 ul {
-    background: aqua;
     width: 30%;
     padding: 0;
     float: left;
@@ -43,20 +42,18 @@ ul li:hover {
 }
 
 .formInput {
-    background-color: #0074ff;
+    text-align: center;
     width: 95%;
     padding: 20px;
     margin: 20px;
 }
 
 #idForBase {
-    background-color: #ff9200;
     width: 100%;
     height: 50px;
 }
 
 #idForRisk {
-    background-color: #030200;
     width: 100%;
     height: 50px;
 }
@@ -69,6 +66,7 @@ input {
     padding: 10px;
     float: left;
     font-size: 16px;
+    background-color: antiquewhite;
 }
 
 .addBtn {
@@ -86,4 +84,9 @@ input {
 
 .addBtn:hover {
     background-color: #bbb;
+}
+
+#inputBase {
+    width: 70%;
+    text-align: center;
 }

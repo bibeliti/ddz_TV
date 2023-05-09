@@ -11,16 +11,16 @@
 <div class="formInput">
   <div id="idForBase">
     <input type="text" id="inputBase" placeholder="База для расчета упущенной выгоды компании, тыс. руб">
-    <span onclick="newBase()" class="addBtn">Add</span>
+    <span id="addBtnBase" onclick="newBase()" class="addBtn">Добавить</span>
     <span id="forBase"></span>
   </div>
   <div id="idForRisk">
     <h2>Риски и их интенсивность</h2>
     <input type="text" id="inputRiskIntensity" placeholder="Интенсивность риска">
     <input type="text" id="inputRiskAssessment" placeholder="Оценка риска в %">
-    <span onclick="newRisk()" class="addBtn">Add</span>
+    <span onclick="newRisk()" class="addBtn">Добавить</span>
   </div>
+  <ul id="UlRiskAssessment"></ul>
 </div>
-<ul id="UlRiskAssessment"></ul>
 </body>
 </html>

@@ -64,15 +64,4 @@ function newBase() {
         document.getElementById("forBase").innerText = document.createTextNode(inputBase).nodeValue;
     }
     document.getElementById("inputBase").value = "";
-
-    var span = document.createElement("span");
-    var txt = document.createTextNode("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    document.getElementById("forBase").appendChild(span);
-
-    close.onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-    }
 }
