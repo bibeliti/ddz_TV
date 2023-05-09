@@ -1,4 +1,4 @@
-var myNodelist = document.getElementsByTagName("LI");
+var myNodelist = document.getElementsByTagName("tr");
 var i;
 for (i = 0; i < myNodelist.length; i++) {
     var span = document.createElement("SPAN");
@@ -18,35 +18,40 @@ for (i = 0; i < close.length; i++) {
     }
 }
 
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-    if (ev.target.tagName === 'LI') {
-        ev.target.classList.toggle('checked');
-    }
-}, false);
+// var list = document.querySelector('table');
+// list.addEventListener('click', function(ev) {
+//     if (ev.target.tagName === 'tr') {
+//         ev.target.classList.toggle('checked');
+//     }
+// }, false);
 
 function newRisk() {
-    var li = document.createElement("li");
+    var tr = document.createElement("tr");
     var inputRiskAssessment = document.getElementById("inputRiskAssessment").value;
     var inputRiskIntensity = document.getElementById("inputRiskIntensity").value;
     var t = document.createTextNode(inputRiskAssessment);
     var v = document.createTextNode(inputRiskIntensity);
-    li.appendChild(t);
-    li.appendChild(document.createTextNode(" "));
-    li.appendChild(v);
+    var intensive = document.createElement("td")
+    var assessment = document.createElement("td")
+    assessment.appendChild(t)
+    intensive.appendChild(v)
+    tr.appendChild(assessment)
+    tr.appendChild(intensive)
     if (inputRiskAssessment === '' || inputRiskIntensity === '') {
         alert("You must write something!");
     } else {
-        document.getElementById("UlRiskAssessment").appendChild(li);
+        document.getElementById("TableRiskAssessment").appendChild(tr);
     }
     document.getElementById("inputRiskAssessment").value = "";
     document.getElementById("inputRiskIntensity").value = "";
 
-    var span = document.createElement("span");
+    var closeButton = document.createElement("td");
+    var spanForClose =document.createElement("span")
     var txt = document.createTextNode("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    li.appendChild(span);
+    spanForClose.appendChild(txt)
+    spanForClose.className = "close";
+    closeButton.appendChild(spanForClose);
+    tr.appendChild(closeButton);
 
     for (i = 0; i < close.length; i++) {
         close[i].onclick = function() {
