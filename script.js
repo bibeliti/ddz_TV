@@ -40,7 +40,7 @@ function newRisk() {
     if (inputRiskAssessment === '' || inputRiskIntensity === '') {
         alert("You must write something!");
     } else {
-        document.getElementById("TableRiskAssessment").appendChild(tr);
+        document.getElementById("tableRiskAssessment").appendChild(tr);
     }
     document.getElementById("inputRiskAssessment").value = "";
     document.getElementById("inputRiskIntensity").value = "";
@@ -51,11 +51,12 @@ function newRisk() {
     spanForClose.appendChild(txt)
     spanForClose.className = "close";
     closeButton.appendChild(spanForClose);
+    closeButton.className = "lastTd"
     tr.appendChild(closeButton);
 
     for (i = 0; i < close.length; i++) {
         close[i].onclick = function() {
-            var div = this.parentElement;
+            var div = this.parentElement.parentElement;
             div.style.display = "none";
         }
     }

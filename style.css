@@ -3,36 +3,42 @@
     background-color: #e0e0e0;
 }
 
-
-ul {
-    width: 30%;
-    padding: 0;
-    float: left;
-    margin: 0 0 0 30px;
+.risksTable {
+    padding: 50px 0;
+    margin: 50px 0;
 }
 
-ul li {
+#tableRiskAssessment {
     cursor: pointer;
     position: relative;
-    padding: 12px 8px 12px 40px;
-    background: #eee;
+    background: antiquewhite;
     font-size: 18px;
     transition: 0.2s;
-
+    border: 2px solid;
+    width: 100%;
+    
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 
-ul li:hover {
+#tableRiskAssessment td {
+    background: antiquewhite;
+    text-align: left;
+    width: 35%;
+    height: 42px;
+}
+
+.lastTd {
+    width: 42px;
+}
+
+#tableAssessment tr:hover {
     background: #ddd;
 }
 
 .close {
-    position: absolute;
-    right: 0;
-    top: 0;
     padding: 12px 16px 12px 16px;
 }
 
@@ -80,6 +86,7 @@ input {
     cursor: pointer;
     transition: 0.3s;
     border-radius: 0;
+    clear: right;
 }
 
 .addBtn:hover {
