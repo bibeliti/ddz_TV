@@ -61,7 +61,10 @@ function newBase() {
     if(inputBase === '') {
         alert("You must write something!");
     } else {
-        document.getElementById("forBase").innerText = document.createTextNode(inputBase).nodeValue;
+        document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
+        document.getElementById("forBase").removeAttribute("class");
+        document.getElementById("addBtnBase").innerText = "Обновить";
     }
     document.getElementById("inputBase").value = "";
+
 }

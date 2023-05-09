@@ -90,3 +90,19 @@ input {
     width: 70%;
     text-align: center;
 }
+
+#forBase {
+    width: 100%;
+    float: left;
+}
+
+.displayNone {
+    display: none;
+}
+
+#forBase p {
+    font-size: 25px;
+    display: block;
+    float: left;
+    width: 50%;
+}
