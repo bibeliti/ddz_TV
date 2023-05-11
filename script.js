@@ -1,64 +1,58 @@
-
 function consoleTable() {
     let data = {}
-
-    let tables = document.getElementsByTagName('table')
-    console.log(tables)
-// table
-    console.log(tables.length)
-    for (let i = 0; i < tables.length; i++) {
-        data[i] = []
-        let currTable = tables[i]
-        let currRows = currTable.getElementsByTagName('tr')
-
-        // tr
-        for (let j = 0; j < currRows.length; j++) {
-            data[i][j] = []
-            let currRow = currRows[j]
-            let cells = currRow.getElementsByTagName('td')
-
-            // td
-            for (let k = 0; k < cells.length; k++) {
-                data[i][j][k] = cells[k].textContent
-                console.log(cells[k].textContent)
-            }
-        }
-    }
+    data['base'] = document.getElementById("baseValue").textContent;
+    tableEntry("tableRiskAssessment", "risk", data)
+    tableEntry("tableMinimization", "minimization", data)
 
     console.log(data)
 }
 
+function tableEntry(nameTable, nameData, data) {
+    let tableRisk = document.getElementById(nameTable)
 
-var myNodelist = document.getElementsByTagName("tr");
-var i;
+    data[nameData] = [];
+    let currRows = tableRisk.getElementsByTagName('tr')
+
+    for (let j = 0; j < currRows.length; j++) {
+        data[nameData][j] = []
+        let cells = currRows[j].getElementsByTagName('td')
+
+        for (let k = 0; k < cells.length - 1; k++) {
+            data[nameData][j][k] = cells[k].textContent
+        }
+    }
+}
+
+
+let myNodelist = document.getElementsByTagName("tr");
+let i;
 for (i = 0; i < myNodelist.length; i++) {
-    var span = document.createElement("span");
-    var txt = document.createTextNode("\u00D7");
+    let span = document.createElement("span");
+    let txt = document.createTextNode("\u00D7");
     span.className = "close";
     span.appendChild(txt);
     myNodelist[i].appendChild(span);
 }
 
-
-var close = document.getElementsByClassName("close");
+let close = document.getElementsByClassName("close");
 for (i = 0; i < close.length; i++) {
     close[i].onclick = function () {
-        var div = this.parentElement;
+        let div = this.parentElement;
         div.style.display = "none";
     }
 }
 
 function newRisk() {
-    var tr = document.createElement("tr");
-    var inputRiskName = document.getElementById("inputRiskName").value;
-    var inputRiskAssessment = document.getElementById("inputRiskAssessment").value;
-    var inputRiskIntensity = document.getElementById("inputRiskIntensity").value;
-    var textName = document.createTextNode(inputRiskName);
-    var textAssessment = document.createTextNode(inputRiskAssessment);
-    var textIntensive = document.createTextNode(inputRiskIntensity);
-    var name = document.createElement("td")
-    var intensive = document.createElement("td")
-    var assessment = document.createElement("td")
+    let tr = document.createElement("tr");
+    let inputRiskName = document.getElementById("inputRiskName").value;
+    let inputRiskAssessment = document.getElementById("inputRiskAssessment").value;
+    let inputRiskIntensity = document.getElementById("inputRiskIntensity").value;
+    let textName = document.createTextNode(inputRiskName);
+    let textAssessment = document.createTextNode(inputRiskAssessment);
+    let textIntensive = document.createTextNode(inputRiskIntensity);
+    let name = document.createElement("td")
+    let intensive = document.createElement("td")
+    let assessment = document.createElement("td")
     name.appendChild(textName)
     assessment.appendChild(textAssessment)
     intensive.appendChild(textIntensive)
@@ -74,10 +68,13 @@ function newRisk() {
     document.getElementById("inputRiskName").value = "";
     document.getElementById("inputRiskAssessment").value = "";
     document.getElementById("inputRiskIntensity").value = "";
+    createCloseButton(tr);
+}
 
-    var closeButton = document.createElement("td");
-    var spanForClose = document.createElement("span")
-    var txt = document.createTextNode("\u00D7");
+function createCloseButton(tr) {
+    let closeButton = document.createElement("td");
+    let spanForClose = document.createElement("span")
+    let txt = document.createTextNode("\u00D7");
     spanForClose.appendChild(txt)
     spanForClose.className = "close";
     closeButton.appendChild(spanForClose);
@@ -86,23 +83,26 @@ function newRisk() {
 
     for (i = 0; i < close.length; i++) {
         close[i].onclick = function () {
-            var div = this.parentElement.parentElement;
-            div.style.display = "none";
+            let div = this.parentElement.parentElement;
+            div.setAttribute('class', 'deleteClass');
+            const deleteElement = document.querySelector('.deleteClass');
+            const parent = deleteElement.parentNode;
+            parent.removeChild(deleteElement);
         }
     }
 }
 
 function newMinimization() {
-    var tr = document.createElement("tr");
-    var inputNameMinimization = document.getElementById("inputNameMinimization").value;
-    var inputRiskStrategy = document.getElementById("inputWhatRiskThisStrategy").value;
-    var inputCostMinimization = document.getElementById("inputCostMinimization").value;
-    var textName = document.createTextNode(inputNameMinimization);
-    var textRiskStrategy = document.createTextNode(inputRiskStrategy);
-    var textCost = document.createTextNode(inputCostMinimization);
-    var name = document.createElement("td")
-    var riskStrategy = document.createElement("td")
-    var cost = document.createElement("td")
+    let tr = document.createElement("tr");
+    let inputNameMinimization = document.getElementById("inputNameMinimization").value;
+    let inputRiskStrategy = document.getElementById("inputWhatRiskThisStrategy").value;
+    let inputCostMinimization = document.getElementById("inputCostMinimization").value;
+    let textName = document.createTextNode(inputNameMinimization);
+    let textRiskStrategy = document.createTextNode(inputRiskStrategy);
+    let textCost = document.createTextNode(inputCostMinimization);
+    let name = document.createElement("td")
+    let riskStrategy = document.createElement("td")
+    let cost = document.createElement("td")
     name.appendChild(textName)
     riskStrategy.appendChild(textRiskStrategy)
     cost.appendChild(textCost)
@@ -118,27 +118,11 @@ function newMinimization() {
     document.getElementById("inputNameMinimization").value = "";
     document.getElementById("inputWhatRiskThisStrategy").value = "";
     document.getElementById("inputCostMinimization").value = "";
-
-    var closeButton = document.createElement("td");
-    var spanForClose = document.createElement("span")
-    var txt = document.createTextNode("\u00D7");
-    spanForClose.appendChild(txt)
-    spanForClose.className = "close";
-    closeButton.appendChild(spanForClose);
-    closeButton.className = "lastTd"
-    tr.appendChild(closeButton);
-
-    for (i = 0; i < close.length; i++) {
-        close[i].onclick = function () {
-            var div = this.parentElement.parentElement.parentElement;
-            console.log(div)
-            div.removeChild(tr)
-        }
-    }
+    createCloseButton(tr);
 }
 
 function newBase() {
-    var inputBase = document.getElementById("inputBase").value;
+    let inputBase = document.getElementById("inputBase").value;
     if (inputBase === '') {
         alert("You must write something!");
     } else {
@@ -148,4 +132,3 @@ function newBase() {
     }
     document.getElementById("inputBase").value = "";
 }
-
