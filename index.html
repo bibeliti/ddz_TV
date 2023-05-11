@@ -2,30 +2,46 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ddz_TV</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <title>ddz_TV</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
 <div class="formInput">
-  <div id="idForBase">
-    <input type="text" id="inputBase" placeholder="База для расчета упущенной выгоды компании, тыс. руб">
-    <span id="addBtnBase" onclick="newBase()" class="addBtn">Добавить</span>
-    <span class="displayNone" id="forBase">
+    <div id="idForBase">
+        <input type="text" id="inputBase" class="inputText"
+               placeholder="База для расчета упущенной выгоды компании, тыс. руб">
+        <span id="addBtnBase" onclick="newBase()" class="addBtn">Добавить</span>
+        <span class="displayNone" id="forBase">
       <p id="pForBase">Значение базового расчета:</p>
       <p id="baseValue"></p>
     </span>
-  </div>
-  <div id="idForRisk">
-    <h2>Риски и их интенсивность</h2>
-    <input type="text" id="inputRiskIntensity" placeholder="Интенсивность риска">
-    <input type="text" id="inputRiskAssessment" placeholder="Оценка риска в %">
-    <span onclick="newRisk()" class="addBtn">Добавить</span>
-  </div>
-  <div class="risksTable">
-    <table id="tableRiskAssessment"></table>
-  </div>
+    </div>
+    <div id="idForRisk">
+        <h2>Риски и их интенсивность</h2>
+        <input type="text" id="inputRiskName" class="inputText" placeholder="Название риска">
+        <input type="text" id="inputRiskIntensity" class="inputText" placeholder="Интенсивность риска">
+        <input type="text" id="inputRiskAssessment" class="inputText" placeholder="Оценка риска в %">
+        <span onclick="newRisk()" class="addBtn">Добавить</span>
+    </div>
+    <div class="risksTable">
+        <table id="tableRiskAssessment" class="displayNone"></table>
+    </div>
+    <div id="idForMinimization">
+        <h2>Стратегии минимизации рисков</h2>
+        <input type="text" id="inputNameMinimization" class="inputText" placeholder="Названия стратегии минимизации">
+        <input type="text" id="inputWhatRiskThisStrategy" class="inputText"
+               placeholder="На какой риск направлена данная стратегия">
+        <input type="text" id="inputCostMinimization" class="inputText" placeholder="Затраты на внедрение в тыс. руб">
+        <span onclick="newMinimization()" class="addBtn">Добавить</span>
+    </div>
+    <div class="risksTable">
+        <table id="tableMinimization" class="displayNone"></table>
+    </div>
+</div>
+<div id="divButtonCalculate">
+    <input type="submit" id="inputCalculate" name="calculate" value="Подсчитать оптимальную стратегию" onclick="consoleTable()"/>
 </div>
 </body>
 </html>

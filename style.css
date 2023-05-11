@@ -8,7 +8,7 @@
     margin: 50px 0;
 }
 
-#tableRiskAssessment {
+table {
     cursor: pointer;
     position: relative;
     background: antiquewhite;
@@ -16,14 +16,14 @@
     transition: 0.2s;
     border: 2px solid;
     width: 100%;
-    
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 
-#tableRiskAssessment td {
+td {
     background: antiquewhite;
     text-align: left;
     width: 35%;
@@ -64,11 +64,11 @@
     height: 50px;
 }
 
-input {
+.inputText {
     margin: 0;
     border: none;
     border-radius: 0;
-    width: 35%;
+    width: 25%;
     padding: 10px;
     float: left;
     font-size: 16px;
@@ -94,7 +94,7 @@ input {
 }
 
 #inputBase {
-    width: 70%;
+    width: 75%;
     text-align: center;
 }
 
@@ -112,4 +112,15 @@ input {
     display: block;
     float: left;
     width: 50%;
+}
+
+#divButtonCalculate {
+    text-align: center;
+    margin: auto;
+}
+
+#divButtonCalculate input {
+    font-size: large;
+    background-color: antiquewhite;
+    color: aqua;
 }
