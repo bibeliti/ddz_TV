@@ -62,8 +62,13 @@ function newRisk() {
     if (inputRiskAssessment === '' || inputRiskIntensity === '' || inputRiskName === '') {
         alert("You must write something!");
     } else {
+        if(!isNaN(inputRiskIntensity) && !isNaN(inputRiskAssessment) && (0 <= inputRiskAssessment) && (inputRiskAssessment <= 100)){
         document.getElementById("tableRiskAssessment").appendChild(tr);
         document.getElementById("tableRiskAssessment").removeAttribute("class");
+        }
+        else {
+            alert("Digit please!");
+        }
     }
     document.getElementById("inputRiskName").value = "";
     document.getElementById("inputRiskAssessment").value = "";
@@ -112,8 +117,12 @@ function newMinimization() {
     if (inputNameMinimization === '' || inputRiskStrategy === '' || inputCostMinimization === '') {
         alert("You must write something!");
     } else {
+        if(!isNaN(inputCostMinimization) ){
         document.getElementById("tableMinimization").appendChild(tr);
         document.getElementById("tableMinimization").removeAttribute("class");
+        } else {
+            alert("Digits please!");
+        }
     }
     document.getElementById("inputNameMinimization").value = "";
     document.getElementById("inputWhatRiskThisStrategy").value = "";
@@ -121,14 +130,29 @@ function newMinimization() {
     createCloseButton(tr);
 }
 
+// function newBase() {
+//     let inputBase = document.getElementById("inputBase").value;
+//     if (inputBase === '') {
+//         alert("You must write something!");
+//     } else {
+//     }
+//     document.getElementById("inputBase").value = "";
+// }
+
+
 function newBase() {
-    let inputBase = document.getElementById("inputBase").value;
-    if (inputBase === '') {
+    var inputBase = document.getElementById("inputBase").value;
+    var myRe = /\d*/g; // '' !!!!!!!!!
+    if(inputBase === '') {
         alert("You must write something!");
     } else {
-        document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
-        document.getElementById("forBase").removeAttribute("class");
-        document.getElementById("addBtnBase").innerText = "Обновить";
+        if(!isNaN(inputBase)){ // null inputBase.match(/'[0-9]*'/gi)
+            document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
+            document.getElementById("forBase").removeAttribute("class");
+            document.getElementById("addBtnBase").innerText = "Обновить";
+        } else{
+            alert("Digits please!");
+        }
     }
     document.getElementById("inputBase").value = "";
 }
