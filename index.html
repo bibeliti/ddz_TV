@@ -18,15 +18,16 @@
       <p id="baseValue"></p>
     </span>
     </div>
-    <div id="idForRisk">
-        <h2>Риски и их интенсивность</h2>
-        <input type="text" id="inputRiskName" class="inputText" placeholder="Название риска">
-        <input type="text" id="inputRiskIntensity" class="inputText" placeholder="Интенсивность риска">
-        <input type="text" id="inputRiskAssessment" class="inputText" placeholder="Оценка риска в %">
-        <span onclick="newRisk()" class="addBtn">Добавить</span>
+    <div id="idForEvent">
+        <h2>События</h2>
+        <input type="text" id="inputEventName" class="inputText" placeholder="Название события">
+        <input type="text" id="inputEventIntensity" class="inputText" placeholder="Интенсивность возникновения события">
+        <input type="text" id="inputEventProbability" class="inputText" placeholder="Вероятность наступелния события">
+        <input type="text" id="inputEventOccurrence" class="inputText" placeholder="Риск наступления события">
+        <span onclick="newEvent()" class="addBtn">Добавить</span>
     </div>
-    <div class="risksTable">
-        <table id="tableRiskAssessment" class="displayNone"></table>
+    <div id="divEventTable">
+        <table id="tableEvent" class="displayNone"></table>
     </div>
     <div id="idForMinimization">
         <h2>Стратегии минимизации рисков</h2>
@@ -40,9 +41,19 @@
         <table id="tableMinimization" class="displayNone"></table>
     </div>
 </div>
-<div id="divButtonCalculate">
-    <input type="submit" id="inputCalculate" name="calculate" value="Рассчитать оптимальную стратегию"
+<div id="divSaveStrategyRisk">
+    <input type="submit" id="inputCalculate" name="calculate" value="Запомнить стратегии и риски"
            onclick="consoleTable()"/>
 </div>
+    <div id="matrixAlternativeLosses">
+        <table id="tableHeaderMatrixAltLoss">
+            <tr>
+                <td>Стратегия</td>
+                <td>Убытки от наступления события</td>
+                <td>Общие потери</td>
+            </tr>
+        </table>
+        <table id="tableBodyAltLoss"></table>
+    </div>
 </body>
 </html>

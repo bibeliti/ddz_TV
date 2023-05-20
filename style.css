@@ -59,7 +59,7 @@ td {
     height: 50px;
 }
 
-#idForRisk {
+#idForEvent {
     width: 100%;
     height: 50px;
 }
@@ -73,6 +73,10 @@ td {
     float: left;
     font-size: 16px;
     background-color: antiquewhite;
+}
+
+#idForEvent .inputText, #idForEvent .addBtn {
+    width: 20%;
 }
 
 .addBtn {
@@ -114,12 +118,12 @@ td {
     width: 50%;
 }
 
-#divButtonCalculate {
+#divSaveStrategyRisk {
     text-align: center;
     margin: auto;
 }
 
-#divButtonCalculate input {
+#divSaveStrategyRisk input {
     font-size: large;
     background-color: antiquewhite;
     color: aqua;
