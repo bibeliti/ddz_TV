@@ -8,6 +8,28 @@ function consoleTable() {
     printTableAltLoss(data)
 }
 
+function editCells() {
+    let tds = document.getElementsByClassName('editable_cells')
+
+    for (let i = 0; i < tds.length; i++) {
+        tds[i].addEventListener('click', function edit() {
+            let input = document.createElement('input');
+            input.value = this.innerHTML;
+            this.innerHTML = '';
+            this.appendChild(input);
+
+            let td = this;
+            input.addEventListener('blur', function() {
+                td.innerHTML = this.value;
+                td.addEventListener('click', edit); 
+            })
+
+            this.removeEventListener('click', edit);
+        })
+        
+    }
+}
+
 function printTableAltLoss(data) {
     let table = document.getElementById("tableBodyAltLoss")
     document.getElementById("matrixAlternativeLosses").removeAttribute("class")
@@ -61,6 +83,8 @@ function printTableAltLoss(data) {
                 let lossMoneyNumber = data['base'] * data['event'][cols - 1][3]
                 lossMoneyNumber = lossMoneyNumber.toString()
                 text = document.createTextNode(lossMoneyNumber)
+                td.setAttribute('class', 'editable_cells')
+                td.setAttribute('onclick', 'editCells()')
             }
             td.appendChild(text)
             tr.appendChild(td)
