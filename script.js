@@ -1,15 +1,40 @@
 function consoleTable() {
     let data = {}
     data['base'] = Number(document.getElementById("baseValue").textContent)
-    console.log(data['base'])
     tableEntry("tableEvent", "event", data)
     tableEntry("tableMinimization", "minimization", data)
+    let table = document.getElementById("tableBodyAltLoss")
+    table.innerHTML = '';
     printTableAltLoss(data)
-    console.log(data)
 }
 
 function printTableAltLoss(data) {
     let table = document.getElementById("tableBodyAltLoss")
+    document.getElementById("matrixAlternativeLosses").removeAttribute("class")
+
+    //Шапка таблицы(надписи)
+    let thHeader = document.createElement('tr')
+    let tdStrategy = document.createElement("td")
+    let tdLoss = document.createElement("td")
+    let tdAllLoss = document.createElement("td")
+
+    let textStrategy = document.createTextNode("Стратегия")
+    let textLoss = document.createTextNode("Убытки от наступления события")
+    let textAllLoss = document.createTextNode("Общие потери")
+
+    tdStrategy.appendChild(textStrategy)
+    tdLoss.appendChild(textLoss)
+    tdAllLoss.appendChild(textAllLoss)
+    let countColsForMiddle = data['event'].length
+    tdLoss.setAttribute("colspan", countColsForMiddle)
+
+    thHeader.appendChild(tdStrategy)
+    thHeader.appendChild(tdLoss)
+    thHeader.appendChild(tdAllLoss)
+
+    table.appendChild(thHeader)
+
+    // Вторая шапка таблицы для стобцов
     let th = document.createElement('tr')
     for (let i = 0; i < data['event'].length + 2; i++) {
         let td = document.createElement("td")
@@ -20,13 +45,16 @@ function printTableAltLoss(data) {
         th.appendChild(td)
     }
     table.appendChild(th);
+
+
+    //Тело таблицы
     for (let rows = 0; rows < data['minimization'].length; rows++) {
         let tr = document.createElement("tr")
         for (let cols = 0; cols < data['event'].length + 2; cols++) {
             let text
             let td = document.createElement("td")
             if (cols === 0) {
-                text = document.createTextNode(data["minimization"][rows - 1])
+                text = document.createTextNode(data["minimization"][rows][0])
             } else if (cols === data['event'].length + 1) {
                 text = document.createTextNode("99999")
             } else {
@@ -53,7 +81,11 @@ function tableEntry(nameTable, nameData, data) {
         let cells = currRows[j].getElementsByTagName('td')
 
         for (let k = 0; k < cells.length - 1; k++) {
-            data[nameData][j][k] = Number(cells[k].textContent)
+            if( k === 0){
+                data[nameData][j][k] = cells[k].textContent
+            } else {
+                data[nameData][j][k] = Number(cells[k].textContent)
+            }
         }
     }
 }
