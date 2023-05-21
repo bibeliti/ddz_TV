@@ -36,8 +36,9 @@
     <div id="idForMinimization" class="displayNone">
         <h2>Стратегии минимизации рисков</h2>
         <input type="text" id="inputNameMinimization" class="inputText" placeholder="Названия стратегии минимизации">
-        <input type="text" id="inputWhatRiskThisStrategy" class="inputText"
-               placeholder="На какой риск направлена данная стратегия">
+        <select class="inputText" id="inputWhatEventThisStrategy" >
+            <option>Выбор события</option>
+        </select>
         <input type="text" id="inputCostMinimization" class="inputText" placeholder="Затраты на внедрение в тыс. руб">
         <span onclick="newMinimization()" class="addBtn">Добавить</span>
     </div>

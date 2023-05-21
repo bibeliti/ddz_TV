@@ -192,6 +192,7 @@ function newEvent() {
     let probability = document.createElement("td")
     let occurrence = document.createElement("td")
     name.appendChild(textName)
+    name.setAttribute('class', 'eventName')
     intensive.appendChild(textIntensive)
     probability.appendChild(textProbability)
     occurrence.appendChild(textOccurrence)
@@ -243,7 +244,7 @@ function createCloseButton(tr) {
 function newMinimization() {
     let tr = document.createElement("tr")
     let inputNameMinimization = document.getElementById("inputNameMinimization").value
-    let inputRiskStrategy = document.getElementById("inputWhatRiskThisStrategy").value
+    let inputRiskStrategy = document.getElementById("inputWhatEventThisStrategy").value
     let inputCostMinimization = document.getElementById("inputCostMinimization").value
     let textName = document.createTextNode(inputNameMinimization)
     let textRiskStrategy = document.createTextNode(inputRiskStrategy)
@@ -257,7 +258,10 @@ function newMinimization() {
     tr.appendChild(name)
     tr.appendChild(riskStrategy)
     tr.appendChild(cost)
-    if (inputNameMinimization === '' || inputRiskStrategy === '' || inputCostMinimization === '') {
+    if (inputRiskStrategy === 'Выбор события') {
+        alert('Select any event!')
+    }
+    else if (inputNameMinimization === '' || inputCostMinimization === '') {
         alert("You must write something!")
     } else {
         if (!isNaN(inputCostMinimization)) {
@@ -268,21 +272,16 @@ function newMinimization() {
         }
     }
     document.getElementById("inputNameMinimization").value = ""
-    document.getElementById("inputWhatRiskThisStrategy").value = ""
     document.getElementById("inputCostMinimization").value = ""
     createCloseButton(tr)
 }
 
 function newBase() {
-    let inputBase = document.getElementById("inputBase").value;
-    let myRe = /\d*/g; // '' !!!!!!!!!
+    let inputBase = document.getElementById("inputBase").value
     if (inputBase === '') {
         alert("You must write something!");
     } else {
-        document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue
-        document.getElementById("forBase").removeAttribute("class")
-        document.getElementById("addBtnBase").innerText = "Обновить"
-        if (!isNaN(inputBase)) { // null inputBase.match(/'[0-9]*'/gi)
+        if (!isNaN(inputBase)) {
             document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
             document.getElementById("forBase").removeAttribute("class");
             document.getElementById("addBtnBase").innerText = "Обновить";
@@ -309,9 +308,17 @@ function creatingTableWithLostProfits(data) {
 }
 
 function drawStrategy() {
+    strategyNames = document.getElementsByClassName('eventName')
+    console.log(strategyNames)
     document.getElementById("divEventTable").removeAttribute("class")
     document.getElementById("idForMinimization").removeAttribute("class")
     document.getElementById("divSaveEvent").setAttribute("class", "displayNone")
     document.getElementById("idForEvent").setAttribute("class", "displayNone")
     document.getElementById("idForBase").setAttribute("class", "displayNone")
+    let selector = document.getElementById('inputWhatEventThisStrategy')
+    for (let i = 0; i < strategyNames.length; i++) {
+        let option = document.createElement('option')
+        option.innerHTML = strategyNames[i].textContent
+        selector.appendChild(option)
+    }
 }
