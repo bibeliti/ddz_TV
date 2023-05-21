@@ -6,12 +6,11 @@ function consoleTable() {
     let table = document.getElementById("tableBodyAltLoss")
     table.innerHTML = '';
     printTableAltLoss(data)
-}
 
-function editCells() {
-    let tds = document.getElementsByClassName('editable_cells')
+    let tds = document.getElementsByClassName("editable_cells")
 
     for (let i = 0; i < tds.length; i++) {
+        console.log("HELLO")
         tds[i].addEventListener('click', function edit() {
             let input = document.createElement('input');
             input.value = this.innerHTML;
@@ -19,15 +18,15 @@ function editCells() {
             this.appendChild(input);
 
             let td = this;
-            input.addEventListener('blur', function() {
+            input.addEventListener('blur', function () {
                 td.innerHTML = this.value;
-                td.addEventListener('click', edit); 
-            })
+                td.addEventListener('click', edit);
+            });
 
             this.removeEventListener('click', edit);
         })
-        
     }
+
 }
 
 function printTableAltLoss(data) {
@@ -84,7 +83,6 @@ function printTableAltLoss(data) {
                 lossMoneyNumber = lossMoneyNumber.toString()
                 text = document.createTextNode(lossMoneyNumber)
                 td.setAttribute('class', 'editable_cells')
-                td.setAttribute('onclick', 'editCells()')
             }
             td.appendChild(text)
             tr.appendChild(td)
@@ -105,7 +103,7 @@ function tableEntry(nameTable, nameData, data) {
         let cells = currRows[j].getElementsByTagName('td')
 
         for (let k = 0; k < cells.length - 1; k++) {
-            if( k === 0){
+            if (k === 0) {
                 data[nameData][j][k] = cells[k].textContent
             } else {
                 data[nameData][j][k] = Number(cells[k].textContent)
@@ -262,3 +260,4 @@ function creatingTableWithLostProfits(data) {
 
     table.appendChild(th)
 }
+
