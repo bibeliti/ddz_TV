@@ -29,7 +29,11 @@
     <div id="divEventTable">
         <table id="tableEvent" class="displayNone"></table>
     </div>
-    <div id="idForMinimization">
+    <div id="divSaveEvent">
+        <input type="submit" id="saveEvent" name="calculate" value="Запомнить базу и события"
+               onclick="drawStrategy()"/>
+    </div>
+    <div id="idForMinimization" class="displayNone">
         <h2>Стратегии минимизации рисков</h2>
         <input type="text" id="inputNameMinimization" class="inputText" placeholder="Названия стратегии минимизации">
         <input type="text" id="inputWhatRiskThisStrategy" class="inputText"
@@ -42,7 +46,7 @@
     </div>
 </div>
 <div id="divSaveStrategyRisk">
-    <input type="submit" id="inputCalculate" name="calculate" value="Запомнить стратегии и риски"
+    <input type="submit" id="inputCalculate" name="calculate" value="Запомнить стратегии"
            onclick="consoleTable()"/>
 </div>
     <div id="matrixAlternativeLosses" class="displayNone">

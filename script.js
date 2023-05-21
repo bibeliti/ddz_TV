@@ -307,3 +307,11 @@ function creatingTableWithLostProfits(data) {
 
     table.appendChild(th)
 }
+
+function drawStrategy() {
+    document.getElementById("divEventTable").removeAttribute("class")
+    document.getElementById("idForMinimization").removeAttribute("class")
+    document.getElementById("divSaveEvent").setAttribute("class", "displayNone")
+    document.getElementById("idForEvent").setAttribute("class", "displayNone")
+    document.getElementById("idForBase").setAttribute("class", "displayNone")
+}
