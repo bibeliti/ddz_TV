@@ -39,6 +39,7 @@
             <option>Выбор события</option>
         </select>
         <input type="text" id="inputCostMinimization" class="inputText" placeholder="Затраты на внедрение в тыс. руб">
+        <input type="text" id="inputPowerAffect" class="inputText" placeholder="Как сильно влияет на вероятность наступления события">
         <span onclick="newMinimization()" class="addBtn">Добавить</span>
     </div>
     <div class="risksTable">
@@ -59,5 +60,10 @@
     <div id="calculationParametersStrategicRiskManagementOngoingProject" class="displayNone">
         <table id="tableCalculationParametersStrategicRiskManagementOngoingProject"></table>
     </div>
+
+<!-- расчет упущенной выгоды базовый случай -->
+<div id="calculationLostProfitsBasicCase" class="displayNone">
+    <table id="tableCalculationLostProfitsBasicCase"></table>
+</div>
 </body>
 </html>

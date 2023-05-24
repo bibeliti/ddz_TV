@@ -6,8 +6,88 @@ function consoleTable() {
     let table = document.getElementById("tableBodyAltLoss")
     table.innerHTML = '';
     console.log(data)
-    printTableAltLoss(data)
+    printTableCalculationProfitsBasicCase(data)
     printTableForRiskManagerStrategy(data)
+    printTableAltLoss(data)
+}
+
+function printTableAltLoss(data) {
+    let table = document.getElementById("tableCalculationLostProfitsBasicCase")
+    document.getElementById("calculationLostProfitsBasicCase").removeAttribute("class")
+    // Шапка таблицы
+    let thHeader = document.createElement('tr')
+    let tdStrategy = document.createElement("td")
+    let tdCost = document.createElement("td")
+    let tdMinValue = document.createElement("td")
+    let tdMaxValue = document.createElement("td")
+
+    let countCols = data['event'].length
+    tdStrategy.setAttribute("rowspan", 2)
+    tdCost.setAttribute("colspan", countCols)
+    tdMinValue.setAttribute("rowspan", 2)
+    tdMaxValue.setAttribute("rowspan", 2)
+
+    let textTdStrategy = document.createTextNode("Стратегия")
+    let textTdCost = document.createTextNode("Стоимость альтернативных убытков")
+    let textTdMinValue = document.createTextNode("Минимальное значение (Min)")
+    let textTdMaxValue = document.createTextNode("Максимальное значение (Max)")
+
+    tdStrategy.appendChild(textTdStrategy)
+    tdCost.appendChild(textTdCost)
+    tdMinValue.appendChild(textTdMinValue)
+    tdMaxValue.appendChild(textTdMaxValue)
+
+    thHeader.appendChild(tdStrategy)
+    thHeader.appendChild(tdCost)
+    thHeader.appendChild(tdMinValue)
+    thHeader.appendChild(tdMaxValue)
+
+    table.appendChild(thHeader)
+
+    // Шапка таблицы
+    let tr = document.createElement("tr")
+    for (let i = 0; i < countCols; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][i][0])
+        tr.appendChild(td)
+    }
+    table.appendChild(tr)
+
+    // Основное заполнение таблицы
+    for (let i = 0; i < data["minimization"].length; i++) {
+        tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["minimization"][i][0])
+        td.appendChild(text)
+        tr.appendChild(td)
+        let minValue = 999999999
+        let maxValue = 0
+        for (let j = 0; j < countCols; j++) {
+            text = document.createTextNode(data["lost"][i][j])
+            td = document.createElement("td")
+            td.appendChild(text)
+            if (Number(text.textContent) > maxValue)
+                maxValue = Number(text.textContent)
+            if (Number(text.textContent) < minValue)
+                minValue = Number(text.textContent)
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+
+        // Минимальное в строке
+        td = document.createElement("td")
+        text = document.createTextNode(minValue)
+        td.appendChild(text)
+        tr.appendChild(td)
+        table.appendChild(tr)
+
+        // Максимальное в строке
+        td = document.createElement("td")
+        text = document.createTextNode(maxValue)
+        td.appendChild(text)
+        tr.appendChild(td)
+        table.appendChild(tr)
+    }
 }
 
 function printTableForRiskManagerStrategy(data) {
@@ -37,6 +117,8 @@ function printTableForRiskManagerStrategy(data) {
     thHeader.appendChild(tdEventLoss)
 
     table.appendChild(thHeader)
+
+    data["lost"] = []
 
     for (let i = 0; i < data["minimization"].length; i++) {
         let tr = document.createElement("tr")
@@ -82,7 +164,10 @@ function printTableForRiskManagerStrategy(data) {
 
         for (let j = 0; j < data["event"].length; j++) {
             td = document.createElement("td")
-            text = document.createTextNode(data["event"][j][2])
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode((data["event"][j][2]) / (data["minimization"][i][3]))
+            else
+                text = document.createTextNode(data["event"][j][2])
             td.appendChild(text)
             tr.appendChild(td)
         }
@@ -103,7 +188,7 @@ function printTableForRiskManagerStrategy(data) {
             td = document.createElement("td")
             let number = 0
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * data["event"][j][2])
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) / (data["minimization"][i][3]))
             else
                 text = document.createTextNode(data["event"][j][1] * data["event"][j][2])
             td.appendChild(text)
@@ -142,17 +227,20 @@ function printTableForRiskManagerStrategy(data) {
         tr.appendChild(td)
 
         let sumLoss = 0
+
+        data["lost"][i] = []
+
         for (let j = 0; j < data["event"].length; j++) {
             td = document.createElement("td")
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * data["base"])
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) / (data["minimization"][i][3]) * data["base"])
             else
-                text = document.createTextNode((data["event"][j][1]) * (data["event"][j][2]) * data["base"])
+                text = document.createTextNode(data["event"][j][1] * data["event"][j][2] * data["base"])
             sumLoss += Number(text.textContent)
+            data["lost"][i][j] = Number(text.textContent)
             td.appendChild(text)
             tr.appendChild(td)
         }
-        console.log(sumLoss)
         table.appendChild(tr)
         let nodeSumLoss = document.createTextNode(sumLoss)
 
@@ -176,7 +264,7 @@ function printTableForRiskManagerStrategy(data) {
     }
 }
 
-function printTableAltLoss(data) {
+function printTableCalculationProfitsBasicCase(data) {
     let table = document.getElementById("tableBodyAltLoss")
     document.getElementById("matrixAlternativeLosses").removeAttribute("class")
 
@@ -405,24 +493,29 @@ function newMinimization() {
     let inputNameMinimization = document.getElementById("inputNameMinimization").value
     let inputRiskStrategy = document.getElementById("inputWhatEventThisStrategy").value
     let inputCostMinimization = document.getElementById("inputCostMinimization").value
+    let inputPowerAffect = document.getElementById("inputPowerAffect").value
     let textName = document.createTextNode(inputNameMinimization)
     let textRiskStrategy = document.createTextNode(inputRiskStrategy)
     let textCost = document.createTextNode(inputCostMinimization)
+    let textPowerAffect = document.createTextNode(inputCostMinimization)
     let name = document.createElement("td")
     let riskStrategy = document.createElement("td")
     let cost = document.createElement("td")
+    let powerAffect = document.createElement("td")
     name.appendChild(textName)
     riskStrategy.appendChild(textRiskStrategy)
     cost.appendChild(textCost)
+    powerAffect.appendChild(textPowerAffect)
     tr.appendChild(name)
     tr.appendChild(riskStrategy)
     tr.appendChild(cost)
+    tr.appendChild(powerAffect)
     if (inputRiskStrategy === 'Выбор события') {
         alert('Select any event!')
-    } else if (inputNameMinimization === '' || inputCostMinimization === '') {
+    } else if (inputNameMinimization === '' || inputCostMinimization === '' || inputPowerAffect === '') {
         alert("You must write something!")
     } else {
-        if (!isNaN(inputCostMinimization)) {
+        if (!isNaN(inputCostMinimization) || !isNaN(inputPowerAffect)) {
             document.getElementById("tableMinimization").appendChild(tr);
             document.getElementById("tableMinimization").removeAttribute("class");
         } else {
@@ -431,6 +524,7 @@ function newMinimization() {
     }
     document.getElementById("inputNameMinimization").value = ""
     document.getElementById("inputCostMinimization").value = ""
+    document.getElementById("inputPowerAffect").value = ""
     createCloseButton(tr)
 }
 
@@ -458,7 +552,6 @@ function creatingTableWithLostProfits(data) {
     let tdNameParam = document.createElement('td')
     tdColumnNumber.appendChild(document.createTextNode("Number"))
     tdNameParam.appendChild(document.createTextNode("Name param"))
-
 
     th.appendChild(tdColumnNumber)
 
