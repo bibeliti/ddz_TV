@@ -25,19 +25,18 @@ function printTableAltLoss(data) {
 
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
-    tdEventLoss.appendChild(textEventLoss)
     let countColsForLast = data['event'].length
-    tdNumber.setAttribute("rowspan", 2)
-    tdName.setAttribute("rowspan", 2)
-    tdEventLoss.setAttribute("colspan", countColsForLast)
-
-    thHeader.appendChild(tdNumber)
-    thHeader.appendChild(tdName)
-    thHeader.appendChild(tdEventLoss)
-
-    table.appendChild(thHeader)
-
-    // Вторая шапка таблицы для стобцов
+    // tdNumber.setAttribute("rowspan", 2)
+    // tdName.setAttribute("rowspan", 2)
+    tdEventLoss.setAttribute("rowspan", 7)
+    
+    let eventsTable = document.createElement('table')
+    let textRow = document.createElement('tr')
+    let textCell = document.createElement('td')
+    textCell.setAttribute('colspan', countColsForLast)
+    textCell.appendChild(textEventLoss)
+    textRow.appendChild(textCell)
+    eventsTable.appendChild(textRow)
     let th = document.createElement('tr')
     for (let i = 0; i < data['event'].length; i++) {
         let td = document.createElement("td")
@@ -45,7 +44,56 @@ function printTableAltLoss(data) {
         td.appendChild(name)
         th.appendChild(td)
     }
-    table.appendChild(th);
+    eventsTable.appendChild(th);
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][cols][1])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][cols][2])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][cols][2] * data["event"][cols][1])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["base"])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["base"] * data["event"][cols][2] * data["event"][cols][1])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+
+    tdEventLoss.appendChild(eventsTable)
+
+
+    thHeader.appendChild(tdNumber)
+    thHeader.appendChild(tdName)
+    thHeader.appendChild(tdEventLoss)
+
+    table.appendChild(thHeader)    
 
     //Интесивность
     let tr = document.createElement("tr")
@@ -57,12 +105,6 @@ function printTableAltLoss(data) {
     text = document.createTextNode("Интенсивность возникновения i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["event"][cols][1])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //Вероятность
@@ -75,12 +117,6 @@ function printTableAltLoss(data) {
     text = document.createTextNode("Вероятность наступления i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["event"][cols][2])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //Риск наступления
@@ -93,12 +129,6 @@ function printTableAltLoss(data) {
     text = document.createTextNode("Риск наступления i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["event"][cols][2] * data["event"][cols][1])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //База для расчета упущенной выгоды компании
@@ -111,12 +141,6 @@ function printTableAltLoss(data) {
     text = document.createTextNode("База для расчета упущенной выгоды компании")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["base"])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //Выгода упущенная компанией из-за снижения выручки
@@ -129,12 +153,6 @@ function printTableAltLoss(data) {
     text = document.createTextNode("Выгода упущенная компанией из-за снижения выручки в результате i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["base"] * data["event"][cols][2] * data["event"][cols][1])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 }
 
