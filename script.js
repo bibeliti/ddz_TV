@@ -7,6 +7,173 @@ function consoleTable() {
     table.innerHTML = '';
     console.log(data)
     printTableAltLoss(data)
+    printTableForRiskManagerStrategy(data)
+}
+
+function printTableForRiskManagerStrategy(data) {
+    let table = document.getElementById("tableCalculationParametersStrategicRiskManagementOngoingProject")
+    document.getElementById("calculationParametersStrategicRiskManagementOngoingProject").removeAttribute("class")
+    //Шапка таблицы(надписи)
+    let thHeader = document.createElement('tr')
+    let tdNumber = document.createElement("td")
+    let tdName = document.createElement("td")
+    let tdEventLoss = document.createElement("td")
+
+    let textNumber = document.createTextNode("№")
+    let textName = document.createTextNode("Имя параметра")
+    let textEventLoss = document.createTextNode("События, провоцирующие возникновению проектного риска")
+
+    tdNumber.appendChild(textNumber)
+    tdName.appendChild(textName)
+    tdEventLoss.appendChild(textEventLoss)
+
+    let countColsForLast = data['event'].length
+    tdNumber.setAttribute("rowspan", 2)
+    tdName.setAttribute("rowspan", 2)
+    tdEventLoss.setAttribute("colspan", countColsForLast)
+
+    thHeader.appendChild(tdNumber)
+    thHeader.appendChild(tdName)
+    thHeader.appendChild(tdEventLoss)
+
+    table.appendChild(thHeader)
+
+    for (let i = 0; i < data["minimization"].length; i++) {
+        let tr = document.createElement("tr")
+        let tdHead = document.createElement("td")
+        tdHead.setAttribute("colspan", countColsForLast + 2)
+        let textTdHead = document.createTextNode(data["minimization"][i][0])
+        tdHead.appendChild(textTdHead)
+        tr.appendChild(tdHead)
+        table.appendChild(tr)
+
+        // Интенсивность
+        tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(i + 1 + ".1")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("Интенсивность возникновения i-го события")
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        for (let j = 0; j < data["event"].length; j++) {
+            td = document.createElement("td")
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode(data["event"][j][1] - 1)
+            else
+                text = document.createTextNode(data["event"][j][1])
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+
+        // Вероятность
+        tr = document.createElement("tr")
+        td = document.createElement("td")
+        text = document.createTextNode(i + 1 + ".2")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("Вероятность наступления i-го события")
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        for (let j = 0; j < data["event"].length; j++) {
+            td = document.createElement("td")
+            text = document.createTextNode(data["event"][j][2])
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+
+        // Риск
+        tr = document.createElement("tr")
+        td = document.createElement("td")
+        text = document.createTextNode(i + 1 + ".3")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("Риск наступления i-го события")
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        for (let j = 0; j < data["event"].length; j++) {
+            td = document.createElement("td")
+            let number = 0
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode((data["event"][j][1] - 1) * data["event"][j][2])
+            else
+                text = document.createTextNode(data["event"][j][1] * data["event"][j][2])
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+
+        // База
+        tr = document.createElement("tr")
+        td = document.createElement("td")
+        text = document.createTextNode(i + 1 + ".4")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("База для расчета упущенной выгоды компании")
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        for (let j = 0; j < data["event"].length; j++) {
+            td = document.createElement("td")
+            text = document.createTextNode(data["base"])
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+
+        // Потеря выручки
+        tr = document.createElement("tr")
+        td = document.createElement("td")
+        text = document.createTextNode(i + 1 + ".5")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("Потеря выручки компании в результате наступления i-го события")
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        let sumLoss = 0
+        for (let j = 0; j < data["event"].length; j++) {
+            td = document.createElement("td")
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * data["base"])
+            else
+                text = document.createTextNode((data["event"][j][1]) * (data["event"][j][2]) * data["base"])
+            sumLoss += Number(text.textContent)
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        console.log(sumLoss)
+        table.appendChild(tr)
+        let nodeSumLoss = document.createTextNode(sumLoss)
+
+        // Общая потеря дохода компании
+        tr = document.createElement("tr")
+        td = document.createElement("td")
+        text = document.createTextNode(i + 1 + ".6")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("Общая потеря дохода компании в результате наступления i-го события")
+        td.appendChild(text)
+        tr.appendChild(td)
+        table.appendChild(tr)
+
+        td = document.createElement("td")
+        td.setAttribute("colspan", countColsForLast)
+        td.appendChild(nodeSumLoss)
+        tr.appendChild(td)
+        table.appendChild(tr)
+    }
 }
 
 function printTableAltLoss(data) {
@@ -26,6 +193,7 @@ function printTableAltLoss(data) {
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
     tdEventLoss.appendChild(textEventLoss)
+
     let countColsForLast = data['event'].length
     tdNumber.setAttribute("rowspan", 2)
     tdName.setAttribute("rowspan", 2)
@@ -150,7 +318,7 @@ function tableEntry(nameTable, nameData, data) {
         let cells = currRows[j].getElementsByTagName('td')
 
         for (let k = 0; k < cells.length - 1; k++) {
-            if( k === 0){
+            if (k === 0) {
                 data[nameData][j][k] = cells[k].textContent
             } else {
                 data[nameData][j][k] = Number(cells[k].textContent)
@@ -182,31 +350,23 @@ function newEvent() {
     let inputEventName = document.getElementById("inputEventName").value
     let inputEventIntensity = document.getElementById("inputEventIntensity").value
     let inputEventProbability = document.getElementById("inputEventProbability").value
-    let inputEventOccurrence = document.getElementById("inputEventOccurrence").value
     let textName = document.createTextNode(inputEventName)
     let textIntensive = document.createTextNode(inputEventIntensity)
     let textProbability = document.createTextNode(inputEventProbability)
-    let textOccurrence = document.createTextNode(inputEventOccurrence)
     let name = document.createElement("td")
     let intensive = document.createElement("td")
     let probability = document.createElement("td")
-    let occurrence = document.createElement("td")
     name.appendChild(textName)
     name.setAttribute('class', 'eventName')
     intensive.appendChild(textIntensive)
     probability.appendChild(textProbability)
-    occurrence.appendChild(textOccurrence)
     tr.appendChild(name)
     tr.appendChild(intensive)
     tr.appendChild(probability)
-    tr.appendChild(occurrence)
-    if (inputEventName === '' || inputEventIntensity === '' || inputEventProbability === ''
-        || inputEventOccurrence === '') {
+    if (inputEventName === '' || inputEventIntensity === '' || inputEventProbability === '') {
         alert("You must write something!")
     } else {
-        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && !isNaN(inputEventOccurrence)
-            && (0 <= inputEventProbability) && (inputEventProbability <= 100) && (0 <= inputEventOccurrence)
-            && (inputEventOccurrence <= 100)) {
+        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && (0 <= inputEventProbability) && (inputEventProbability <= 100)) {
             document.getElementById("tableEvent").appendChild(tr)
             document.getElementById("tableEvent").removeAttribute("class")
         } else {
@@ -216,7 +376,6 @@ function newEvent() {
     document.getElementById("inputEventName").value = ""
     document.getElementById("inputEventIntensity").value = ""
     document.getElementById("inputEventProbability").value = ""
-    document.getElementById("inputEventOccurrence").value = ""
     createCloseButton(tr)
 }
 
@@ -260,8 +419,7 @@ function newMinimization() {
     tr.appendChild(cost)
     if (inputRiskStrategy === 'Выбор события') {
         alert('Select any event!')
-    }
-    else if (inputNameMinimization === '' || inputCostMinimization === '') {
+    } else if (inputNameMinimization === '' || inputCostMinimization === '') {
         alert("You must write something!")
     } else {
         if (!isNaN(inputCostMinimization)) {

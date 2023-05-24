@@ -23,7 +23,6 @@
         <input type="text" id="inputEventName" class="inputText" placeholder="Название события">
         <input type="text" id="inputEventIntensity" class="inputText" placeholder="Интенсивность возникновения события">
         <input type="text" id="inputEventProbability" class="inputText" placeholder="Вероятность наступелния события">
-        <input type="text" id="inputEventOccurrence" class="inputText" placeholder="Риск наступления события">
         <span onclick="newEvent()" class="addBtn">Добавить</span>
     </div>
     <div id="divEventTable">
@@ -46,12 +45,19 @@
         <table id="tableMinimization" class="displayNone"></table>
     </div>
 </div>
+
+<!-- кнопка для рисовки всех таблиц-->
 <div id="divSaveStrategyRisk">
-    <input type="submit" id="inputCalculate" name="calculate" value="Запомнить стратегии"
+    <input type="submit" id="inputCalculate" name="calculate" value="Вывести все таблицы"
            onclick="consoleTable()"/>
 </div>
+<!-- расчет упущенной выгоды при реализации проекта базовый случай -->
     <div id="matrixAlternativeLosses" class="displayNone">
         <table id="tableBodyAltLoss"></table>
+    </div>
+<!-- расчет параметров для стратегии управления рисками реализуемого проекта -->
+    <div id="calculationParametersStrategicRiskManagementOngoingProject" class="displayNone">
+        <table id="tableCalculationParametersStrategicRiskManagementOngoingProject"></table>
     </div>
 </body>
 </html>
