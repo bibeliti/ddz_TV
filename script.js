@@ -204,11 +204,13 @@ function newEvent() {
         || inputEventOccurrence === '') {
         alert("You must write something!")
     } else {
-        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && !isNaN(inputEventOccurrence)
-            && (0 <= inputEventProbability) && (inputEventProbability <= 100) && (0 <= inputEventOccurrence)
-            && (inputEventOccurrence <= 100)) {
-            document.getElementById("tableEvent").appendChild(tr)
-            document.getElementById("tableEvent").removeAttribute("class")
+        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && !isNaN(inputEventOccurrence)) {
+            if ((0 <= inputEventProbability) && (inputEventProbability <= 1) && (0 <= inputEventOccurrence) && (inputEventOccurrence <= 1)) {
+                document.getElementById("tableEvent").appendChild(tr)
+                document.getElementById("tableEvent").removeAttribute("class")
+            } else {
+                alert("Don`t correct!");
+            }
         } else {
             alert("Digit please!");
         }
