@@ -112,7 +112,10 @@ function printTableForRiskManagerStrategy(data) {
     // tdName.setAttribute("rowspan", 2)
     tdEventLoss.setAttribute("rowspan", data["minimization"].length * 7 + 1)
 
+    let block = document.createElement('div')
+    block.setAttribute('class', 'subMatrixBlock')
     let eventsTable = document.createElement('table')
+    eventsTable.setAttribute('class', 'subMatrix')
     let textRow = document.createElement('tr')
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
@@ -209,8 +212,8 @@ function printTableForRiskManagerStrategy(data) {
         eventsTable.appendChild(th)
     }
 
-    
-    tdEventLoss.appendChild(eventsTable)
+    block.appendChild(eventsTable)
+    tdEventLoss.appendChild(block)
 
     //----------------------
     thHeader.appendChild(tdNumber)
