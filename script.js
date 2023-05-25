@@ -165,7 +165,7 @@ function printTableForRiskManagerStrategy(data) {
         for (let j = 0; j < data["event"].length; j++) {
             td = document.createElement("td")
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][2]) / (data["minimization"][i][3]))
+                text = document.createTextNode((data["event"][j][2]) * (data["minimization"][i][3]))
             else
                 text = document.createTextNode(data["event"][j][2])
             td.appendChild(text)
@@ -188,7 +188,7 @@ function printTableForRiskManagerStrategy(data) {
             td = document.createElement("td")
             let number = 0
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) / (data["minimization"][i][3]))
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]))
             else
                 text = document.createTextNode(data["event"][j][1] * data["event"][j][2])
             td.appendChild(text)
@@ -233,7 +233,7 @@ function printTableForRiskManagerStrategy(data) {
         for (let j = 0; j < data["event"].length; j++) {
             td = document.createElement("td")
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) / (data["minimization"][i][3]) * data["base"])
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"])
             else
                 text = document.createTextNode(data["event"][j][1] * data["event"][j][2] * data["base"])
             sumLoss += Number(text.textContent)
