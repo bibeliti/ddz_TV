@@ -23,6 +23,7 @@ function printTableAltLoss(data) {
     let tdMaxValue = document.createElement("td")
 
     let countCols = data['event'].length
+    let countRows = data['minimization'].length
     tdStrategy.setAttribute("rowspan", 2)
     tdCost.setAttribute("colspan", countCols)
     tdMinValue.setAttribute("rowspan", 2)
@@ -45,17 +46,37 @@ function printTableAltLoss(data) {
 
     table.appendChild(thHeader)
 
-    // Шапка таблицы
     let tr = document.createElement("tr")
+    let bigTd = document.createElement('td')
+    bigTd.setAttribute('colspan', countCols)
+    bigTd.setAttribute('rowspan', countRows + 1)
+
+    let subMatrix = document.createElement('table')
+
+    let th = document.createElement("tr")
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
-        tr.appendChild(td)
+        td.appendChild(text)
+        th.appendChild(td)
     }
+    subMatrix.appendChild(th)
+    for (let i = 0; i < countRows; i++) {
+        th = document.createElement('tr')
+        for (let j = 0; j < countCols; j++) {
+            text = document.createTextNode(data["lost"][i][j])
+            td = document.createElement("td")
+            td.appendChild(text)
+            th.appendChild(td)
+        }    
+        subMatrix.appendChild(th)
+    }
+    bigTd.appendChild(subMatrix)
+    tr.appendChild(bigTd)
     table.appendChild(tr)
 
     // Основное заполнение таблицы
-    for (let i = 0; i < data["minimization"].length; i++) {
+    for (let i = 0; i < countRows; i++) {
         tr = document.createElement("tr")
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
@@ -65,22 +86,17 @@ function printTableAltLoss(data) {
         let maxValue = 0
         for (let j = 0; j < countCols; j++) {
             text = document.createTextNode(data["lost"][i][j])
-            td = document.createElement("td")
-            td.appendChild(text)
             if (Number(text.textContent) > maxValue)
                 maxValue = Number(text.textContent)
             if (Number(text.textContent) < minValue)
                 minValue = Number(text.textContent)
-            tr.appendChild(td)
         }
-        table.appendChild(tr)
 
         // Минимальное в строке
         td = document.createElement("td")
         text = document.createTextNode(minValue)
         td.appendChild(text)
         tr.appendChild(td)
-        table.appendChild(tr)
 
         // Максимальное в строке
         td = document.createElement("td")
@@ -101,6 +117,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     let tdMaxValue = document.createElement("td")
 
     let countCols = data['event'].length
+    let countRows = data['minimization'].length
     tdStrategy.setAttribute("rowspan", 2)
     tdCost.setAttribute("colspan", countCols)
     tdMaxValue.setAttribute("rowspan", 2)
@@ -120,14 +137,21 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
 
     table.appendChild(thHeader)
 
-    // Шапка таблицы
     let tr = document.createElement("tr")
+    let bigTd = document.createElement('td')
+    bigTd.setAttribute('colspan', countCols)
+    bigTd.setAttribute('rowspan', countRows + 1)
+
+    let subMatrix = document.createElement('table')
+
+    let th = document.createElement("tr")
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
-        tr.appendChild(td)
+        td.appendChild(text)
+        th.appendChild(td)
     }
-    table.appendChild(tr)
+    subMatrix.appendChild(th)
 
     let minValues = []
 
@@ -141,6 +165,20 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
         minValues[i] = min
     }
 
+    for (let i = 0; i < countRows; i++) {
+        th = document.createElement('tr')
+        for (let j = 0; j < countCols; j++) {
+            text = document.createTextNode(data["lost"][i][j] - minValues[j])
+            td = document.createElement("td")
+            td.appendChild(text)
+            th.appendChild(td)
+        }  
+        subMatrix.appendChild(th)
+    }
+    bigTd.appendChild(subMatrix)
+    tr.appendChild(bigTd)
+    table.appendChild(tr)
+
     // Основное заполнение таблицы
     for (let i = 0; i < data["minimization"].length; i++) {
         tr = document.createElement("tr")
@@ -151,13 +189,9 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
         let maxValue = 0
         for (let j = 0; j < countCols; j++) {
             text = document.createTextNode(data["lost"][i][j] - minValues[j])
-            td = document.createElement("td")
-            td.appendChild(text)
             if (Number(text.textContent) > maxValue)
                 maxValue = Number(text.textContent)
-            tr.appendChild(td)
         }
-        table.appendChild(tr)
 
         // Максимальное в строке
         td = document.createElement("td")
