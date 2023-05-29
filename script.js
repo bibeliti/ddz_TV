@@ -562,7 +562,7 @@ function newMinimization() {
     let textName = document.createTextNode(inputNameMinimization)
     let textRiskStrategy = document.createTextNode(inputRiskStrategy)
     let textCost = document.createTextNode(inputCostMinimization)
-    let textPowerAffect = document.createTextNode(inputCostMinimization)
+    let textPowerAffect = document.createTextNode(inputPowerAffect)
     let name = document.createElement("td")
     let riskStrategy = document.createElement("td")
     let cost = document.createElement("td")
