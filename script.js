@@ -9,6 +9,7 @@ function consoleTable() {
     printTableCalculationProfitsBasicCase(data)
     printTableForRiskManagerStrategy(data)
     printTableAltLoss(data)
+    printTableEconomicEffectsAfterRealizationStrategy(data)
 }
 
 function printTableAltLoss(data) {
@@ -79,6 +80,83 @@ function printTableAltLoss(data) {
         text = document.createTextNode(minValue)
         td.appendChild(text)
         tr.appendChild(td)
+        table.appendChild(tr)
+
+        // Максимальное в строке
+        td = document.createElement("td")
+        text = document.createTextNode(maxValue)
+        td.appendChild(text)
+        tr.appendChild(td)
+        table.appendChild(tr)
+    }
+}
+
+function printTableEconomicEffectsAfterRealizationStrategy(data) {
+    let table = document.getElementById("tableCalculationEconomicEffectsAfterRealizationStrategy")
+    document.getElementById("CalculationEconomicEffectsAfterRealizationStrategy").removeAttribute("class")
+    // Шапка таблицы
+    let thHeader = document.createElement('tr')
+    let tdStrategy = document.createElement("td")
+    let tdCost = document.createElement("td")
+    let tdMaxValue = document.createElement("td")
+
+    let countCols = data['event'].length
+    tdStrategy.setAttribute("rowspan", 2)
+    tdCost.setAttribute("colspan", countCols)
+    tdMaxValue.setAttribute("rowspan", 2)
+
+    let textTdStrategy = document.createTextNode("Стратегия")
+    let textTdCost = document.createTextNode("Экономические последствия рисков реализации стратегии")
+    let textTdMaxValue = document.createTextNode("Максимальное значение (Max)")
+
+    tdStrategy.appendChild(textTdStrategy)
+    tdCost.appendChild(textTdCost)
+    tdMaxValue.appendChild(textTdMaxValue)
+
+    thHeader.appendChild(tdStrategy)
+    thHeader.appendChild(tdCost)
+    thHeader.appendChild(tdMaxValue)
+    console.log(data)
+
+    table.appendChild(thHeader)
+
+    // Шапка таблицы
+    let tr = document.createElement("tr")
+    for (let i = 0; i < countCols; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][i][0])
+        tr.appendChild(td)
+    }
+    table.appendChild(tr)
+
+    let minValues = []
+
+    for (let i = 0; i < data["lost"].length; i++) {
+        min = -1
+        for (let j = 0; j < data["lost"].length; j++) {
+            if (data['lost'][j][i] < min || min === -1) {
+                min = data['lost'][j][i]    
+            }
+        }
+        minValues[i] = min
+    }
+
+    // Основное заполнение таблицы
+    for (let i = 0; i < data["minimization"].length; i++) {
+        tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["minimization"][i][0])
+        td.appendChild(text)
+        tr.appendChild(td)
+        let maxValue = 0
+        for (let j = 0; j < countCols; j++) {
+            text = document.createTextNode(data["lost"][i][j] - minValues[j])
+            td = document.createElement("td")
+            td.appendChild(text)
+            if (Number(text.textContent) > maxValue)
+                maxValue = Number(text.textContent)
+            tr.appendChild(td)
+        }
         table.appendChild(tr)
 
         // Максимальное в строке
@@ -196,7 +274,7 @@ function printTableForRiskManagerStrategy(data) {
             else
                 text = document.createTextNode(data["event"][j][1] * data["event"][j][2] * data["base"])
             sumLoss += Number(text.textContent)
-            data["lost"][i][j] = Number(text.textContent)
+            data["lost"][i][j] = Math.round(Number(text.textContent) * 100) / 100
             td.appendChild(text)
             th.appendChild(td)
         }
@@ -471,7 +549,7 @@ function tableEntry(nameTable, nameData, data) {
         let cells = currRows[j].getElementsByTagName('td')
 
         for (let k = 0; k < cells.length - 1; k++) {
-            if (k === 0) {
+            if ((k === 0)  || (nameData === "minimization" && k === 1)) {
                 data[nameData][j][k] = cells[k].textContent
             } else {
                 data[nameData][j][k] = Number(cells[k].textContent)
