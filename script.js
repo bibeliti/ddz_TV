@@ -142,10 +142,12 @@ function printTableForRiskManagerStrategy(data) {
 
         for (let j = 0; j < data["event"].length; j++) {
             td = document.createElement("td")
-            if (data["minimization"][i][1] == data["event"][j][0])
+            if (data["minimization"][i][1] == data["event"][j][0]){
                 text = document.createTextNode(data["event"][j][1] - 1)
-            else
-                text = document.createTextNode(data["event"][j][1])
+                console.log(155151)
+            }
+        else
+            text = document.createTextNode(data["event"][j][1])
             td.appendChild(text)
             tr.appendChild(td)
         }
@@ -406,7 +408,7 @@ function tableEntry(nameTable, nameData, data) {
         let cells = currRows[j].getElementsByTagName('td')
 
         for (let k = 0; k < cells.length - 1; k++) {
-            if (k === 0) {
+            if ((k === 0) || (nameData === "minimization" && k === 1)) {
                 data[nameData][j][k] = cells[k].textContent
             } else {
                 data[nameData][j][k] = Number(cells[k].textContent)
@@ -497,7 +499,7 @@ function newMinimization() {
     let textName = document.createTextNode(inputNameMinimization)
     let textRiskStrategy = document.createTextNode(inputRiskStrategy)
     let textCost = document.createTextNode(inputCostMinimization)
-    let textPowerAffect = document.createTextNode(inputCostMinimization)
+    let textPowerAffect = document.createTextNode(inputPowerAffect)
     let name = document.createElement("td")
     let riskStrategy = document.createElement("td")
     let cost = document.createElement("td")
