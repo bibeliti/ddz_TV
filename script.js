@@ -105,52 +105,149 @@ function printTableForRiskManagerStrategy(data) {
 
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
-    tdEventLoss.appendChild(textEventLoss)
 
     let countColsForLast = data['event'].length
-    tdNumber.setAttribute("rowspan", 2)
-    tdName.setAttribute("rowspan", 2)
-    tdEventLoss.setAttribute("colspan", countColsForLast)
 
+    // tdNumber.setAttribute("rowspan", 2)
+    // tdName.setAttribute("rowspan", 2)
+    tdEventLoss.setAttribute("rowspan", data["minimization"].length * 7 + 1)
+
+    let block = document.createElement('div')
+    block.setAttribute('class', 'subMatrixBlock')
+    let eventsTable = document.createElement('table')
+    eventsTable.setAttribute('class', 'subMatrix')
+    let textRow = document.createElement('tr')
+    let textCell = document.createElement('td')
+    textCell.setAttribute('colspan', countColsForLast)
+    textCell.appendChild(textEventLoss)
+    textRow.appendChild(textCell)
+    eventsTable.appendChild(textRow)
+
+    data["lost"] = []
+
+    for (let i = 0; i < data["minimization"].length; i++) {
+        let th = document.createElement("tr")
+        let tdHead = document.createElement("td")
+        tdHead.setAttribute("colspan", countColsForLast + 2)
+        let textTdHead = document.createTextNode(data["minimization"][i][0])
+        tdHead.appendChild(textTdHead)
+        th.appendChild(tdHead)
+        eventsTable.appendChild(th)
+
+        th = document.createElement('tr')
+        for (let j = 0; j < data["event"].length; j++) {
+            let td = document.createElement("td")
+            let text
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode(data["event"][j][1] - 1)
+            else
+                text = document.createTextNode(data["event"][j][1])
+            td.appendChild(text)
+            th.appendChild(td)
+        }
+        eventsTable.appendChild(th)
+
+        th = document.createElement('tr')
+        for (let j = 0; j < data["event"].length; j++) {
+            let td = document.createElement("td")
+            let text
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode((data["event"][j][2]) * (data["minimization"][i][3]))
+            else
+                text = document.createTextNode(data["event"][j][2])
+            td.appendChild(text)
+            th.appendChild(td)
+        }
+        eventsTable.appendChild(th)
+
+        th = document.createElement('tr')
+        for (let j = 0; j < data["event"].length; j++) {
+            let td = document.createElement("td")
+            let number = 0
+            let text
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]))
+            else
+                text = document.createTextNode(data["event"][j][1] * data["event"][j][2])
+            td.appendChild(text)
+            th.appendChild(td)
+        }
+        eventsTable.appendChild(th)
+
+        th = document.createElement('tr')
+        for (let j = 0; j < data["event"].length; j++) {
+            let td = document.createElement("td")
+            let text = document.createTextNode(data["base"])
+            td.appendChild(text)
+            th.appendChild(td)
+        }
+        eventsTable.appendChild(th)
+
+        th = document.createElement('tr')
+        let sumLoss = 0
+
+        data["lost"][i] = []
+
+        for (let j = 0; j < data["event"].length; j++) {
+            let td = document.createElement("td")
+            let text
+            if (data["minimization"][i][1] == data["event"][j][0])
+                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"])
+            else
+                text = document.createTextNode(data["event"][j][1] * data["event"][j][2] * data["base"])
+            sumLoss += Number(text.textContent)
+            data["lost"][i][j] = Number(text.textContent)
+            td.appendChild(text)
+            th.appendChild(td)
+        }
+        eventsTable.appendChild(th)
+
+        let nodeSumLoss = document.createTextNode(sumLoss)
+
+        th = document.createElement('tr')
+        let td = document.createElement("td")
+        td.setAttribute("colspan", countColsForLast)
+        td.appendChild(nodeSumLoss)
+        th.appendChild(td)
+        eventsTable.appendChild(th)
+    }
+
+    block.appendChild(eventsTable)
+    tdEventLoss.appendChild(block)
+
+    //----------------------
     thHeader.appendChild(tdNumber)
     thHeader.appendChild(tdName)
     thHeader.appendChild(tdEventLoss)
 
     table.appendChild(thHeader)
 
-    data["lost"] = []
-
     for (let i = 0; i < data["minimization"].length; i++) {
         let tr = document.createElement("tr")
         let tdHead = document.createElement("td")
-        tdHead.setAttribute("colspan", countColsForLast + 2)
         let textTdHead = document.createTextNode(data["minimization"][i][0])
-        tdHead.appendChild(textTdHead)
-        tr.appendChild(tdHead)
+
+        tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(i + 1 + ".0")
+        td.appendChild(text)
+        tr.appendChild(td)
+        td = document.createElement("td")
+        text = document.createTextNode("Название стратегии")
+        td.appendChild(text)
+        tr.appendChild(td)
         table.appendChild(tr)
 
         // Интенсивность
         tr = document.createElement("tr")
-        let td = document.createElement("td")
-        let text = document.createTextNode(i + 1 + ".1")
+        td = document.createElement("td")
+        text = document.createTextNode(i + 1 + ".1")
         td.appendChild(text)
         tr.appendChild(td)
         td = document.createElement("td")
         text = document.createTextNode("Интенсивность возникновения i-го события")
         td.appendChild(text)
         tr.appendChild(td)
-
-        for (let j = 0; j < data["event"].length; j++) {
-            td = document.createElement("td")
-            if (data["minimization"][i][1] == data["event"][j][0]){
-                text = document.createTextNode(data["event"][j][1] - 1)
-                console.log(155151)
-            }
-        else
-            text = document.createTextNode(data["event"][j][1])
-            td.appendChild(text)
-            tr.appendChild(td)
-        }
         table.appendChild(tr)
 
         // Вероятность
@@ -163,16 +260,6 @@ function printTableForRiskManagerStrategy(data) {
         text = document.createTextNode("Вероятность наступления i-го события")
         td.appendChild(text)
         tr.appendChild(td)
-
-        for (let j = 0; j < data["event"].length; j++) {
-            td = document.createElement("td")
-            if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][2]) * (data["minimization"][i][3]))
-            else
-                text = document.createTextNode(data["event"][j][2])
-            td.appendChild(text)
-            tr.appendChild(td)
-        }
         table.appendChild(tr)
 
         // Риск
@@ -185,17 +272,6 @@ function printTableForRiskManagerStrategy(data) {
         text = document.createTextNode("Риск наступления i-го события")
         td.appendChild(text)
         tr.appendChild(td)
-
-        for (let j = 0; j < data["event"].length; j++) {
-            td = document.createElement("td")
-            let number = 0
-            if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]))
-            else
-                text = document.createTextNode(data["event"][j][1] * data["event"][j][2])
-            td.appendChild(text)
-            tr.appendChild(td)
-        }
         table.appendChild(tr)
 
         // База
@@ -208,13 +284,6 @@ function printTableForRiskManagerStrategy(data) {
         text = document.createTextNode("База для расчета упущенной выгоды компании")
         td.appendChild(text)
         tr.appendChild(td)
-
-        for (let j = 0; j < data["event"].length; j++) {
-            td = document.createElement("td")
-            text = document.createTextNode(data["base"])
-            td.appendChild(text)
-            tr.appendChild(td)
-        }
         table.appendChild(tr)
 
         // Потеря выручки
@@ -227,24 +296,7 @@ function printTableForRiskManagerStrategy(data) {
         text = document.createTextNode("Потеря выручки компании в результате наступления i-го события")
         td.appendChild(text)
         tr.appendChild(td)
-
-        let sumLoss = 0
-
-        data["lost"][i] = []
-
-        for (let j = 0; j < data["event"].length; j++) {
-            td = document.createElement("td")
-            if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"])
-            else
-                text = document.createTextNode(data["event"][j][1] * data["event"][j][2] * data["base"])
-            sumLoss += Number(text.textContent)
-            data["lost"][i][j] = Number(text.textContent)
-            td.appendChild(text)
-            tr.appendChild(td)
-        }
         table.appendChild(tr)
-        let nodeSumLoss = document.createTextNode(sumLoss)
 
         // Общая потеря дохода компании
         tr = document.createElement("tr")
@@ -255,12 +307,6 @@ function printTableForRiskManagerStrategy(data) {
         td = document.createElement("td")
         text = document.createTextNode("Общая потеря дохода компании в результате наступления i-го события")
         td.appendChild(text)
-        tr.appendChild(td)
-        table.appendChild(tr)
-
-        td = document.createElement("td")
-        td.setAttribute("colspan", countColsForLast)
-        td.appendChild(nodeSumLoss)
         tr.appendChild(td)
         table.appendChild(tr)
     }
@@ -282,20 +328,18 @@ function printTableCalculationProfitsBasicCase(data) {
 
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
-    tdEventLoss.appendChild(textEventLoss)
-
     let countColsForLast = data['event'].length
-    tdNumber.setAttribute("rowspan", 2)
-    tdName.setAttribute("rowspan", 2)
-    tdEventLoss.setAttribute("colspan", countColsForLast)
+    // tdNumber.setAttribute("rowspan", 2)
+    // tdName.setAttribute("rowspan", 2)
+    tdEventLoss.setAttribute("rowspan", 7)
 
-    thHeader.appendChild(tdNumber)
-    thHeader.appendChild(tdName)
-    thHeader.appendChild(tdEventLoss)
-
-    table.appendChild(thHeader)
-
-    // Вторая шапка таблицы для стобцов
+    let eventsTable = document.createElement('table')
+    let textRow = document.createElement('tr')
+    let textCell = document.createElement('td')
+    textCell.setAttribute('colspan', countColsForLast)
+    textCell.appendChild(textEventLoss)
+    textRow.appendChild(textCell)
+    eventsTable.appendChild(textRow)
     let th = document.createElement('tr')
     for (let i = 0; i < data['event'].length; i++) {
         let td = document.createElement("td")
@@ -303,7 +347,56 @@ function printTableCalculationProfitsBasicCase(data) {
         td.appendChild(name)
         th.appendChild(td)
     }
-    table.appendChild(th);
+    eventsTable.appendChild(th);
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][cols][1])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][cols][2])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][cols][2] * data["event"][cols][1])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["base"])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+    th = document.createElement('tr')
+    for (let cols = 0; cols < data['event'].length; cols++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["base"] * data["event"][cols][2] * data["event"][cols][1])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    eventsTable.appendChild(th)
+
+    tdEventLoss.appendChild(eventsTable)
+
+
+    thHeader.appendChild(tdNumber)
+    thHeader.appendChild(tdName)
+    thHeader.appendChild(tdEventLoss)
+
+    table.appendChild(thHeader)
 
     //Интесивность
     let tr = document.createElement("tr")
@@ -315,12 +408,6 @@ function printTableCalculationProfitsBasicCase(data) {
     text = document.createTextNode("Интенсивность возникновения i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["event"][cols][1])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //Вероятность
@@ -333,12 +420,6 @@ function printTableCalculationProfitsBasicCase(data) {
     text = document.createTextNode("Вероятность наступления i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["event"][cols][2])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //Риск наступления
@@ -351,12 +432,6 @@ function printTableCalculationProfitsBasicCase(data) {
     text = document.createTextNode("Риск наступления i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["event"][cols][2] * data["event"][cols][1])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //База для расчета упущенной выгоды компании
@@ -369,12 +444,6 @@ function printTableCalculationProfitsBasicCase(data) {
     text = document.createTextNode("База для расчета упущенной выгоды компании")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["base"])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 
     //Выгода упущенная компанией из-за снижения выручки
@@ -387,12 +456,6 @@ function printTableCalculationProfitsBasicCase(data) {
     text = document.createTextNode("Выгода упущенная компанией из-за снижения выручки в результате i-го события")
     td.appendChild(text)
     tr.appendChild(td)
-    for (let cols = 0; cols < data['event'].length; cols++) {
-        td = document.createElement("td")
-        text = document.createTextNode(data["base"] * data["event"][cols][2] * data["event"][cols][1])
-        td.appendChild(text)
-        tr.appendChild(td)
-    }
     table.appendChild(tr)
 }
 
