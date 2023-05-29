@@ -1,6 +1,11 @@
 * {
+    @font-face {
+        font-family: Jura; /* Ð“Ð°Ñ€Ð½Ð¸Ñ‚ÑƒÑ€Ð° ÑˆÑ€Ð¸Ñ„Ñ‚Ð° */
+        src: url(font/Jura-Regular.ttf); /* ÐŸÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ ÑÐ¾ ÑˆÑ€Ð¸Ñ„Ñ‚Ð¾Ð¼ */
+    }
+    font-family: "Jura-Regular",sans-serif;
     box-sizing: border-box;
-    background-color: #e3e3e3f0;
+    /* background-color: #e3e3e3f0; */
 }
 
 .risksTable {
@@ -8,8 +13,13 @@
     margin: 50px 0;
 }
 
+h4{
+    margin-left: 20px;
+}
 h1 {
     text-align: center;
+    margin-top: 5%;
+    padding-top: 15px;
 }
 
 table {
@@ -25,14 +35,23 @@ table {
     -ms-user-select: none;
     user-select: none;
     border-collapse: collapse;
+    margin-bottom: 5px;
 }
 
 td {
-    background: #eee;
+    background: white;
     text-align: left;
     width: 35%;
     height: 41px;
     border: 1px solid black;
+    text-align: center;
+}
+
+.content{
+    margin:auto;
+    width: 60%;
+    padding-bottom: 2%;
+    background-color: #e3e3e3f0;
 }
 
 .lastTd {
@@ -71,9 +90,11 @@ td {
 
 .inputText {
     margin: 0;
-    border: none;
-    border-radius: 0;
+    border-color: black;
+    /* border: none; */
+    border-radius: 3px;
     width: 25%;
+    height: 76%;
     padding: 10px;
     float: left;
     font-size: 16px;
@@ -151,6 +172,19 @@ td {
     text-decoration: none;
     text-transform: uppercase;
 }
+#inputCalculate input{
+    margin-top: 50px;
+    background-color: #4C75A3;
+    border-radius: 3px;
+    border: none;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+}
 
 .addDown {
     margin: 10px 44%;
@@ -166,4 +200,36 @@ td {
 #divSaveEvent hover{
     background-color: #3e5c86;
     cursor:pointer;
+}
+
+.bezdar{
+    border:none;
+}
+
+#matrixAlternativeLosses{
+
+    margin-right:5%;
+    margin-left:5%;
+
+}
+#calculationParametersStrategicRiskManagementOngoingProject{
+    margin-right:5%;
+    margin-left:5%;
+}
+
+#calculationLostProfitsBasicCase{
+    margin-right:5%;
+    margin-left:5%;
+}
+
+#CalculationEconomicEffectsAfterRealizationStrategy{
+    margin-right:5%;
+    margin-left:5%;
+}
+
+.subMatrixBlock{
+    height:100%;
+}
+.subMatrix{
+    height:100%;
 }

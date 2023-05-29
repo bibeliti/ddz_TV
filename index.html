@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -8,67 +9,79 @@
     <script src="script.js"></script>
 </head>
 <body>
+    <div class="bokovuha"></div>
+    <div class="content">
     <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
-<div class="formInput">
-    <div id="idForBase">
-        <input type="text" id="inputBase" class="inputText"
-               placeholder="База для расчета упущенной выгоды компании, тыс. руб">
-        <span id="addBtnBase" onclick="newBase()" class="addBtn">Добавить</span>
-        <span class="displayNone" id="forBase">
-      <p id="pForBase">Значение базового расчета:</p>
-      <p id="baseValue"></p>
-    </span>
+    <div class="formInput">
+        <div id="idForBase">
+            <input type="text" id="inputBase" class="inputText"
+                   placeholder="База для расчета упущенной выгоды компании, тыс. руб">
+            <span id="addBtnBase" onclick="newBase()" class="addBtn">Добавить</span>
+            <span class="displayNone" id="forBase">
+          <p id="pForBase">Значение базового расчета:</p>
+          <p id="baseValue"></p>
+        </span>
+        </div>
+        <div id="idForEvent">
+            <h2>События</h2>
+            <input type="text" id="inputEventName" class="inputText" placeholder="Название события">
+            <input type="text" id="inputEventIntensity" class="inputText" placeholder="Интенсивность возникновения события">
+            <input type="text" id="inputEventProbability" class="inputText" placeholder="Вероятность наступелния события">
+            <span onclick="newEvent()" class="addBtn">Добавить</span>
+        </div>
+        <div id="divEventTable">
+            <table id="tableEvent" class="displayNone"></table>
+        </div>
+        <div id="divSaveEvent">
+            <input type="submit" id="saveEvent" name="calculate" value="Запомнить базу и события"
+                   onclick="drawStrategy()"/>
+        </div>
+        <div id="idForMinimization" class="displayNone">
+            <h2>Стратегии минимизации рисков</h2>
+            <input type="text" id="inputNameMinimization" class="inputText" placeholder="Названия стратегии минимизации">
+            <select class="inputText" id="inputWhatEventThisStrategy" >
+                <option>Выбор события</option>
+            </select>
+            <input type="text" id="inputCostMinimization" class="inputText" placeholder="Затраты на внедрение в тыс. руб">
+            <input type="text" id="inputPowerAffect" class="inputText" placeholder="Как сильно влияет на вероятность наступления события">
+            <span onclick="newMinimization()" class="addBtn addDown">Добавить</span>
+        </div>
+        <div class="risksTable">
+            <table id="tableMinimization" class="displayNone"></table>
+        </div>
     </div>
-    <div id="idForEvent">
-        <h2>События</h2>
-        <input type="text" id="inputEventName" class="inputText" placeholder="Название события">
-        <input type="text" id="inputEventIntensity" class="inputText" placeholder="Интенсивность возникновения события">
-        <input type="text" id="inputEventProbability" class="inputText" placeholder="Вероятность наступелния события">
-        <span onclick="newEvent()" class="addBtn">Добавить</span>
+    
+    <!-- кнопка для рисовки всех таблиц-->
+    <div id="divSaveStrategyRisk">
+        <input type="submit" id="inputCalculate" name="calculate" value="Вывести все таблицы"
+               onclick="consoleTable()"/>
     </div>
-    <div id="divEventTable">
-        <table id="tableEvent" class="displayNone"></table>
+    <!-- расчет упущенной выгоды при реализации проекта базовый случай -->
+    
+        <div id="matrixAlternativeLosses" class="displayNone">
+            <h4>Таблица №1</h4>
+            <table id="tableBodyAltLoss"></table>
+        </div>
+    <!-- расчет параметров для стратегии управления рисками реализуемого проекта -->
+    
+        <div id="calculationParametersStrategicRiskManagementOngoingProject" class="displayNone">
+            <h4>Таблица №2</h4>
+            <table id="tableCalculationParametersStrategicRiskManagementOngoingProject"></table>
+        </div>
+    
+    <!-- расчет упущенной выгоды базовый случай -->
+    
+    <div id="calculationLostProfitsBasicCase" class="displayNone">
+        <h4>Таблица №3</h4>
+        <table id="tableCalculationLostProfitsBasicCase"></table>
     </div>
-    <div id="divSaveEvent">
-        <input type="submit" id="saveEvent" name="calculate" value="Запомнить базу и события"
-               onclick="drawStrategy()"/>
+    <!-- показывает экономические последствия после реализации стратегии -->
+    
+    <div id="CalculationEconomicEffectsAfterRealizationStrategy" class="displayNone">
+        <h4>Таблица №4</h4>
+        <table id="tableCalculationEconomicEffectsAfterRealizationStrategy"></table>
     </div>
-    <div id="idForMinimization" class="displayNone">
-        <h2>Стратегии минимизации рисков</h2>
-        <input type="text" id="inputNameMinimization" class="inputText" placeholder="Названия стратегии минимизации">
-        <select class="inputText" id="inputWhatEventThisStrategy" >
-            <option>Выбор события</option>
-        </select>
-        <input type="text" id="inputCostMinimization" class="inputText" placeholder="Затраты на внедрение в тыс. руб">
-        <input type="text" id="inputPowerAffect" class="inputText" placeholder="Как сильно влияет на вероятность наступления события">
-        <span onclick="newMinimization()" class="addBtn addDown">Добавить</span>
     </div>
-    <div class="risksTable">
-        <table id="tableMinimization" class="displayNone"></table>
-    </div>
-</div>
-
-<!-- кнопка для рисовки всех таблиц-->
-<div id="divSaveStrategyRisk">
-    <input type="submit" id="inputCalculate" name="calculate" value="Вывести все таблицы"
-           onclick="consoleTable()"/>
-</div>
-<!-- расчет упущенной выгоды при реализации проекта базовый случай -->
-    <div id="matrixAlternativeLosses" class="displayNone">
-        <table id="tableBodyAltLoss"></table>
-    </div>
-<!-- расчет параметров для стратегии управления рисками реализуемого проекта -->
-    <div id="calculationParametersStrategicRiskManagementOngoingProject" class="displayNone">
-        <table id="tableCalculationParametersStrategicRiskManagementOngoingProject"></table>
-    </div>
-
-<!-- расчет упущенной выгоды базовый случай -->
-<div id="calculationLostProfitsBasicCase" class="displayNone">
-    <table id="tableCalculationLostProfitsBasicCase"></table>
-</div>
-<!-- показывает экономические последствия после реализации стратегии -->
-<div id="CalculationEconomicEffectsAfterRealizationStrategy" class="displayNone">
-    <table id="tableCalculationEconomicEffectsAfterRealizationStrategy"></table>
-</div>
+    <div class="bokovuha"></div>
 </body>
 </html>
