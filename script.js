@@ -411,7 +411,10 @@ function printTableCalculationProfitsBasicCase(data) {
     // tdName.setAttribute("rowspan", 2)
     tdEventLoss.setAttribute("rowspan", 7)
     
+    let eventsBlock = document.createElement('div')
+    eventsBlock.setAttribute('class', 'subMatrixBlock')
     let eventsTable = document.createElement('table')
+    eventsTable.setAttribute('class', 'subMatrix')
     let textRow = document.createElement('tr')
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
@@ -467,7 +470,9 @@ function printTableCalculationProfitsBasicCase(data) {
     }
     eventsTable.appendChild(th)
 
-    tdEventLoss.appendChild(eventsTable)
+    eventsBlock.appendChild(eventsTable)
+
+    tdEventLoss.appendChild(eventsBlock)
 
 
     thHeader.appendChild(tdNumber)
