@@ -88,7 +88,7 @@ function printTableChooseStrategyBySavageCriteria(data) {
             min = max
             for (let j = 0; j < data['lost'][i].length; j++) {
                 if (data['lost'][i][j] === min) {
-                    strategyName = data['minimization'][j][0]
+                    strategyName = data['minimization'][i][0]
                     break
                 }
             }
