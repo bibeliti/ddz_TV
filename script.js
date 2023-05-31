@@ -10,6 +10,105 @@ function consoleTable() {
     printTableForRiskManagerStrategy(data)
     printTableAltLoss(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
+    printTableChooseStrategyBySavageCriteria(data)
+    printTableChooseStrategyByValdCriteria(data)
+    printTableChooseStrategyByGurvicCriteria(data)
+}
+
+function printTableChooseStrategyByGurvicCriteria(data) {
+    let table = document.getElementById("tableResults")
+    document.getElementById("results").removeAttribute("class")
+
+    let trGurvic = document.createElement('tr')
+
+    let num = document.createElement('td')
+    let criteria = document.createElement('td')
+    let strategy = document.createElement('td')
+
+    let number = document.createTextNode('3')
+    let criteriaName = document.createTextNode('Критерий Гурвица')
+    let strategyText = document.createTextNode('Challenge accepted')
+
+    num.appendChild(number)
+    criteria.appendChild(criteriaName)
+    strategy.appendChild(strategyText)
+
+    trGurvic.appendChild(num)
+    trGurvic.appendChild(criteria)
+    trGurvic.appendChild(strategy)
+
+    table.appendChild(trGurvic)
+}
+
+function printTableChooseStrategyByValdCriteria(data) {
+    let table = document.getElementById("tableResults")
+    document.getElementById("results").removeAttribute("class")
+
+    let trVald = document.createElement('tr')
+
+    let num = document.createElement('td')
+    let criteria = document.createElement('td')
+    let strategy = document.createElement('td')
+
+    let number = document.createTextNode('2')
+    let criteriaName = document.createTextNode('Критерий Вальда')
+    let strategyText = document.createTextNode('Work in progress')
+
+    num.appendChild(number)
+    criteria.appendChild(criteriaName)
+    strategy.appendChild(strategyText)
+
+    trVald.appendChild(num)
+    trVald.appendChild(criteria)
+    trVald.appendChild(strategy)
+
+    table.appendChild(trVald)
+}
+
+function printTableChooseStrategyBySavageCriteria(data) {
+    let table = document.getElementById("tableResults")
+    document.getElementById("results").removeAttribute("class")
+
+    let trSavage = document.createElement('tr')
+
+    let num = document.createElement('td')
+    let criteria = document.createElement('td')
+    let strategy = document.createElement('td')
+
+    let strategyName = 'no'
+    let min = -1
+    for (let i = 0; i < data['lost'].length; i++) {
+        let max = 0
+        for (let j = 0; j < data['lost'][i].length; j++) {
+            if (data['lost'][i][j] > max) {
+                max = data['lost'][i][j]
+            }
+        }
+        if (max < min || min === -1) {
+            min = max
+            for (let j = 0; j < data['lost'][i].length; j++) {
+                if (data['lost'][i][j] === min) {
+                    strategyName = data['minimization'][j][0]
+                    break
+                }
+            }
+        }
+    }
+
+
+    let number = document.createTextNode('1')
+    let criteriaName = document.createTextNode('Критерий Сэвиджа')
+    let strategyText = document.createTextNode(strategyName)
+
+    num.appendChild(number)
+    criteria.appendChild(criteriaName)
+    strategy.appendChild(strategyText)
+
+    trSavage.appendChild(num)
+    trSavage.appendChild(criteria)
+    trSavage.appendChild(strategy)
+
+    table.appendChild(trSavage)
 }
 
 function printTableAltLoss(data) {
@@ -133,7 +232,6 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     thHeader.appendChild(tdStrategy)
     thHeader.appendChild(tdCost)
     thHeader.appendChild(tdMaxValue)
-    console.log(data)
 
     table.appendChild(thHeader)
 
@@ -737,7 +835,6 @@ function creatingTableWithLostProfits(data) {
 
 function drawStrategy() {
     strategyNames = document.getElementsByClassName('eventName')
-    console.log(strategyNames)
     document.getElementById("divEventTable").removeAttribute("class")
     document.getElementById("idForMinimization").removeAttribute("class")
     document.getElementById("divSaveEvent").setAttribute("class", "displayNone")
