@@ -133,9 +133,17 @@ td {
     cursor:pointer;
 }
 
+.regulirovochka {
+    height: 120px
+}
+
 #inputBase {
     width: 75%;
     text-align: center;
+}
+
+#divEventTable {
+    margin-top: 120px;
 }
 
 #forBase {
@@ -187,8 +195,8 @@ td {
 }
 
 .addDown {
-    margin: 10px 44%;
-    width: 150px;
+    margin: 10px 41%;
+    width: 18%;
 }
 
 #saveEvent {
@@ -222,14 +230,57 @@ td {
     margin-left:5%;
 }
 
+.subSubMatrix{
+    border: 0;
+    margin: -2px;
+    width: 101.5%;
+}
+
 #CalculationEconomicEffectsAfterRealizationStrategy{
     margin-right:5%;
     margin-left:5%;
 }
 
-.subMatrixBlock{
-    height:100%;
+#results {
+    margin-right:5%;
+    margin-left:5%;
 }
+
+.subMatrixBlock{
+    height:auto;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    width: 30%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-top: 1px;
+}
+
+.subMatrixBlock2{
+    height: auto;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-top: -4px;
+}
+
+#tableCalculationParametersStrategicRiskManagementOngoingProject td {
+    height: 66px;
+}
+
+.perebivka {
+    height: 71px !important;
+}
+
+.param {
+    height: 90px;
+}
+
 .subMatrix{
+    border: 0;
     height:100%;
 }

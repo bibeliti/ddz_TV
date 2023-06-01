@@ -15,6 +15,10 @@ function consoleTable() {
     printTableChooseStrategyByGurvicCriteria(data)
 }
 
+function round(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
 function printTableChooseStrategyByGurvicCriteria(data) {
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
@@ -117,16 +121,16 @@ function printTableAltLoss(data) {
     // Шапка таблицы
     let thHeader = document.createElement('tr')
     let tdStrategy = document.createElement("td")
+    thHeader.setAttribute("class", "regulirovochka")
     let tdCost = document.createElement("td")
     let tdMinValue = document.createElement("td")
     let tdMaxValue = document.createElement("td")
 
     let countCols = data['event'].length
     let countRows = data['minimization'].length
-    tdStrategy.setAttribute("rowspan", 2)
-    tdCost.setAttribute("colspan", countCols)
-    tdMinValue.setAttribute("rowspan", 2)
-    tdMaxValue.setAttribute("rowspan", 2)
+    tdStrategy.setAttribute("rowspan", 1)
+    tdMinValue.setAttribute("rowspan", 1)
+    tdMaxValue.setAttribute("rowspan", 1)
 
     let textTdStrategy = document.createTextNode("Стратегия")
     let textTdCost = document.createTextNode("Стоимость альтернативных убытков")
@@ -134,25 +138,31 @@ function printTableAltLoss(data) {
     let textTdMaxValue = document.createTextNode("Максимальное значение (Max)")
 
     tdStrategy.appendChild(textTdStrategy)
-    tdCost.appendChild(textTdCost)
     tdMinValue.appendChild(textTdMinValue)
     tdMaxValue.appendChild(textTdMaxValue)
 
     thHeader.appendChild(tdStrategy)
-    thHeader.appendChild(tdCost)
-    thHeader.appendChild(tdMinValue)
-    thHeader.appendChild(tdMaxValue)
 
-    table.appendChild(thHeader)
-
-    let tr = document.createElement("tr")
     let bigTd = document.createElement('td')
     bigTd.setAttribute('colspan', countCols)
-    bigTd.setAttribute('rowspan', countRows + 1)
+    bigTd.setAttribute('rowspan', countRows + 2)
 
+    let subMatrixBlock2 = document.createElement('div')
+    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
     let subMatrix = document.createElement('table')
+    subMatrix.setAttribute("class", "subSubMatrix")
 
     let th = document.createElement("tr")
+    let td = document.createElement("td")
+    td.setAttribute('colspan', countCols);
+    th.setAttribute('style', 'height: 60px')
+    td.appendChild(textTdCost)
+    th.appendChild(td)
+    subMatrix.appendChild(th)
+
+    th = document.createElement("tr")
+    th.setAttribute('style', 'height: 60px')
+
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
@@ -170,13 +180,22 @@ function printTableAltLoss(data) {
         }    
         subMatrix.appendChild(th)
     }
-    bigTd.appendChild(subMatrix)
-    tr.appendChild(bigTd)
-    table.appendChild(tr)
+    subMatrixBlock2.appendChild(subMatrix)
+    bigTd.appendChild(subMatrixBlock2)
+    thHeader.appendChild(bigTd)
 
+    thHeader.appendChild(tdMinValue)
+    thHeader.appendChild(tdMaxValue)
+
+    table.appendChild(thHeader)
+
+    let height = (41 * countRows + 20) - 41 * (countRows - 1);
     // Основное заполнение таблицы
     for (let i = 0; i < countRows; i++) {
         tr = document.createElement("tr")
+        if (i == data["minimization"].length - 1) {
+            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
+        }
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
         td.appendChild(text)
@@ -212,39 +231,46 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     // Шапка таблицы
     let thHeader = document.createElement('tr')
     let tdStrategy = document.createElement("td")
+    thHeader.setAttribute("class", "regulirovochka")
     let tdCost = document.createElement("td")
     let tdMaxValue = document.createElement("td")
 
     let countCols = data['event'].length
     let countRows = data['minimization'].length
-    tdStrategy.setAttribute("rowspan", 2)
-    tdCost.setAttribute("colspan", countCols)
-    tdMaxValue.setAttribute("rowspan", 2)
+    tdStrategy.setAttribute("rowspan", 1)
+    tdMaxValue.setAttribute("rowspan", 1)
 
     let textTdStrategy = document.createTextNode("Стратегия")
     let textTdCost = document.createTextNode("Экономические последствия рисков реализации стратегии")
     let textTdMaxValue = document.createTextNode("Максимальное значение (Max)")
 
     tdStrategy.appendChild(textTdStrategy)
-    tdCost.appendChild(textTdCost)
     tdMaxValue.appendChild(textTdMaxValue)
 
     thHeader.appendChild(tdStrategy)
-    thHeader.appendChild(tdCost)
-    thHeader.appendChild(tdMaxValue)
 
-    table.appendChild(thHeader)
-
-    let tr = document.createElement("tr")
     let bigTd = document.createElement('td')
     bigTd.setAttribute('colspan', countCols)
-    bigTd.setAttribute('rowspan', countRows + 1)
+    bigTd.setAttribute('rowspan', countRows + 2)
 
+    let subMatrixBlock2 = document.createElement('div')
+    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
     let subMatrix = document.createElement('table')
+    subMatrix.setAttribute("class", "subSubMatrix")
 
     let th = document.createElement("tr")
+    let td = document.createElement("td")
+    td.setAttribute('colspan', countCols);
+    th.setAttribute('style', 'height: 60px')
+    td.appendChild(textTdCost)
+    th.appendChild(td)
+    subMatrix.appendChild(th)
+
+    th = document.createElement("tr")
+    th.setAttribute('style', 'height: 60px')
+
     for (let i = 0; i < countCols; i++) {
-        let td = document.createElement("td")
+        td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
         td.appendChild(text)
         th.appendChild(td)
@@ -273,13 +299,23 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
         }  
         subMatrix.appendChild(th)
     }
-    bigTd.appendChild(subMatrix)
-    tr.appendChild(bigTd)
-    table.appendChild(tr)
+    subMatrixBlock2.appendChild(subMatrix)
+    bigTd.appendChild(subMatrixBlock2)
+    thHeader.appendChild(bigTd)
 
+    thHeader.appendChild(tdMaxValue)
+
+    table.appendChild(thHeader)
+
+    let tr
+
+    let height = (41 * countRows + 20) - 41 * (countRows - 1);
     // Основное заполнение таблицы
     for (let i = 0; i < data["minimization"].length; i++) {
         tr = document.createElement("tr")
+        if (i == data["minimization"].length - 1) {
+            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
+        }
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
         td.appendChild(text)
@@ -305,9 +341,11 @@ function printTableForRiskManagerStrategy(data) {
     document.getElementById("calculationParametersStrategicRiskManagementOngoingProject").removeAttribute("class")
     //Шапка таблицы(надписи)
     let thHeader = document.createElement('tr')
+    thHeader.setAttribute("class", "perebivka")
     let tdNumber = document.createElement("td")
     let tdName = document.createElement("td")
     let tdEventLoss = document.createElement("td")
+    tdEventLoss.setAttribute("class", "revenge")
 
     let textNumber = document.createTextNode("№")
     let textName = document.createTextNode("Имя параметра")
@@ -330,6 +368,7 @@ function printTableForRiskManagerStrategy(data) {
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
     textCell.appendChild(textEventLoss)
+    textCell.setAttribute('class', 'perebivka')
     textRow.appendChild(textCell)
     eventsTable.appendChild(textRow)
 
@@ -362,7 +401,7 @@ function printTableForRiskManagerStrategy(data) {
             let td = document.createElement("td")
             let text
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][2]) * (data["minimization"][i][3]))
+                text = document.createTextNode(round((data["event"][j][2]) * (data["minimization"][i][3]), 2))
             else
                 text = document.createTextNode(data["event"][j][2])
             td.appendChild(text)
@@ -376,9 +415,9 @@ function printTableForRiskManagerStrategy(data) {
             let number = 0
             let text
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]))
+                text = document.createTextNode(round((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]), 2))
             else
-                text = document.createTextNode(data["event"][j][1] * data["event"][j][2])
+                text = document.createTextNode(round(data["event"][j][1] * data["event"][j][2], 2))
             td.appendChild(text)
             th.appendChild(td)
         }
@@ -402,11 +441,11 @@ function printTableForRiskManagerStrategy(data) {
             let td = document.createElement("td")
             let text
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"])
+                text = document.createTextNode(round((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"], 2))
             else
-                text = document.createTextNode(data["event"][j][1] * data["event"][j][2] * data["base"])
+                text = document.createTextNode(round(data["event"][j][1] * data["event"][j][2] * data["base"], 2))
             sumLoss += Number(text.textContent)
-            data["lost"][i][j] = Math.round(Number(text.textContent) * 100) / 100
+            data["lost"][i][j] = round(Number(text.textContent), 2)
             td.appendChild(text)
             th.appendChild(td)
         }
@@ -530,6 +569,7 @@ function printTableCalculationProfitsBasicCase(data) {
     let thHeader = document.createElement('tr')
     let tdNumber = document.createElement("td")
     let tdName = document.createElement("td")
+    tdName.setAttribute("class", "param")
     let tdEventLoss = document.createElement("td")
 
     let textNumber = document.createTextNode("№")
@@ -539,11 +579,12 @@ function printTableCalculationProfitsBasicCase(data) {
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
     let countColsForLast = data['event'].length
-    // tdNumber.setAttribute("rowspan", 2)
-    // tdName.setAttribute("rowspan", 2)
     tdEventLoss.setAttribute("rowspan", 7)
     
+    let subMatrixBlock = document.createElement('div')
+    subMatrixBlock.setAttribute('class', 'subMatrixBlock')
     let eventsTable = document.createElement('table')
+    eventsTable.setAttribute("class", "subMatrix")
     let textRow = document.createElement('tr')
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
@@ -577,7 +618,7 @@ function printTableCalculationProfitsBasicCase(data) {
     th = document.createElement('tr')
     for (let cols = 0; cols < data['event'].length; cols++) {
         let td = document.createElement("td")
-        let text = document.createTextNode(data["event"][cols][2] * data["event"][cols][1])
+        let text = document.createTextNode(round(data["event"][cols][2] * data["event"][cols][1], 2))
         td.appendChild(text)
         th.appendChild(td)
     }
@@ -593,13 +634,14 @@ function printTableCalculationProfitsBasicCase(data) {
     th = document.createElement('tr')
     for (let cols = 0; cols < data['event'].length; cols++) {
         let td = document.createElement("td")
-        let text = document.createTextNode(data["base"] * data["event"][cols][2] * data["event"][cols][1])
+        let text = document.createTextNode(round(data["base"] * data["event"][cols][2] * data["event"][cols][1], 2))
         td.appendChild(text)
         th.appendChild(td)
     }
     eventsTable.appendChild(th)
 
-    tdEventLoss.appendChild(eventsTable)
+    subMatrixBlock.appendChild(eventsTable)
+    tdEventLoss.appendChild(subMatrixBlock)
 
 
     thHeader.appendChild(tdNumber)
@@ -840,6 +882,7 @@ function drawStrategy() {
     document.getElementById("divSaveEvent").setAttribute("class", "displayNone")
     document.getElementById("idForEvent").setAttribute("class", "displayNone")
     document.getElementById("idForBase").setAttribute("class", "displayNone")
+    document.getElementById('divEventTable').setAttribute('style', 'margin-top: 15px')
     let selector = document.getElementById('inputWhatEventThisStrategy')
     for (let i = 0; i < strategyNames.length; i++) {
         let option = document.createElement('option')
