@@ -10,6 +10,7 @@ function consoleTable() {
     printTableCalculationProfitsBasicCase(data)
     printTableForRiskManagerStrategy(data)
     printTableAltLoss(data)
+    printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
     printTableChooseStrategyBySavageCriteria(data)
     printTableChooseStrategyByValdCriteria(data)
@@ -205,6 +206,116 @@ function printTableAltLoss(data) {
         let maxValue = 0
         for (let j = 0; j < countCols; j++) {
             text = document.createTextNode(data["lost"][i][j])
+            if (Number(text.textContent) > maxValue)
+                maxValue = Number(text.textContent)
+            if (Number(text.textContent) < minValue)
+                minValue = Number(text.textContent)
+        }
+
+        // Минимальное в строке
+        td = document.createElement("td")
+        text = document.createTextNode(minValue)
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        // Максимальное в строке
+        td = document.createElement("td")
+        text = document.createTextNode(maxValue)
+        td.appendChild(text)
+        tr.appendChild(td)
+        table.appendChild(tr)
+    }
+}
+
+function printTableConditionalBenefits(data) {
+    let table = document.getElementById("tableCalculationConditionalBenefits")
+    document.getElementById("calculationConditionalBenefits").removeAttribute("class")
+    // Шапка таблицы
+    let thHeader = document.createElement('tr')
+    let tdStrategy = document.createElement("td")
+    thHeader.setAttribute("class", "regulirovochka")
+    let tdCost = document.createElement("td")
+    let tdMinValue = document.createElement("td")
+    let tdMaxValue = document.createElement("td")
+
+    let countCols = data['event'].length
+    let countRows = data['minimization'].length
+    tdStrategy.setAttribute("rowspan", 1)
+    tdMinValue.setAttribute("rowspan", 1)
+    tdMaxValue.setAttribute("rowspan", 1)
+
+    let textTdStrategy = document.createTextNode("Стратегия")
+    let textTdCost = document.createTextNode("Стоимость альтернативных убытков")
+    let textTdMinValue = document.createTextNode("Минимальное значение (Min)")
+    let textTdMaxValue = document.createTextNode("Максимальное значение (Max)")
+
+    tdStrategy.appendChild(textTdStrategy)
+    tdMinValue.appendChild(textTdMinValue)
+    tdMaxValue.appendChild(textTdMaxValue)
+
+    thHeader.appendChild(tdStrategy)
+
+    let bigTd = document.createElement('td')
+    bigTd.setAttribute('colspan', countCols)
+    bigTd.setAttribute('rowspan', countRows + 2)
+
+    let subMatrixBlock2 = document.createElement('div')
+    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
+    let subMatrix = document.createElement('table')
+    subMatrix.setAttribute("class", "subSubMatrix")
+
+    let th = document.createElement("tr")
+    let td = document.createElement("td")
+    td.setAttribute('colspan', countCols);
+    th.setAttribute('style', 'height: 60px')
+    td.appendChild(textTdCost)
+    th.appendChild(td)
+    subMatrix.appendChild(th)
+
+    th = document.createElement("tr")
+    th.setAttribute('style', 'height: 60px')
+
+    for (let i = 0; i < countCols; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["event"][i][0])
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    subMatrix.appendChild(th)
+    for (let i = 0; i < countRows; i++) {
+        th = document.createElement('tr')
+        for (let j = 0; j < countCols; j++) {
+            text = document.createTextNode(data['rent'] - data["lost"][i][j])
+            td = document.createElement("td")
+            td.appendChild(text)
+            th.appendChild(td)
+        }
+        subMatrix.appendChild(th)
+    }
+    subMatrixBlock2.appendChild(subMatrix)
+    bigTd.appendChild(subMatrixBlock2)
+    thHeader.appendChild(bigTd)
+
+    thHeader.appendChild(tdMinValue)
+    thHeader.appendChild(tdMaxValue)
+
+    table.appendChild(thHeader)
+
+    let height = (41 * countRows + 20) - 41 * (countRows - 1);
+    // Основное заполнение таблицы
+    for (let i = 0; i < countRows; i++) {
+        tr = document.createElement("tr")
+        if (i == data["minimization"].length - 1) {
+            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
+        }
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["minimization"][i][0])
+        td.appendChild(text)
+        tr.appendChild(td)
+        let minValue = 999999999
+        let maxValue = 0
+        for (let j = 0; j < countCols; j++) {
+            text = document.createTextNode(data['rent'] - data["lost"][i][j])
             if (Number(text.textContent) > maxValue)
                 maxValue = Number(text.textContent)
             if (Number(text.textContent) < minValue)
