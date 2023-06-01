@@ -1,6 +1,7 @@
 function consoleTable() {
     let data = {}
     data['base'] = Number(document.getElementById("baseValue").textContent)
+    data['rent'] = Number(document.getElementById("rentValue").textContent)
     tableEntry("tableEvent", "event", data)
     tableEntry("tableMinimization", "minimization", data)
     let table = document.getElementById("tableBodyAltLoss")
@@ -16,7 +17,7 @@ function consoleTable() {
 }
 
 function round(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
 function printTableChooseStrategyByGurvicCriteria(data) {
@@ -177,7 +178,7 @@ function printTableAltLoss(data) {
             td = document.createElement("td")
             td.appendChild(text)
             th.appendChild(td)
-        }    
+        }
         subMatrix.appendChild(th)
     }
     subMatrixBlock2.appendChild(subMatrix)
@@ -283,7 +284,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
         min = -1
         for (let j = 0; j < data["lost"].length; j++) {
             if (data['lost'][j][i] < min || min === -1) {
-                min = data['lost'][j][i]    
+                min = data['lost'][j][i]
             }
         }
         minValues[i] = min
@@ -296,7 +297,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
             td = document.createElement("td")
             td.appendChild(text)
             th.appendChild(td)
-        }  
+        }
         subMatrix.appendChild(th)
     }
     subMatrixBlock2.appendChild(subMatrix)
@@ -580,7 +581,7 @@ function printTableCalculationProfitsBasicCase(data) {
     tdName.appendChild(textName)
     let countColsForLast = data['event'].length
     tdEventLoss.setAttribute("rowspan", 7)
-    
+
     let subMatrixBlock = document.createElement('div')
     subMatrixBlock.setAttribute('class', 'subMatrixBlock')
     let eventsTable = document.createElement('table')
@@ -648,7 +649,7 @@ function printTableCalculationProfitsBasicCase(data) {
     thHeader.appendChild(tdName)
     thHeader.appendChild(tdEventLoss)
 
-    table.appendChild(thHeader)    
+    table.appendChild(thHeader)
 
     //Интесивность
     let tr = document.createElement("tr")
@@ -723,7 +724,7 @@ function tableEntry(nameTable, nameData, data) {
         let cells = currRows[j].getElementsByTagName('td')
 
         for (let k = 0; k < cells.length - 1; k++) {
-            if ((k === 0)  || (nameData === "minimization" && k === 1)) {
+            if ((k === 0) || (nameData === "minimization" && k === 1)) {
                 data[nameData][j][k] = cells[k].textContent
             } else {
                 data[nameData][j][k] = Number(cells[k].textContent)
@@ -847,18 +848,22 @@ function newMinimization() {
 
 function newBase() {
     let inputBase = document.getElementById("inputBase").value
-    if (inputBase === '') {
+    let inputRent = document.getElementById("inputRent").value
+    if (inputBase === '' && inputRent === '') {
         alert("You must write something!");
     } else {
-        if (!isNaN(inputBase)) {
+        if (!isNaN(inputBase) && !isNaN(inputRent)) {
             document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
+            document.getElementById("rentValue").innerText = document.createTextNode(inputRent).nodeValue;
             document.getElementById("forBase").removeAttribute("class");
+            document.getElementById("forRent").removeAttribute("class");
             document.getElementById("addBtnBase").innerText = "Обновить";
         } else {
             alert("Digits please!");
         }
     }
     document.getElementById("inputBase").value = ""
+    document.getElementById("inputRent").value = ""
 }
 
 function creatingTableWithLostProfits(data) {
