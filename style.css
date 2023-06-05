@@ -49,7 +49,7 @@ td {
 
 .content{
     margin:auto;
-    width: 60%;
+    width: 80%;
     padding-bottom: 2%;
     background-color: #e3e3e3f0;
 }
@@ -234,6 +234,7 @@ td {
     border: 0;
     margin: -2px;
     width: 101.5%;
+
 }
 
 #CalculationEconomicEffectsAfterRealizationStrategy{
@@ -247,12 +248,13 @@ td {
 }
 
 .subMatrixBlock{
-    height:auto;
+    height: 100%;
     width: 100%;
     top: 0;
     bottom: 0;
-    position: absolute;
-    width: 30%;
+    /* left: 0; */
+    /* position: absolute; */
+    /* width: 30%; */
     overflow-x: scroll;
     overflow-y: hidden;
     margin-top: 1px;
@@ -283,4 +285,27 @@ td {
 .subMatrix{
     border: 0;
     height:100%;
+}
+
+#tableBodyAltLoss tr td:first-child{
+    width: 10%;
+}
+#tableCalculationParametersStrategicRiskManagementOngoingProject tr td:first-child{
+        width: 10%;
+
+}
+#tableCalculationLostProfitsBasicCase tr td:first-child{
+    width: 10%;
+}
+
+#tableCalculationConditionalBenefits tr td:first-child{
+    width: 10%;
+}
+
+#tableCalculationEconomicEffectsAfterRealizationStrategy tr td:first-child{
+    width: 10%;
+}
+
+#tableResults tr td:first-child{
+    width: 10%;
 }
