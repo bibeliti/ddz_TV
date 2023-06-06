@@ -684,7 +684,7 @@ function printTableCalculationProfitsBasicCase(data) {
     let subMatrixBlock = document.createElement('div')
     subMatrixBlock.setAttribute('class', 'subMatrixBlock3')
     let eventsTable = document.createElement('table')
-    eventsTable.setAttribute("class", "subSubMatrix")
+    eventsTable.setAttribute("class", "firstSubMatrix")
     eventsTable.setAttribute("id", "sorry")
     let textRow = document.createElement('tr')
     let textCell = document.createElement('td')

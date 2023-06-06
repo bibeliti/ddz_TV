@@ -301,7 +301,7 @@ td {
     bottom: 0;
     overflow-x: scroll;
     overflow-y: hidden;
-    /* margin-top: 2px; */
+    /* margin-top: -4px; */
 }
 
 .subMatrixBlock2::-webkit-scrollbar {
@@ -357,11 +357,6 @@ td {
 .firstSubMatrix td{
     width:auto;
     min-width:50px;
-}
-.firstSubMatrix td:last-child{
-    width:auto;
-    min-width:50px;
-    height:43px;
 }
 .revenge{
    width: 33%;
