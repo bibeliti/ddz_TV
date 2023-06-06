@@ -28,7 +28,7 @@ table {
     background: antiquewhite;
     font-size: 18px;
     transition: 0.2s;
-    border: 2px solid;
+    border: 2px solid !important;
     width: 100%;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -41,8 +41,8 @@ table {
 td {
     background: white;
     text-align: left;
-    width: 35%;
-    height: 41px;
+    min-width: 35%;
+    height: 42px;
     border: 1px solid black;
     text-align: center;
     padding: 0px;
@@ -140,7 +140,7 @@ td {
 }
 
 .regulirovochka {
-    height: 120px
+    height: 119px;
 }
 
 #divEventTable {
@@ -241,8 +241,6 @@ td {
 
 
 .subSubMatrix tr td:first-child{
-   width:35% !important;
-
 }
 
 
@@ -314,16 +312,16 @@ td {
 
 .perebivka {
     height: 71px !important;
+    border-top: 2px solid black;
 }
 
 .param {
-    height: 83px;
+    height: 84px;
 }
 
-
+/* 
 #tableCalculationParametersStrategicRiskManagementOngoingProject tr td:first-child{
         width: 10%;
-
 }
 #tableCalculationLostProfitsBasicCase tr td:first-child{
     width: 10%;
@@ -336,14 +334,16 @@ td {
 #tableCalculationEconomicEffectsAfterRealizationStrategy tr td:first-child{
     width: 10%;
 }
-#matrixAlternativeLosses tr td:first-child{
-    width: 10%;
-}
+#matrixAlternativeLosses td:first-child{
+    /* width: 10%; */
+
 
 #tableResults tr td:first-child{
     width: 10%;
+} */
+.firstSubMatrix tr td:last-child{
+    height:43px;
 }
-
 #calculationConditionalBenefits {
     margin-right: 5%;
     margin-left: 5%;
@@ -360,4 +360,15 @@ td {
 }
 .revenge{
    width: 33%;
+}
+#tableBodyAltLoss td{
+   vertical-align:middle;
+   text-align:center;
+}
+.subMatrixBlock3{
+   vertical-align:top;
+}
+
+.firstColumn {
+   width:10% !important;
 }
