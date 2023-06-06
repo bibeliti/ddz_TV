@@ -191,13 +191,9 @@ function printTableAltLoss(data) {
 
     table.appendChild(thHeader)
 
-    let height = (41 * countRows + 20) - 41 * (countRows - 1);
     // Основное заполнение таблицы
     for (let i = 0; i < countRows; i++) {
         tr = document.createElement("tr")
-        if (i == data["minimization"].length - 1) {
-            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
-        }
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
         td.appendChild(text)
@@ -301,13 +297,9 @@ function printTableConditionalBenefits(data) {
 
     table.appendChild(thHeader)
 
-    let height = (41 * countRows + 20) - 41 * (countRows - 1);
     // Основное заполнение таблицы
     for (let i = 0; i < countRows; i++) {
         tr = document.createElement("tr")
-        if (i == data["minimization"].length - 1) {
-            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
-        }
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
         td.appendChild(text)
@@ -421,13 +413,9 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
 
     let tr
 
-    let height = (41 * countRows + 20) - 41 * (countRows - 1);
     // Основное заполнение таблицы
     for (let i = 0; i < data["minimization"].length; i++) {
         tr = document.createElement("tr")
-        if (i == data["minimization"].length - 1) {
-            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
-        }
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
         td.appendChild(text)
@@ -475,7 +463,7 @@ function printTableForRiskManagerStrategy(data) {
     let block = document.createElement('div')
     block.setAttribute('class', 'subMatrixBlock')
     let eventsTable = document.createElement('table')
-    eventsTable.setAttribute('class', 'subMatrix')
+    eventsTable.setAttribute('class', 'subSubMatrix')
     let textRow = document.createElement('tr')
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
@@ -694,9 +682,10 @@ function printTableCalculationProfitsBasicCase(data) {
     tdEventLoss.setAttribute("rowspan", 7)
 
     let subMatrixBlock = document.createElement('div')
-    subMatrixBlock.setAttribute('class', 'subMatrixBlock')
+    subMatrixBlock.setAttribute('class', 'subMatrixBlock3')
     let eventsTable = document.createElement('table')
-    eventsTable.setAttribute("class", "subMatrix")
+    eventsTable.setAttribute("class", "subSubMatrix")
+    eventsTable.setAttribute("id", "sorry")
     let textRow = document.createElement('tr')
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
