@@ -35,6 +35,7 @@ function printTableCalculationEstimatedCharacteristics(data) {
 
     let thHeader = document.createElement('tr')
     let tdStrategy = document.createElement("td")
+    tdStrategy.setAttribute("id", "headerOfTable")
     thHeader.setAttribute("class", "regulirovochka")
 
     let countCols = data['event'].length
@@ -62,6 +63,7 @@ function printTableCalculationEstimatedCharacteristics(data) {
     td.setAttribute('colspan', 4);
     th.setAttribute('style', 'height: 60px')
     td.appendChild(textTdCost)
+    td.setAttribute("id", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 

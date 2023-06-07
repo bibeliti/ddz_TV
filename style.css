@@ -394,6 +394,16 @@ tr:nth-child(2n) td {
     background-color: #fff;
 } 
 
+#tableCalculationEstimatedCharacteristics .subMatrixBlock2 {
+    height: 100.5%;
+    margin-bottom: -2px;
+ }
+
+#CalculationEstimatedCharacteristics {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
 .subSubMatrix tr:nth-child(2n) td {
     background-color: #fff;
 } 
