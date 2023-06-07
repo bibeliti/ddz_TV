@@ -1,7 +1,7 @@
 * {
     @font-face {
-        font-family: Jura; /* Ð“Ð°Ñ€Ð½Ð¸Ñ‚ÑƒÑ€Ð° ÑˆÑ€Ð¸Ñ„Ñ‚Ð° */
-        src: url(font/Jura-Regular.ttf); /* ÐŸÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ ÑÐ¾ ÑˆÑ€Ð¸Ñ„Ñ‚Ð¾Ð¼ */
+    font-family: Jura;
+    src: url(font/Jura-Regular.ttf);
     }
     font-family: "Jura-Regular",sans-serif;
     box-sizing: border-box;
@@ -28,7 +28,7 @@ table {
     background: antiquewhite;
     font-size: 18px;
     transition: 0.2s;
-    border: 2px solid;
+    border: 2px solid !important;
     width: 100%;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -41,15 +41,16 @@ table {
 td {
     background: white;
     text-align: left;
-    width: 35%;
-    height: 41px;
+    min-width: 35%;
+    height: 42px;
     border: 1px solid black;
     text-align: center;
+    padding: 0px;
 }
 
 .content{
     margin:auto;
-    width: 60%;
+    width: 80%;
     padding-bottom: 2%;
     background-color: #e3e3e3f0;
 }
@@ -139,7 +140,7 @@ td {
 }
 
 .regulirovochka {
-    height: 120px
+    height: 119px;
 }
 
 #divEventTable {
@@ -153,6 +154,11 @@ td {
 
 .displayNone {
     display: none;
+}
+
+#headerOfTable {
+    background-color: #4c75a3 !important;
+    color: #fff;
 }
 
 #forBase p, #forRent p {
@@ -231,9 +237,20 @@ td {
 }
 
 .subSubMatrix{
-    border: 0;
-    margin: -2px;
-    width: 101.5%;
+  border: 0;
+  margin: -1px;
+  width: 101.5%;
+  height: 100%;
+}
+
+
+
+.subSubMatrix tr td:first-child{
+}
+
+
+#sorry{
+    /* bottom: -2.15px; */
 }
 
 #CalculationEconomicEffectsAfterRealizationStrategy{
@@ -246,26 +263,52 @@ td {
     margin-left:5%;
 }
 
-.subMatrixBlock{
-    height:auto;
-    width: 100%;
+.subMatrixBlock3 {
+    scrollbar-width: none;
+    height: 100%;
     top: 0;
     bottom: 0;
-    position: absolute;
-    width: 30%;
     overflow-x: scroll;
     overflow-y: hidden;
-    margin-top: 1px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+.subMatrixBlock3::-webkit-scrollbar {
+    display: none;
+}
+.subMatrixBlock{
+   scrollbar-width: none;
+   height: 100%;
+   top: 0;
+   bottom: 0;
+   /* left: 0; */
+   /* position: absolute; */
+   /* width: 30%; */
+   overflow-x: scroll;
+   overflow-y: hidden;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   padding: 0px;
+}
+
+.subMatrixBlock::-webkit-scrollbar {
+    display: none;
 }
 
 .subMatrixBlock2{
+    scrollbar-width: none;
     height: auto;
     width: 100%;
     top: 0;
     bottom: 0;
     overflow-x: scroll;
     overflow-y: hidden;
-    margin-top: -4px;
+    /* margin-top: -4px; */
+}
+
+.subMatrixBlock2::-webkit-scrollbar {
+    display: none;
 }
 
 #tableCalculationParametersStrategicRiskManagementOngoingProject td {
@@ -274,13 +317,91 @@ td {
 
 .perebivka {
     height: 71px !important;
+    border-top: 2px solid black;
 }
 
 .param {
-    height: 90px;
+    height: 84px;
 }
 
-.subMatrix{
-    border: 0;
-    height:100%;
+/* 
+#tableCalculationParametersStrategicRiskManagementOngoingProject tr td:first-child{
+        width: 10%;
 }
+#tableCalculationLostProfitsBasicCase tr td:first-child{
+    width: 10%;
+}
+
+#tableCalculationConditionalBenefits tr td:first-child{
+    width: 10%;
+}
+
+#tableCalculationEconomicEffectsAfterRealizationStrategy tr td:first-child{
+    width: 10%;
+}
+#matrixAlternativeLosses td:first-child{
+    /* width: 10%; */
+
+
+#tableResults tr td:first-child{
+    width: 10%;
+} */
+.firstSubMatrix tr td:last-child{
+    height:43px;
+}
+#calculationConditionalBenefits {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+.firstSubMatrix{
+    border: 0;
+    margin: -2px;
+    width: 101.5%;
+    height: 100%;
+}
+.firstSubMatrix td{
+    width:auto;
+    min-width:50px;
+}
+.revenge{
+   width: 33%;
+}
+#tableBodyAltLoss td{
+   vertical-align:middle;
+   text-align:center;
+}
+.subMatrixBlock3{
+   vertical-align:top;
+}
+
+.firstColumn {
+   width:10% !important;
+}
+
+tr:nth-child(2n) td {
+    background-color: #c7dff3;
+} 
+
+.subSubMatrix tr:nth-child(2n + 1) td {
+    background-color: #c7dff3;
+} 
+
+#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n) td {
+    background-color: #c7dff3;
+}
+
+#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n + 1) td {
+    background-color: #fff;
+} 
+
+.subSubMatrix tr:nth-child(2n) td {
+    background-color: #fff;
+} 
+
+.firstSubMatrix tr:nth-child(2n + 1) td {
+    background-color: #c7dff3;
+} 
+
+.firstSubMatrix tr:nth-child(2n) td {
+    background-color: #fff;
+} 
