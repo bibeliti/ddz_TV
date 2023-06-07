@@ -2,6 +2,13 @@ function consoleTable() {
     let data = {}
     data['base'] = Number(document.getElementById("baseValue").textContent)
     data['rent'] = Number(document.getElementById("rentValue").textContent)
+    let koef = []
+    koef[0] = 0.5
+    koef[1] = 0.7
+    koef[2] = 0.8
+    koef[3] = 0.9
+    data['koef'] = koef
+
     tableEntry("tableEvent", "event", data)
     tableEntry("tableMinimization", "minimization", data)
     let table = document.getElementById("tableBodyAltLoss")
@@ -12,6 +19,7 @@ function consoleTable() {
     printTableAltLoss(data)
     printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
+    printTableCalculationEstimatedCharacteristics(data)
     printTableChooseStrategyBySavageCriteria(data)
     printTableChooseStrategyByValdCriteria(data)
     printTableChooseStrategyByGurvicCriteria(data)
@@ -21,29 +29,156 @@ function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
+function printTableCalculationEstimatedCharacteristics(data) {
+    let table = document.getElementById("tableCalculationEstimatedCharacteristics")
+    document.getElementById("CalculationEstimatedCharacteristics").removeAttribute("class")
+
+    let thHeader = document.createElement('tr')
+    let tdStrategy = document.createElement("td")
+    thHeader.setAttribute("class", "regulirovochka")
+
+    let countCols = data['event'].length
+    let countRows = data['minimization'].length
+    tdStrategy.setAttribute("rowspan", 1)
+
+    let textTdStrategy = document.createTextNode("Стратегия")
+    let textTdCost = document.createTextNode("Оценки по критерию Гурвица")
+
+    tdStrategy.appendChild(textTdStrategy)
+
+    thHeader.appendChild(tdStrategy)
+
+    let bigTd = document.createElement('td')
+    bigTd.setAttribute('colspan', countCols)
+    bigTd.setAttribute('rowspan', countRows + 2)
+
+    let subMatrixBlock2 = document.createElement('div')
+    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
+    let subMatrix = document.createElement('table')
+    subMatrix.setAttribute("class", "subSubMatrix")
+
+    let th = document.createElement("tr")
+    let td = document.createElement("td")
+    td.setAttribute('colspan', 4);
+    th.setAttribute('style', 'height: 60px')
+    td.appendChild(textTdCost)
+    th.appendChild(td)
+    subMatrix.appendChild(th)
+
+    th = document.createElement("tr")
+    th.setAttribute('style', 'height: 60px')
+
+    for (let i = 0; i < data['koef'].length; i++) {
+        td = document.createElement("td")
+        let text = document.createTextNode('x' + String(i + 1) +  '='  + String(data['koef'][i]))
+        td.appendChild(text)
+        th.appendChild(td)
+    }
+    subMatrix.appendChild(th)
+
+    let maxs = document.getElementsByClassName('maximum')
+    let mins = document.getElementsByClassName('minimum')
+
+    for (let i = 0; i < countRows; i++) {
+        th = document.createElement('tr')
+        for (let j = 0; j < data['koef'].length; j++) {
+            let value = Number(mins[i].textContent) * data['koef'][j] + Number(maxs[i].textContent) * (1 - data['koef'][j])
+            text = document.createTextNode(round(value, 2))
+            td = document.createElement("td")
+            td.appendChild(text)
+            td.setAttribute('class', 'Gurvic')
+            th.appendChild(td)
+        }
+        subMatrix.appendChild(th)
+    }
+    subMatrixBlock2.appendChild(subMatrix)
+    bigTd.appendChild(subMatrixBlock2)
+    thHeader.appendChild(bigTd)
+
+    table.appendChild(thHeader)
+
+    let tr
+
+    let height = (41 * countRows + 20) - 41 * (countRows - 1);
+    // Основное заполнение таблицы
+    for (let i = 0; i < data["minimization"].length; i++) {
+        tr = document.createElement("tr")
+        if (i == data["minimization"].length - 1) {
+            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
+        }
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["minimization"][i][0])
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        table.appendChild(tr)
+    }
+}
+
 function printTableChooseStrategyByGurvicCriteria(data) {
+    let gurvic = document.getElementsByClassName('Gurvic')
+
+    let max1 = 0
+    let gur1 = 0
+    for (let i = 0; i < data['minimization'].length; i++) {
+        console.log(Number(gurvic[4 * i].textContent) )
+        if (Number(gurvic[4 * i].textContent) > max1) {
+            max1 = Number(gurvic[4 * i].textContent) 
+            gur1 = i
+        }
+    }
+
+    let max2 = 0
+    let gur2 = 0
+    for (let i = 0; i < data['minimization'].length; i++) {
+        console.log(Number(gurvic[4 * i + 3].textContent) )
+        if (Number(gurvic[4 * i].textContent) > max2) {
+            max2 = Number(gurvic[4 * i + 3].textContent) 
+            gur2 = i
+        }
+    }
+
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
 
-    let trGurvic = document.createElement('tr')
+    let trGurvic1 = document.createElement('tr')
 
-    let num = document.createElement('td')
-    let criteria = document.createElement('td')
-    let strategy = document.createElement('td')
+    let num1 = document.createElement('td')
+    let criteria1 = document.createElement('td')
+    let strategy1 = document.createElement('td')
 
-    let number = document.createTextNode('3')
-    let criteriaName = document.createTextNode('Критерий Гурвица')
-    let strategyText = document.createTextNode('Challenge accepted')
+    let number1 = document.createTextNode('3')
+    let criteriaName1 = document.createTextNode('Критерий Гурвица (для оптимистичных и средних оценок)')
+    let strategyText1 = document.createTextNode(data['minimization'][gur1][0])
 
-    num.appendChild(number)
-    criteria.appendChild(criteriaName)
-    strategy.appendChild(strategyText)
+    num1.appendChild(number1)
+    criteria1.appendChild(criteriaName1)
+    strategy1.appendChild(strategyText1)
 
-    trGurvic.appendChild(num)
-    trGurvic.appendChild(criteria)
-    trGurvic.appendChild(strategy)
+    trGurvic1.appendChild(num1)
+    trGurvic1.appendChild(criteria1)
+    trGurvic1.appendChild(strategy1)
 
-    table.appendChild(trGurvic)
+    let trGurvic2 = document.createElement('tr')
+
+    let num2 = document.createElement('td')
+    let criteria2 = document.createElement('td')
+    let strategy2 = document.createElement('td')
+
+    let number2 = document.createTextNode(' ')
+    let criteriaName2 = document.createTextNode('Критерий Гурвица (для пессимистической оценки)')
+    let strategyText2 = document.createTextNode(data['minimization'][gur2][0])
+
+    num2.appendChild(number2)
+    criteria2.appendChild(criteriaName2)
+    strategy2.appendChild(strategyText2)
+
+    trGurvic2.appendChild(num2)
+    trGurvic2.appendChild(criteria2)
+    trGurvic2.appendChild(strategy2)
+
+    table.appendChild(trGurvic1)
+    table.appendChild(trGurvic2)
 }
 
 function printTableChooseStrategyByValdCriteria(data) {
@@ -122,6 +257,7 @@ function printTableChooseStrategyByValdCriteria(data) {
 
     let strategyName = document.createTextNode(strategyText)
 
+    console.log('Vald ' + strategyText)
     num.appendChild(number)
     criteria.appendChild(criteriaName)
     strategy.appendChild(strategyName)
@@ -388,12 +524,14 @@ function printTableConditionalBenefits(data) {
         td = document.createElement("td")
         text = document.createTextNode(minValue)
         td.appendChild(text)
+        td.setAttribute('class', 'minimum')
         tr.appendChild(td)
 
         // Максимальное в строке
         td = document.createElement("td")
         text = document.createTextNode(maxValue)
         td.appendChild(text)
+        td.setAttribute('class', 'maximum')
         tr.appendChild(td)
         table.appendChild(tr)
     }
@@ -406,7 +544,6 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     let thHeader = document.createElement('tr')
     let tdStrategy = document.createElement("td")
     thHeader.setAttribute("class", "regulirovochka")
-    let tdCost = document.createElement("td")
     let tdMaxValue = document.createElement("td")
 
     let countCols = data['event'].length
