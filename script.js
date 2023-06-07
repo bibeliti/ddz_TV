@@ -127,6 +127,9 @@ function printTableAltLoss(data) {
     let tdCost = document.createElement("td")
     let tdMinValue = document.createElement("td")
     let tdMaxValue = document.createElement("td")
+    tdStrategy.setAttribute("id", "headerOfTable")
+    tdMinValue.setAttribute("id", "headerOfTable")
+    tdMaxValue.setAttribute("id", "headerOfTable")
 
     let countCols = data['event'].length
     let countRows = data['minimization'].length
@@ -159,6 +162,7 @@ function printTableAltLoss(data) {
     td.setAttribute('colspan', countCols);
     th.setAttribute('style', 'height: 60px')
     td.appendChild(textTdCost)
+    td.setAttribute("id", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 
@@ -233,6 +237,9 @@ function printTableConditionalBenefits(data) {
     let tdCost = document.createElement("td")
     let tdMinValue = document.createElement("td")
     let tdMaxValue = document.createElement("td")
+    tdStrategy.setAttribute("id", "headerOfTable")
+    tdMinValue.setAttribute("id", "headerOfTable")
+    tdMaxValue.setAttribute("id", "headerOfTable")
 
     let countCols = data['event'].length
     let countRows = data['minimization'].length
@@ -265,6 +272,7 @@ function printTableConditionalBenefits(data) {
     td.setAttribute('colspan', countCols);
     th.setAttribute('style', 'height: 60px')
     td.appendChild(textTdCost)
+    td.setAttribute("id", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 
@@ -335,9 +343,11 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     // Шапка таблицы
     let thHeader = document.createElement('tr')
     let tdStrategy = document.createElement("td")
+    tdStrategy.setAttribute("id", "headerOfTable")
     thHeader.setAttribute("class", "regulirovochka")
     let tdCost = document.createElement("td")
     let tdMaxValue = document.createElement("td")
+    tdMaxValue.setAttribute("id", "headerOfTable")
 
     let countCols = data['event'].length
     let countRows = data['minimization'].length
@@ -367,6 +377,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     td.setAttribute('colspan', countCols);
     th.setAttribute('style', 'height: 60px')
     td.appendChild(textTdCost)
+    td.setAttribute("id", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 
@@ -445,7 +456,8 @@ function printTableForRiskManagerStrategy(data) {
     let tdNumber = document.createElement("td")
     let tdName = document.createElement("td")
     let tdEventLoss = document.createElement("td")
-    tdEventLoss.setAttribute("class", "revenge")
+    tdName.setAttribute("id", "headerOfTable")
+    tdNumber.setAttribute("id", "headerOfTable")
 
     let textNumber = document.createTextNode("№")
     let textName = document.createTextNode("Имя параметра")
@@ -468,6 +480,7 @@ function printTableForRiskManagerStrategy(data) {
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
     textCell.appendChild(textEventLoss)
+    textCell.setAttribute("id", "headerOfTable")
     textCell.setAttribute('class', 'perebivka')
     textRow.appendChild(textCell)
     eventsTable.appendChild(textRow)
@@ -672,6 +685,9 @@ function printTableCalculationProfitsBasicCase(data) {
     tdName.setAttribute("class", "param")
     let tdEventLoss = document.createElement("td")
 
+    tdNumber.setAttribute("id", "headerOfTable")
+    tdName.setAttribute("id", "headerOfTable")
+
     let textNumber = document.createTextNode("№")
     let textName = document.createTextNode("Имя параметра")
     let textEventLoss = document.createTextNode("События, провоцирующие возникновение риска")
@@ -690,6 +706,7 @@ function printTableCalculationProfitsBasicCase(data) {
     let textCell = document.createElement('td')
     textCell.setAttribute('colspan', countColsForLast)
     textCell.appendChild(textEventLoss)
+    textCell.setAttribute("id", "headerOfTable")
     textRow.appendChild(textCell)
     eventsTable.appendChild(textRow)
     let th = document.createElement('tr')
@@ -870,13 +887,13 @@ function newEvent() {
     tr.appendChild(intensive)
     tr.appendChild(probability)
     if (inputEventName === '' || inputEventIntensity === '' || inputEventProbability === '') {
-        alert("You must write something!")
+        alert("Необходимо заполнить все поля!")
     } else {
-        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && (0 <= inputEventProbability) && (inputEventProbability <= 100)) {
+        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && (0 <= inputEventProbability) && (inputEventProbability <= 1) && (Number(inputEventIntensity) * Number(inputEventProbability) <= 1)) {
             document.getElementById("tableEvent").appendChild(tr)
             document.getElementById("tableEvent").removeAttribute("class")
         } else {
-            alert("Digit please!");
+            alert("Введите корректные данные!");
         }
     }
     document.getElementById("inputEventName").value = ""
@@ -906,7 +923,7 @@ function createCloseButton(tr) {
     }
 }
 
-function newMinimization() {
+function newMinimization(data) {
     let tr = document.createElement("tr")
     let inputNameMinimization = document.getElementById("inputNameMinimization").value
     let inputRiskStrategy = document.getElementById("inputWhatEventThisStrategy").value
@@ -929,15 +946,15 @@ function newMinimization() {
     tr.appendChild(cost)
     tr.appendChild(powerAffect)
     if (inputRiskStrategy === 'Выбор события') {
-        alert('Select any event!')
+        alert('Выберите событие!')
     } else if (inputNameMinimization === '' || inputCostMinimization === '' || inputPowerAffect === '') {
-        alert("You must write something!")
+        alert("Необходимо заполнить все поля!")
     } else {
-        if (!isNaN(inputCostMinimization) || !isNaN(inputPowerAffect)) {
+        if (!isNaN(inputCostMinimization) && !isNaN(inputPowerAffect) && Number(inputCostMinimization) <= Number(document.getElementById("baseValue").textContent)) {
             document.getElementById("tableMinimization").appendChild(tr);
             document.getElementById("tableMinimization").removeAttribute("class");
         } else {
-            alert("Digits please!");
+            alert("Введите корректные данные!");
         }
     }
     document.getElementById("inputNameMinimization").value = ""
@@ -950,16 +967,16 @@ function newBase() {
     let inputBase = document.getElementById("inputBase").value
     let inputRent = document.getElementById("inputRent").value
     if (inputBase === '' && inputRent === '') {
-        alert("You must write something!");
+        alert("Необходимо заполнить все поля!");
     } else {
-        if (!isNaN(inputBase) && !isNaN(inputRent)) {
+        if (!isNaN(inputBase) && !isNaN(inputRent) && (Number(inputRent) <= Number(inputBase))) {
             document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
             document.getElementById("rentValue").innerText = document.createTextNode(inputRent).nodeValue;
             document.getElementById("forBase").removeAttribute("class");
             document.getElementById("forRent").removeAttribute("class");
             document.getElementById("addBtnBase").innerText = "Обновить";
         } else {
-            alert("Digits please!");
+            alert("Введите корректные данные!");
         }
     }
     document.getElementById("inputBase").value = ""
