@@ -21,6 +21,10 @@ h1 {
     padding-top: 15px;
 }
 
+.tdImportantToResult {
+    background-color: green;
+}
+
 table {
     cursor: pointer;
     position: relative;
