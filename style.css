@@ -7,6 +7,18 @@
     box-sizing: border-box;
 }
 
+#autoFilling {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#autoFilling img {
+    width: 300px;
+    height: 200px;
+}
+
 .risksTable {
     padding: 50px 0;
     margin: 50px 0;

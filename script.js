@@ -25,6 +25,46 @@ function consoleTable() {
     printTableChooseStrategyByGurvicCriteria(data)
 }
 
+function autoFilling() {
+    let Jopka = document.getElementById("Jopka")
+    Jopka.setAttribute('onclick', "")
+    let data = {}
+    data['base'] = Number(60823)
+    data['rent'] = Number(30289)
+    data['event'] = [
+        ['e1', 5, 0.008],
+        ['e2', 2, 0.02],
+        ['e3', 3, 0.015],
+        ['e4', 2, 0.0125]
+    ]
+    data['minimization'] = [
+        ['s1', 'e1', 5250, 0.875],
+        ['s2', 'e2', 9860, 0.75],
+        ['s3', 'e3', 4130, 0.666],
+        ['s4', 'e4', 3950, 0.8]
+    ]
+
+    let koef = []
+    koef[0] = 0.5
+    koef[1] = 0.7
+    koef[2] = 0.8
+    koef[3] = 0.9
+    data['koef'] = koef
+
+    let table = document.getElementById("tableBodyAltLoss")
+    table.innerHTML = '';
+    console.log(data)
+    printTableCalculationProfitsBasicCase(data)
+    printTableForRiskManagerStrategy(data)
+    printTableAltLoss(data)
+    printTableConditionalBenefits(data)
+    printTableEconomicEffectsAfterRealizationStrategy(data)
+    printTableCalculationEstimatedCharacteristics(data)
+    printTableChooseStrategyBySavageCriteria(data)
+    printTableChooseStrategyByValdCriteria(data)
+    printTableChooseStrategyByGurvicCriteria(data)
+}
+
 function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
