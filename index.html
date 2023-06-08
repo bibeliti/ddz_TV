@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ddz_TV</title>
+    <title>Управление рисками</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="script.js"></script>
 </head>
 <body>
-<div class="content">
+<div id="content">
     <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
 
-    <span" id="autoFilling"><img id="Jopka" onclick="autoFilling()" src="Жопка.gif" alt="жопка"></span>
+    <span id="autoFilling"><img id="Jopka" onclick="autoFilling()" src="Жопка.gif" alt="жопка"></span>
 
     <div class="formInput">
         <div id="idForBase">
@@ -58,7 +58,7 @@
                    placeholder="Как сильно влияет на вероятность наступления события">
             <span onclick="newMinimization()" class="addBtn addDown">Добавить</span>
         </div>
-        <div class="risksTable">
+        <div id="risksTable">
             <table id="tableMinimization" class="displayNone"></table>
         </div>
     </div>
@@ -68,21 +68,20 @@
         <input type="submit" id="inputCalculate" name="calculate" value="Вывести все таблицы"
                onclick="consoleTable()"/>
     </div>
-    <!-- расчет упущенной выгоды при реализации проекта базовый случай -->
 
+    <!-- расчет упущенной выгоды при реализации проекта базовый случай -->
     <div id="matrixAlternativeLosses" class="displayNone">
         <h4>Параметры событий</h4>
         <table id="tableBodyAltLoss"></table>
     </div>
-    <!-- расчет параметров для стратегии управления рисками реализуемого проекта -->
 
+    <!-- расчет параметров для стратегии управления рисками реализуемого проекта -->
     <div id="calculationParametersStrategicRiskManagementOngoingProject" class="displayNone">
         <h4>Описание стратегий управления рисками проекта </h4>
         <table id="tableCalculationParametersStrategicRiskManagementOngoingProject"></table>
     </div>
 
     <!-- расчет упущенной выгоды базовый случай -->
-
     <div id="calculationLostProfitsBasicCase" class="displayNone">
         <h4>Матрица альтернативных потерь участников проекта</h4>
         <table id="tableCalculationLostProfitsBasicCase"></table>
@@ -95,14 +94,13 @@
     </div>
 
     <!-- показывает экономические последствия после реализации стратегии -->
-
-    <div id="CalculationEconomicEffectsAfterRealizationStrategy" class="displayNone">
+    <div id="calculationEconomicEffectsAfterRealizationStrategy" class="displayNone">
         <h4>Матрица экономических последствий проектных рисков при реализации стратегий управления рисками</h4>
         <table id="tableCalculationEconomicEffectsAfterRealizationStrategy"></table>
     </div>
-    <!-- таблица оценочных характеристик для критерия Гурвица -->
 
-    <div id="CalculationEstimatedCharacteristics" class="displayNone">
+    <!-- таблица оценочных характеристик для критерия Гурвица -->
+    <div id="calculationEstimatedCharacteristics" class="displayNone">
         <h4>Матрица оценочных характеристик для критерия Гурвица</h4>
         <table id="tableCalculationEstimatedCharacteristics"></table>
     </div>
@@ -112,9 +110,9 @@
         <h4>Результат</h4>
         <table id="tableResults">
             <tr>
-                <td id="headerOfTable">№</td>
-                <td id="headerOfTable">Критерий выбора стратегии</td>
-                <td id="headerOfTable">Рекомендуемая стратегия</td>
+                <td class="headerOfTable">№</td>
+                <td class="headerOfTable">Критерий выбора стратегии</td>
+                <td class="headerOfTable">Рекомендуемая стратегия</td>
             </tr>
         </table>
     </div>

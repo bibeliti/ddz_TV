@@ -1,18 +1,20 @@
 function consoleTable() {
     let data = {}
-    data['base'] = Number(document.getElementById("baseValue").textContent)
-    data['rent'] = Number(document.getElementById("rentValue").textContent)
+    data["base"] = Number(document.getElementById("baseValue").textContent)
+    data["rent"] = Number(document.getElementById("rentValue").textContent)
     let koef = []
     koef[0] = 0.5
     koef[1] = 0.7
     koef[2] = 0.8
     koef[3] = 0.9
-    data['koef'] = koef
+    data["koef"] = koef
+
+    document.getElementById("inputCalculate").setAttribute("class", "disable")
 
     tableEntry("tableEvent", "event", data)
     tableEntry("tableMinimization", "minimization", data)
     let table = document.getElementById("tableBodyAltLoss")
-    table.innerHTML = '';
+    table.innerHTML = "";
     console.log(data)
     printTableCalculationProfitsBasicCase(data)
     printTableForRiskManagerStrategy(data)
@@ -66,132 +68,130 @@ function autoFilling() {
 }
 
 function round(value, decimals) {
-    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+    return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
 function printTableCalculationEstimatedCharacteristics(data) {
-    let table = document.getElementById("tableCalculationEstimatedCharacteristics")
-    document.getElementById("CalculationEstimatedCharacteristics").removeAttribute("class")
+    const table = document.getElementById("tableCalculationEstimatedCharacteristics");
+    document.getElementById("calculationEstimatedCharacteristics").classList.remove("class");
 
-    let thHeader = document.createElement('tr')
-    let tdStrategy = document.createElement("td")
-    tdStrategy.setAttribute("id", "headerOfTable")
-    thHeader.setAttribute("class", "regulirovochka")
+    const thHeader = document.createElement("tr");
+    const tdStrategy = document.createElement("td");
+    tdStrategy.classList.add("headerOfTable");
+    thHeader.classList.add("setHeight");
 
-    let countCols = data['event'].length
-    let countRows = data['minimization'].length
-    tdStrategy.setAttribute("rowspan", 1)
+    const countCols = data.event.length;
+    const countRows = data.minimization.length;
+    tdStrategy.setAttribute("rowspan", 1);
 
-    let textTdStrategy = document.createTextNode("Стратегия")
-    let textTdCost = document.createTextNode("Оценки по критерию Гурвица")
+    const textTdStrategy = document.createTextNode("Стратегия");
+    const textTdCost = document.createTextNode("Оценки по критерию Гурвица");
 
-    tdStrategy.appendChild(textTdStrategy)
+    tdStrategy.appendChild(textTdStrategy);
+    thHeader.appendChild(tdStrategy);
 
-    thHeader.appendChild(tdStrategy)
+    const bigTd = document.createElement("td");
+    bigTd.setAttribute("colspan", 4);
+    bigTd.setAttribute("rowspan", countRows + 2);
 
-    let bigTd = document.createElement('td')
-    bigTd.setAttribute('colspan', 4)
-    bigTd.setAttribute('rowspan', countRows + 2)
+    const subMatrixBlock2 = document.createElement("div");
+    subMatrixBlock2.classList.add("subMatrixBlock2");
+    const subMatrix = document.createElement("table");
+    subMatrix.classList.add("SubMatrix");
 
-    let subMatrixBlock2 = document.createElement('div')
-    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
-    let subMatrix = document.createElement('table')
-    subMatrix.setAttribute("class", "SubMatrix")
+    let th = document.createElement("tr");
+    let td = document.createElement("td");
+    td.setAttribute("colspan", 4);
+    th.setAttribute("style", "height: 60px");
+    td.appendChild(textTdCost);
+    td.classList.add("headerOfTable");
+    th.appendChild(td);
+    subMatrix.appendChild(th);
 
-    let th = document.createElement("tr")
-    let td = document.createElement("td")
-    td.setAttribute('colspan', 4);
-    th.setAttribute('style', 'height: 60px')
-    td.appendChild(textTdCost)
-    td.setAttribute("id", "headerOfTable")
-    th.appendChild(td)
-    subMatrix.appendChild(th)
+    th = document.createElement("tr");
+    th.setAttribute("style", "height: 60px");
 
-    th = document.createElement("tr")
-    th.setAttribute('style', 'height: 60px')
-
-    for (let i = 0; i < data['koef'].length; i++) {
-        td = document.createElement("td")
-        let text = document.createTextNode('x' + String(i + 1) +  '='  + String(data['koef'][i]))
-        td.appendChild(text)
-        th.appendChild(td)
+    for (let i = 0; i < data.koef.length; i++) {
+        td = document.createElement("td");
+        let text = document.createTextNode("x" + (i + 1) + "=" + data.koef[i]);
+        td.appendChild(text);
+        th.appendChild(td);
     }
-    subMatrix.appendChild(th)
+    subMatrix.appendChild(th);
 
-    let maxs = document.getElementsByClassName('maximum')
-    let mins = document.getElementsByClassName('minimum')
+    const maxs = document.querySelectorAll(".maximum");
+    const mins = document.querySelectorAll(".minimum");
 
     for (let i = 0; i < countRows; i++) {
-        th = document.createElement('tr')
-        for (let j = 0; j < data['koef'].length; j++) {
-            let value = Number(mins[i].textContent) * data['koef'][j] + Number(maxs[i].textContent) * (1 - data['koef'][j])
-            text = document.createTextNode(round(value, 2))
-            td = document.createElement("td")
-            td.appendChild(text)
-            td.setAttribute('class', 'Gurvic')
-            th.appendChild(td)
+        th = document.createElement("tr");
+        for (let j = 0; j < data.koef.length; j++) {
+            const value = Number(mins[i].textContent) * data.koef[j] + Number(maxs[i].textContent) * (1 - data.koef[j]);
+            text = document.createTextNode(round(value, 2));
+            td = document.createElement("td");
+            td.appendChild(text);
+            td.classList.add("Gurvic");
+            th.appendChild(td);
         }
-        subMatrix.appendChild(th)
+        subMatrix.appendChild(th);
     }
-    subMatrixBlock2.appendChild(subMatrix)
-    bigTd.appendChild(subMatrixBlock2)
-    thHeader.appendChild(bigTd)
+    subMatrixBlock2.appendChild(subMatrix);
+    bigTd.appendChild(subMatrixBlock2);
+    thHeader.appendChild(bigTd);
+    table.appendChild(thHeader);
 
-    table.appendChild(thHeader)
+    let tr;
+    const height = (41 * countRows + 20) - 41 * (countRows - 1);
 
-    let tr
-
-    let height = (41 * countRows + 20) - 41 * (countRows - 1);
-    // Основное заполнение таблицы
-    for (let i = 0; i < data["minimization"].length; i++) {
-        tr = document.createElement("tr")
-        if (i == data["minimization"].length - 1) {
-            tr.setAttribute('style', 'height: ' + round(height, 2) - 1 + 'px')
+    for (let i = 0; i < data.minimization.length; i++) {
+        tr = document.createElement("tr");
+        if (i === data.minimization.length - 1) {
+            tr.style.height = height - 1 + "px";
         }
-        let td = document.createElement("td")
-        let text = document.createTextNode(data["minimization"][i][0])
-        td.appendChild(text)
-        tr.appendChild(td)
-
-        table.appendChild(tr)
+        const td = document.createElement("td");
+        const text = document.createTextNode(data.minimization[i][0]);
+        td.appendChild(text);
+        tr.appendChild(td);
+        table.appendChild(tr);
     }
 }
 
 function printTableChooseStrategyByGurvicCriteria(data) {
-    let gurvic = document.getElementsByClassName('Gurvic')
+    let gurvic = document.getElementsByClassName("Gurvic")
 
     let max1 = 0
     let gur1 = 0
-    for (let i = 0; i < data['minimization'].length; i++) {
-        console.log(Number(gurvic[4 * i].textContent) )
+    for (let i = 0; i < data["minimization"].length; i++) {
+        console.log(Number(gurvic[4 * i].textContent))
         if (Number(gurvic[4 * i].textContent) > max1) {
-            max1 = Number(gurvic[4 * i].textContent) 
+            max1 = Number(gurvic[4 * i].textContent)
             gur1 = i
         }
     }
 
     let max2 = 0
     let gur2 = 0
-    for (let i = 0; i < data['minimization'].length; i++) {
-        console.log(Number(gurvic[4 * i + 3].textContent) )
-        if (Number(gurvic[4 * i].textContent) > max2) {
-            max2 = Number(gurvic[4 * i + 3].textContent) 
+    for (let i = 0; i < data["minimization"].length; i++) {
+        console.log(Number(gurvic[4 * i + 3].textContent))
+        if (Number(gurvic[4 * i + 3].textContent) > max2) {
+            max2 = Number(gurvic[4 * i + 3].textContent)
+            console.log(max2)
             gur2 = i
         }
     }
+    console.log(max2)
 
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
 
-    let trGurvic1 = document.createElement('tr')
+    let trGurvic1 = document.createElement("tr")
 
-    let num1 = document.createElement('td')
-    let criteria1 = document.createElement('td')
-    let strategy1 = document.createElement('td')
+    let num1 = document.createElement("td")
+    let criteria1 = document.createElement("td")
+    let strategy1 = document.createElement("td")
 
-    let number1 = document.createTextNode('3')
-    let criteriaName1 = document.createTextNode('Критерий Гурвица (для оптимистичных и средних оценок)')
-    let strategyText1 = document.createTextNode(data['minimization'][gur1][0])
+    let number1 = document.createTextNode("3")
+    let criteriaName1 = document.createTextNode("Критерий Гурвица (для оптимистичных и средних оценок)")
+    let strategyText1 = document.createTextNode(data["minimization"][gur1][0])
 
     num1.appendChild(number1)
     criteria1.appendChild(criteriaName1)
@@ -201,15 +201,15 @@ function printTableChooseStrategyByGurvicCriteria(data) {
     trGurvic1.appendChild(criteria1)
     trGurvic1.appendChild(strategy1)
 
-    let trGurvic2 = document.createElement('tr')
+    let trGurvic2 = document.createElement("tr")
 
-    let num2 = document.createElement('td')
-    let criteria2 = document.createElement('td')
-    let strategy2 = document.createElement('td')
+    let num2 = document.createElement("td")
+    let criteria2 = document.createElement("td")
+    let strategy2 = document.createElement("td")
 
-    let number2 = document.createTextNode(' ')
-    let criteriaName2 = document.createTextNode('Критерий Гурвица (для пессимистической оценки)')
-    let strategyText2 = document.createTextNode(data['minimization'][gur2][0])
+    let number2 = document.createTextNode(" ")
+    let criteriaName2 = document.createTextNode("Критерий Гурвица (для пессимистической оценки)")
+    let strategyText2 = document.createTextNode(data["minimization"][gur2][0])
 
     num2.appendChild(number2)
     criteria2.appendChild(criteriaName2)
@@ -224,82 +224,81 @@ function printTableChooseStrategyByGurvicCriteria(data) {
 }
 
 function printTableChooseStrategyByValdCriteria(data) {
-    let mode = 'z'
+    let mode = "z"
 
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
 
-    let trVald = document.createElement('tr')
+    let trVald = document.createElement("tr")
 
-    let num = document.createElement('td')
-    let criteria = document.createElement('td')
-    let strategy = document.createElement('td')
+    let num = document.createElement("td")
+    let criteria = document.createElement("td")
+    let strategy = document.createElement("td")
 
-    let number = document.createTextNode('2')
-    let criteriaName = document.createTextNode('Критерий Вальда')
-    let strategyText = ''
+    let number = document.createTextNode("2")
+    let criteriaName = document.createTextNode("Критерий Вальда")
+    let strategyText = ""
 
-    if (mode === 'z') {
+    if (mode === "z") {
         let max = 0
-        for (let i = 0; i < data['lost'].length; i++) {
+        for (let i = 0; i < data["lost"].length; i++) {
             let min = -1
-            for (let j = 0; j < data['lost'][i].length; j++) {
-                if (min === -1 || data['rent'] - data['lost'][i][j] < min) {
-                    min = data['rent'] - data['lost'][i][j]
+            for (let j = 0; j < data["lost"][i].length; j++) {
+                if (min === -1 || data["rent"] - data["lost"][i][j] < min) {
+                    min = data["rent"] - data["lost"][i][j]
                 }
             }
-            
             if (max < min) {
                 max = min
             }
         }
 
-        for (let i = 0; i < data['lost'].length; i++) {
+        for (let i = 0; i < data["lost"].length; i++) {
             let min = -1
-            for (let j = 0; j < data['lost'][i].length; j++) {
-                if (min === -1 || data['rent'] - data['lost'][i][j] < min) {
-                    min = min = data['rent'] - data['lost'][i][j]
+            for (let j = 0; j < data["lost"][i].length; j++) {
+                if (min === -1 || data["rent"] - data["lost"][i][j] < min) {
+                    min = min = data["rent"] - data["lost"][i][j]
                 }
             }
             if (min === max) {
-                console.log(data['minimization'][i][0])
-                strategyText = strategyText.concat(' ',data['minimization'][i][0])
+                console.log(data["minimization"][i][0])
+                strategyText = strategyText.concat(" ", data["minimization"][i][0])
             }
         }
     }
 
-    if (mode === 'h') {
+    if (mode === "h") {
         let max = 0
-        for (let i = 0; i < data['lost'][0].length; i++) {
+        for (let i = 0; i < data["lost"][0].length; i++) {
             let min = -1
-            for (let j = 0; j < data['lost'].length; j++) {
-                if (min === -1 || data['rent'] - data['lost'][j][i] < min) {
-                    min = data['rent'] - data['lost'][j][i]
+            for (let j = 0; j < data["lost"].length; j++) {
+                if (min === -1 || data["rent"] - data["lost"][j][i] < min) {
+                    min = data["rent"] - data["lost"][j][i]
                 }
             }
-            
+
             if (max < min) {
                 max = min
             }
         }
 
-        for (let i = 0; i < data['lost'][0].length; i++) {
+        for (let i = 0; i < data["lost"][0].length; i++) {
             let min = -1
-            for (let j = 0; j < data['lost'].length; j++) {
-                if (min === -1 || data['rent'] - data['lost'][j][i] < min) {
-                    min = min = data['rent'] - data['lost'][j][i]
+            for (let j = 0; j < data["lost"].length; j++) {
+                if (min === -1 || data["rent"] - data["lost"][j][i] < min) {
+                    min = min = data["rent"] - data["lost"][j][i]
                 }
             }
             if (min === max) {
-                console.log(data['minimization'][i][0])
-                strategyText = strategyText.concat(' ',data['minimization'][i][0])
+                console.log(data["minimization"][i][0])
+                strategyText = strategyText.concat(" ", data["minimization"][i][0])
             }
         }
     }
 
     let strategyName = document.createTextNode(strategyText)
 
-    console.log('Vald ' + strategyText)
+    console.log("Vald " + strategyText)
     num.appendChild(number)
     criteria.appendChild(criteriaName)
     strategy.appendChild(strategyName)
@@ -315,35 +314,34 @@ function printTableChooseStrategyBySavageCriteria(data) {
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
 
-    let trSavage = document.createElement('tr')
+    let trSavage = document.createElement("tr")
 
-    let num = document.createElement('td')
-    let criteria = document.createElement('td')
-    let strategy = document.createElement('td')
+    let num = document.createElement("td")
+    let criteria = document.createElement("td")
+    let strategy = document.createElement("td")
 
-    let strategyName = 'no'
+    let strategyName = "no"
     let min = -1
-    for (let i = 0; i < data['lost'].length; i++) {
+    for (let i = 0; i < data["lost"].length; i++) {
         let max = 0
-        for (let j = 0; j < data['lost'][i].length; j++) {
-            if (data['lost'][i][j] > max) {
-                max = data['lost'][i][j]
+        for (let j = 0; j < data["lost"][i].length; j++) {
+            if (data["lost"][i][j] > max) {
+                max = data["lost"][i][j]
             }
         }
         if (max < min || min === -1) {
             min = max
-            for (let j = 0; j < data['lost'][i].length; j++) {
-                if (data['lost'][i][j] === min) {
-                    strategyName = data['minimization'][i][0]
+            for (let j = 0; j < data["lost"][i].length; j++) {
+                if (data["lost"][i][j] === min) {
+                    strategyName = data["minimization"][i][0]
                     break
                 }
             }
         }
     }
 
-
-    let number = document.createTextNode('1')
-    let criteriaName = document.createTextNode('Критерий Сэвиджа')
+    let number = document.createTextNode("1")
+    let criteriaName = document.createTextNode("Критерий Сэвиджа")
     let strategyText = document.createTextNode(strategyName)
 
     num.appendChild(number)
@@ -361,18 +359,18 @@ function printTableAltLoss(data) {
     let table = document.getElementById("tableCalculationLostProfitsBasicCase")
     document.getElementById("calculationLostProfitsBasicCase").removeAttribute("class")
     // Шапка таблицы
-    let thHeader = document.createElement('tr')
+    let thHeader = document.createElement("tr")
     let tdStrategy = document.createElement("td")
-    thHeader.setAttribute("class", "regulirovochka")
+    thHeader.setAttribute("class", "setHeight")
     let tdCost = document.createElement("td")
     let tdMinValue = document.createElement("td")
     let tdMaxValue = document.createElement("td")
-    tdStrategy.setAttribute("id", "headerOfTable")
-    tdMinValue.setAttribute("id", "headerOfTable")
-    tdMaxValue.setAttribute("id", "headerOfTable")
+    tdStrategy.setAttribute("class", "headerOfTable")
+    tdMinValue.setAttribute("class", "headerOfTable")
+    tdMaxValue.setAttribute("class", "headerOfTable")
 
-    let countCols = data['event'].length
-    let countRows = data['minimization'].length
+    let countCols = data["event"].length
+    let countRows = data["minimization"].length
     tdStrategy.setAttribute("rowspan", 1)
     tdMinValue.setAttribute("rowspan", 1)
     tdMaxValue.setAttribute("rowspan", 1)
@@ -388,26 +386,26 @@ function printTableAltLoss(data) {
 
     thHeader.appendChild(tdStrategy)
 
-    let bigTd = document.createElement('td')
-    bigTd.setAttribute('colspan', countCols)
-    bigTd.setAttribute('rowspan', countRows + 2)
+    let bigTd = document.createElement("td")
+    bigTd.setAttribute("colspan", countCols)
+    bigTd.setAttribute("rowspan", countRows + 2)
 
-    let subMatrixBlock2 = document.createElement('div')
-    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
-    let subMatrix = document.createElement('table')
+    let subMatrixBlock2 = document.createElement("div")
+    subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
+    let subMatrix = document.createElement("table")
     subMatrix.setAttribute("class", "subSubMatrix")
 
     let th = document.createElement("tr")
     let td = document.createElement("td")
-    td.setAttribute('colspan', countCols);
-    th.setAttribute('style', 'height: 60px')
+    td.setAttribute("colspan", countCols);
+    th.setAttribute("style", "height: 60px")
     td.appendChild(textTdCost)
-    td.setAttribute("id", "headerOfTable")
+    td.setAttribute("class", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 
     th = document.createElement("tr")
-    th.setAttribute('style', 'height: 60px')
+    th.setAttribute("style", "height: 60px")
 
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
@@ -417,7 +415,7 @@ function printTableAltLoss(data) {
     }
     subMatrix.appendChild(th)
     for (let i = 0; i < countRows; i++) {
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < countCols; j++) {
             text = document.createTextNode(data["lost"][i][j])
             td = document.createElement("td")
@@ -472,18 +470,18 @@ function printTableConditionalBenefits(data) {
     let div = document.getElementById("calculationConditionalBenefits")
     div.removeAttribute("class")
     // Шапка таблицы
-    let thHeader = document.createElement('tr')
+    let thHeader = document.createElement("tr")
     let tdStrategy = document.createElement("td")
-    thHeader.setAttribute("class", "regulirovochka")
+    thHeader.setAttribute("class", "setHeight")
     let tdCost = document.createElement("td")
     let tdMinValue = document.createElement("td")
     let tdMaxValue = document.createElement("td")
-    tdStrategy.setAttribute("id", "headerOfTable")
-    tdMinValue.setAttribute("id", "headerOfTable")
-    tdMaxValue.setAttribute("id", "headerOfTable")
+    tdStrategy.setAttribute("class", "headerOfTable")
+    tdMinValue.setAttribute("class", "headerOfTable")
+    tdMaxValue.setAttribute("class", "headerOfTable")
 
-    let countCols = data['event'].length
-    let countRows = data['minimization'].length
+    let countCols = data["event"].length
+    let countRows = data["minimization"].length
     tdStrategy.setAttribute("rowspan", 1)
     tdMinValue.setAttribute("rowspan", 1)
     tdMaxValue.setAttribute("rowspan", 1)
@@ -499,26 +497,26 @@ function printTableConditionalBenefits(data) {
 
     thHeader.appendChild(tdStrategy)
 
-    let bigTd = document.createElement('td')
-    bigTd.setAttribute('colspan', countCols)
-    bigTd.setAttribute('rowspan', countRows + 2)
+    let bigTd = document.createElement("td")
+    bigTd.setAttribute("colspan", countCols)
+    bigTd.setAttribute("rowspan", countRows + 2)
 
-    let subMatrixBlock2 = document.createElement('div')
-    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
-    let subMatrix = document.createElement('table')
+    let subMatrixBlock2 = document.createElement("div")
+    subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
+    let subMatrix = document.createElement("table")
     subMatrix.setAttribute("class", "subSubMatrix")
 
     let th = document.createElement("tr")
     let td = document.createElement("td")
-    td.setAttribute('colspan', countCols);
-    th.setAttribute('style', 'height: 60px')
+    td.setAttribute("colspan", countCols);
+    th.setAttribute("style", "height: 60px")
     td.appendChild(textTdCost)
-    td.setAttribute("id", "headerOfTable")
+    td.setAttribute("class", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 
     th = document.createElement("tr")
-    th.setAttribute('style', 'height: 60px')
+    th.setAttribute("style", "height: 60px")
 
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
@@ -528,9 +526,9 @@ function printTableConditionalBenefits(data) {
     }
     subMatrix.appendChild(th)
     for (let i = 0; i < countRows; i++) {
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < countCols; j++) {
-            text = document.createTextNode(data['rent'] - data["lost"][i][j])
+            text = document.createTextNode(data["rent"] - data["lost"][i][j])
             td = document.createElement("td")
             td.appendChild(text)
             th.appendChild(td)
@@ -556,7 +554,7 @@ function printTableConditionalBenefits(data) {
         let minValue = 999999999
         let maxValue = 0
         for (let j = 0; j < countCols; j++) {
-            text = document.createTextNode(round(data['rent'] - data["lost"][i][j], 2))
+            text = document.createTextNode(round(data["rent"] - data["lost"][i][j], 2))
             if (Number(text.textContent) > maxValue)
                 maxValue = Number(text.textContent)
             if (Number(text.textContent) < minValue)
@@ -567,14 +565,14 @@ function printTableConditionalBenefits(data) {
         td = document.createElement("td")
         text = document.createTextNode(round(minValue, 2))
         td.appendChild(text)
-        td.setAttribute('class', 'minimum')
+        td.setAttribute("class", "minimum")
         tr.appendChild(td)
 
         // Максимальное в строке
         td = document.createElement("td")
         text = document.createTextNode(round(maxValue, 2))
         td.appendChild(text)
-        td.setAttribute('class', 'maximum')
+        td.setAttribute("class", "maximum")
         tr.appendChild(td)
         table.appendChild(tr)
     }
@@ -646,17 +644,17 @@ function printTableConditionalBenefits(data) {
 
 function printTableEconomicEffectsAfterRealizationStrategy(data) {
     let table = document.getElementById("tableCalculationEconomicEffectsAfterRealizationStrategy")
-    document.getElementById("CalculationEconomicEffectsAfterRealizationStrategy").removeAttribute("class")
+    document.getElementById("calculationEconomicEffectsAfterRealizationStrategy").removeAttribute("class")
     // Шапка таблицы
-    let thHeader = document.createElement('tr')
+    let thHeader = document.createElement("tr")
     let tdStrategy = document.createElement("td")
-    tdStrategy.setAttribute("id", "headerOfTable")
-    thHeader.setAttribute("class", "regulirovochka")
+    tdStrategy.setAttribute("class", "headerOfTable")
+    thHeader.setAttribute("class", "setHeight")
     let tdMaxValue = document.createElement("td")
-    tdMaxValue.setAttribute("id", "headerOfTable")
+    tdMaxValue.setAttribute("class", "headerOfTable")
 
-    let countCols = data['event'].length
-    let countRows = data['minimization'].length
+    let countCols = data["event"].length
+    let countRows = data["minimization"].length
     tdStrategy.setAttribute("rowspan", 1)
     tdMaxValue.setAttribute("rowspan", 1)
 
@@ -669,26 +667,26 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
 
     thHeader.appendChild(tdStrategy)
 
-    let bigTd = document.createElement('td')
-    bigTd.setAttribute('colspan', countCols)
-    bigTd.setAttribute('rowspan', countRows + 2)
+    let bigTd = document.createElement("td")
+    bigTd.setAttribute("colspan", countCols)
+    bigTd.setAttribute("rowspan", countRows + 2)
 
-    let subMatrixBlock2 = document.createElement('div')
-    subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
-    let subMatrix = document.createElement('table')
+    let subMatrixBlock2 = document.createElement("div")
+    subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
+    let subMatrix = document.createElement("table")
     subMatrix.setAttribute("class", "subSubMatrix")
 
     let th = document.createElement("tr")
     let td = document.createElement("td")
-    td.setAttribute('colspan', countCols);
-    th.setAttribute('style', 'height: 60px')
+    td.setAttribute("colspan", countCols);
+    th.setAttribute("style", "height: 60px")
     td.appendChild(textTdCost)
-    td.setAttribute("id", "headerOfTable")
+    td.setAttribute("class", "headerOfTable")
     th.appendChild(td)
     subMatrix.appendChild(th)
 
     th = document.createElement("tr")
-    th.setAttribute('style', 'height: 60px')
+    th.setAttribute("style", "height: 60px")
 
     for (let i = 0; i < countCols; i++) {
         td = document.createElement("td")
@@ -703,15 +701,15 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     for (let i = 0; i < data["lost"].length; i++) {
         min = -1
         for (let j = 0; j < data["lost"].length; j++) {
-            if (data['lost'][j][i] < min || min === -1) {
-                min = data['lost'][j][i]
+            if (data["lost"][j][i] < min || min === -1) {
+                min = data["lost"][j][i]
             }
         }
         minValues[i] = min
     }
 
     for (let i = 0; i < countRows; i++) {
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < countCols; j++) {
             text = document.createTextNode(round(data["lost"][i][j] - minValues[j], 2))
             td = document.createElement("td")
@@ -757,14 +755,14 @@ function printTableForRiskManagerStrategy(data) {
     let table = document.getElementById("tableCalculationParametersStrategicRiskManagementOngoingProject")
     document.getElementById("calculationParametersStrategicRiskManagementOngoingProject").removeAttribute("class")
     //Шапка таблицы(надписи)
-    let thHeader = document.createElement('tr')
-    thHeader.setAttribute("class", "perebivka")
+    let thHeader = document.createElement("tr")
+    thHeader.setAttribute("class", "fullWidth")
     let tdNumber = document.createElement("td")
     let tdName = document.createElement("td")
     let tdEventLoss = document.createElement("td")
-    tdName.setAttribute("id", "headerOfTable")
+    tdName.setAttribute("class", "headerOfTable")
     tdName.setAttribute("style", "width:35%")
-    tdNumber.setAttribute("id", "headerOfTable")
+    tdNumber.setAttribute("class", "headerOfTable")
 
     let textNumber = document.createTextNode("№")
     let textName = document.createTextNode("Имя параметра")
@@ -773,22 +771,21 @@ function printTableForRiskManagerStrategy(data) {
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
 
-    let countColsForLast = data['event'].length
+    let countColsForLast = data["event"].length
 
     // tdNumber.setAttribute("rowspan", 2)
     // tdName.setAttribute("rowspan", 2)
     tdEventLoss.setAttribute("rowspan", data["minimization"].length * 7 + 1)
 
-    let block = document.createElement('div')
-    block.setAttribute('class', 'subMatrixBlock')
-    let eventsTable = document.createElement('table')
-    eventsTable.setAttribute('class', 'subSubMatrix')
-    let textRow = document.createElement('tr')
-    let textCell = document.createElement('td')
-    textCell.setAttribute('colspan', countColsForLast)
+    let block = document.createElement("div")
+    block.setAttribute("class", "subMatrixBlock")
+    let eventsTable = document.createElement("table")
+    eventsTable.setAttribute("class", "subSubMatrix")
+    let textRow = document.createElement("tr")
+    let textCell = document.createElement("td")
+    textCell.setAttribute("colspan", countColsForLast)
     textCell.appendChild(textEventLoss)
-    textCell.setAttribute("id", "headerOfTable")
-    textCell.setAttribute('class', 'perebivka')
+    textCell.setAttribute("class", "headerOfTable fullWidth")
     textRow.appendChild(textCell)
     eventsTable.appendChild(textRow)
 
@@ -803,7 +800,7 @@ function printTableForRiskManagerStrategy(data) {
         th.appendChild(tdHead)
         eventsTable.appendChild(th)
 
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < data["event"].length; j++) {
             let td = document.createElement("td")
             let text
@@ -816,12 +813,12 @@ function printTableForRiskManagerStrategy(data) {
         }
         eventsTable.appendChild(th)
 
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < data["event"].length; j++) {
             let td = document.createElement("td")
             let text
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode(round((data["event"][j][2]) * (data["minimization"][i][3]), 2))
+                text = document.createTextNode(round((data["event"][j][2]) * (data["minimization"][i][3]), 3))
             else
                 text = document.createTextNode(data["event"][j][2])
             td.appendChild(text)
@@ -829,21 +826,21 @@ function printTableForRiskManagerStrategy(data) {
         }
         eventsTable.appendChild(th)
 
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < data["event"].length; j++) {
             let td = document.createElement("td")
             let number = 0
             let text
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode(round((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]), 2))
+                text = document.createTextNode(round((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]), 3))
             else
-                text = document.createTextNode(round(data["event"][j][1] * data["event"][j][2], 2))
+                text = document.createTextNode(round(data["event"][j][1] * data["event"][j][2], 3))
             td.appendChild(text)
             th.appendChild(td)
         }
         eventsTable.appendChild(th)
 
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         for (let j = 0; j < data["event"].length; j++) {
             let td = document.createElement("td")
             let text = document.createTextNode(data["base"])
@@ -852,7 +849,7 @@ function printTableForRiskManagerStrategy(data) {
         }
         eventsTable.appendChild(th)
 
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         let sumLoss = 0
 
         data["lost"][i] = []
@@ -861,9 +858,9 @@ function printTableForRiskManagerStrategy(data) {
             let td = document.createElement("td")
             let text
             if (data["minimization"][i][1] == data["event"][j][0])
-                text = document.createTextNode(round((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"], 2))
+                text = document.createTextNode(round((data["event"][j][1] - 1) * (data["event"][j][2]) * (data["minimization"][i][3]) * data["base"], 0))
             else
-                text = document.createTextNode(round(data["event"][j][1] * data["event"][j][2] * data["base"], 2))
+                text = document.createTextNode(round(data["event"][j][1] * data["event"][j][2] * data["base"], 0))
             sumLoss += Number(text.textContent)
             data["lost"][i][j] = round(Number(text.textContent), 2)
             td.appendChild(text)
@@ -873,7 +870,7 @@ function printTableForRiskManagerStrategy(data) {
 
         let nodeSumLoss = document.createTextNode(sumLoss)
 
-        th = document.createElement('tr')
+        th = document.createElement("tr")
         let td = document.createElement("td")
         td.setAttribute("colspan", countColsForLast)
         td.appendChild(nodeSumLoss)
@@ -986,14 +983,13 @@ function printTableCalculationProfitsBasicCase(data) {
     document.getElementById("matrixAlternativeLosses").removeAttribute("class")
 
     //Шапка таблицы(надписи)
-    let thHeader = document.createElement('tr')
+    let thHeader = document.createElement("tr")
     let tdNumber = document.createElement("td")
     let tdName = document.createElement("td")
-    tdName.setAttribute("class", "param")
     let tdEventLoss = document.createElement("td")
 
-    tdNumber.setAttribute("id", "headerOfTable")
-    tdName.setAttribute("id", "headerOfTable")
+    tdNumber.setAttribute("class", "headerOfTable")
+    tdName.setAttribute("class", "headerOfTable param")
 
     let textNumber = document.createTextNode("№")
     let textName = document.createTextNode("Имя параметра")
@@ -1001,65 +997,64 @@ function printTableCalculationProfitsBasicCase(data) {
 
     tdNumber.appendChild(textNumber)
     tdName.appendChild(textName)
-    let countColsForLast = data['event'].length
+    let countColsForLast = data["event"].length
     tdEventLoss.setAttribute("rowspan", 7)
 
-    let subMatrixBlock = document.createElement('div')
-    subMatrixBlock.setAttribute('class', 'subMatrixBlock3')
-    let eventsTable = document.createElement('table')
+    let subMatrixBlock = document.createElement("div")
+    subMatrixBlock.setAttribute("class", "subMatrixBlock3")
+    let eventsTable = document.createElement("table")
     eventsTable.setAttribute("class", "firstSubMatrix")
-    eventsTable.setAttribute("id", "sorry")
-    let textRow = document.createElement('tr')
-    let textCell = document.createElement('td')
-    textCell.setAttribute('colspan', countColsForLast)
+    let textRow = document.createElement("tr")
+    let textCell = document.createElement("td")
+    textCell.setAttribute("colspan", countColsForLast)
     textCell.appendChild(textEventLoss)
-    textCell.setAttribute("id", "headerOfTable")
+    textCell.setAttribute("class", "headerOfTable")
     textRow.appendChild(textCell)
     eventsTable.appendChild(textRow)
-    let th = document.createElement('tr')
-    for (let i = 0; i < data['event'].length; i++) {
+    let th = document.createElement("tr")
+    for (let i = 0; i < data["event"].length; i++) {
         let td = document.createElement("td")
         let name = document.createTextNode(data["event"][i][0])
         td.appendChild(name)
         th.appendChild(td)
     }
     eventsTable.appendChild(th);
-    th = document.createElement('tr')
-    for (let cols = 0; cols < data['event'].length; cols++) {
+    th = document.createElement("tr")
+    for (let cols = 0; cols < data["event"].length; cols++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][cols][1])
         td.appendChild(text)
         th.appendChild(td)
     }
     eventsTable.appendChild(th)
-    th = document.createElement('tr')
-    for (let cols = 0; cols < data['event'].length; cols++) {
+    th = document.createElement("tr")
+    for (let cols = 0; cols < data["event"].length; cols++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][cols][2])
         td.appendChild(text)
         th.appendChild(td)
     }
     eventsTable.appendChild(th)
-    th = document.createElement('tr')
-    for (let cols = 0; cols < data['event'].length; cols++) {
+    th = document.createElement("tr")
+    for (let cols = 0; cols < data["event"].length; cols++) {
         let td = document.createElement("td")
-        let text = document.createTextNode(round(data["event"][cols][2] * data["event"][cols][1], 2))
+        let text = document.createTextNode(round(data["event"][cols][2] * data["event"][cols][1], 3))
         td.appendChild(text)
         th.appendChild(td)
     }
     eventsTable.appendChild(th)
-    th = document.createElement('tr')
-    for (let cols = 0; cols < data['event'].length; cols++) {
+    th = document.createElement("tr")
+    for (let cols = 0; cols < data["event"].length; cols++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["base"])
         td.appendChild(text)
         th.appendChild(td)
     }
     eventsTable.appendChild(th)
-    th = document.createElement('tr')
-    for (let cols = 0; cols < data['event'].length; cols++) {
+    th = document.createElement("tr")
+    for (let cols = 0; cols < data["event"].length; cols++) {
         let td = document.createElement("td")
-        let text = document.createTextNode(round(data["base"] * data["event"][cols][2] * data["event"][cols][1], 2))
+        let text = document.createTextNode(round(data["base"] * data["event"][cols][2] * data["event"][cols][1], 0))
         td.appendChild(text)
         th.appendChild(td)
     }
@@ -1141,11 +1136,11 @@ function tableEntry(nameTable, nameData, data) {
     let tableRisk = document.getElementById(nameTable)
 
     data[nameData] = []
-    let currRows = tableRisk.getElementsByTagName('tr')
+    let currRows = tableRisk.getElementsByTagName("tr")
 
     for (let j = 0; j < currRows.length; j++) {
         data[nameData][j] = []
-        let cells = currRows[j].getElementsByTagName('td')
+        let cells = currRows[j].getElementsByTagName("td")
 
         for (let k = 0; k < cells.length - 1; k++) {
             if ((k === 0) || (nameData === "minimization" && k === 1)) {
@@ -1187,13 +1182,13 @@ function newEvent() {
     let intensive = document.createElement("td")
     let probability = document.createElement("td")
     name.appendChild(textName)
-    name.setAttribute('class', 'eventName')
+    name.setAttribute("class", "eventName")
     intensive.appendChild(textIntensive)
     probability.appendChild(textProbability)
     tr.appendChild(name)
     tr.appendChild(intensive)
     tr.appendChild(probability)
-    if (inputEventName === '' || inputEventIntensity === '' || inputEventProbability === '') {
+    if (inputEventName === "" || inputEventIntensity === "" || inputEventProbability === "") {
         alert("Необходимо заполнить все поля!")
     } else {
         if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && (0 <= inputEventProbability) && (inputEventProbability <= 1) && (Number(inputEventIntensity) * Number(inputEventProbability) <= 1)) {
@@ -1222,8 +1217,8 @@ function createCloseButton(tr) {
     for (let i = 0; i < close.length; i++) {
         close[i].onclick = function () {
             let div = this.parentElement.parentElement
-            div.setAttribute('class', 'deleteClass')
-            const deleteElement = document.querySelector('.deleteClass')
+            div.setAttribute("class", "deleteClass")
+            const deleteElement = document.querySelector(".deleteClass")
             const parent = deleteElement.parentNode
             parent.removeChild(deleteElement)
         }
@@ -1252,9 +1247,9 @@ function newMinimization(data) {
     tr.appendChild(riskStrategy)
     tr.appendChild(cost)
     tr.appendChild(powerAffect)
-    if (inputRiskStrategy === 'Выбор события') {
-        alert('Выберите событие!')
-    } else if (inputNameMinimization === '' || inputCostMinimization === '' || inputPowerAffect === '') {
+    if (inputRiskStrategy === "Выбор события") {
+        alert("Выберите событие!")
+    } else if (inputNameMinimization === "" || inputCostMinimization === "" || inputPowerAffect === "") {
         alert("Необходимо заполнить все поля!")
     } else {
         if (!isNaN(inputCostMinimization) && !isNaN(inputPowerAffect) && Number(inputCostMinimization) <= Number(document.getElementById("baseValue").textContent)) {
@@ -1273,7 +1268,7 @@ function newMinimization(data) {
 function newBase() {
     let inputBase = document.getElementById("inputBase").value
     let inputRent = document.getElementById("inputRent").value
-    if (inputBase === '' && inputRent === '') {
+    if (inputBase === "" && inputRent === "") {
         alert("Необходимо заполнить все поля!");
     } else {
         if (!isNaN(inputBase) && !isNaN(inputRent) && (Number(inputRent) <= Number(inputBase))) {
@@ -1292,10 +1287,10 @@ function newBase() {
 
 function creatingTableWithLostProfits(data) {
     const table = document.getElementById("tableLostProfits")
-    table.removeAttribute('class')
-    let th = document.createElement('th')
-    let tdColumnNumber = document.createElement('td')
-    let tdNameParam = document.createElement('td')
+    table.removeAttribute("class")
+    let th = document.createElement("th")
+    let tdColumnNumber = document.createElement("td")
+    let tdNameParam = document.createElement("td")
     tdColumnNumber.appendChild(document.createTextNode("Number"))
     tdNameParam.appendChild(document.createTextNode("Name param"))
 
@@ -1305,16 +1300,16 @@ function creatingTableWithLostProfits(data) {
 }
 
 function drawStrategy() {
-    strategyNames = document.getElementsByClassName('eventName')
+    strategyNames = document.getElementsByClassName("eventName")
     document.getElementById("divEventTable").removeAttribute("class")
     document.getElementById("idForMinimization").removeAttribute("class")
     document.getElementById("divSaveEvent").setAttribute("class", "displayNone")
     document.getElementById("idForEvent").setAttribute("class", "displayNone")
     document.getElementById("idForBase").setAttribute("class", "displayNone")
-    document.getElementById('divEventTable').setAttribute('style', 'margin-top: 15px')
-    let selector = document.getElementById('inputWhatEventThisStrategy')
+    document.getElementById("divEventTable").setAttribute("style", "margin-top: 15px")
+    let selector = document.getElementById("inputWhatEventThisStrategy")
     for (let i = 0; i < strategyNames.length; i++) {
-        let option = document.createElement('option')
+        let option = document.createElement("option")
         option.innerHTML = strategyNames[i].textContent
         selector.appendChild(option)
     }
