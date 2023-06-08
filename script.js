@@ -50,13 +50,13 @@ function printTableCalculationEstimatedCharacteristics(data) {
     thHeader.appendChild(tdStrategy)
 
     let bigTd = document.createElement('td')
-    bigTd.setAttribute('colspan', countCols)
+    bigTd.setAttribute('colspan', 4)
     bigTd.setAttribute('rowspan', countRows + 2)
 
     let subMatrixBlock2 = document.createElement('div')
     subMatrixBlock2.setAttribute('class', 'subMatrixBlock2')
     let subMatrix = document.createElement('table')
-    subMatrix.setAttribute("class", "subSubMatrix")
+    subMatrix.setAttribute("class", "SubMatrix")
 
     let th = document.createElement("tr")
     let td = document.createElement("td")
@@ -106,7 +106,7 @@ function printTableCalculationEstimatedCharacteristics(data) {
     for (let i = 0; i < data["minimization"].length; i++) {
         tr = document.createElement("tr")
         if (i == data["minimization"].length - 1) {
-            tr.setAttribute('style', 'height: ' + round(height, 2) + 'px')
+            tr.setAttribute('style', 'height: ' + round(height, 2) - 1 + 'px')
         }
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
@@ -515,7 +515,7 @@ function printTableConditionalBenefits(data) {
         let minValue = 999999999
         let maxValue = 0
         for (let j = 0; j < countCols; j++) {
-            text = document.createTextNode(data['rent'] - data["lost"][i][j])
+            text = document.createTextNode(round(data['rent'] - data["lost"][i][j], 2))
             if (Number(text.textContent) > maxValue)
                 maxValue = Number(text.textContent)
             if (Number(text.textContent) < minValue)
@@ -524,14 +524,14 @@ function printTableConditionalBenefits(data) {
 
         // Минимальное в строке
         td = document.createElement("td")
-        text = document.createTextNode(minValue)
+        text = document.createTextNode(round(minValue, 2))
         td.appendChild(text)
         td.setAttribute('class', 'minimum')
         tr.appendChild(td)
 
         // Максимальное в строке
         td = document.createElement("td")
-        text = document.createTextNode(maxValue)
+        text = document.createTextNode(round(maxValue, 2))
         td.appendChild(text)
         td.setAttribute('class', 'maximum')
         tr.appendChild(td)
@@ -608,7 +608,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     for (let i = 0; i < countRows; i++) {
         th = document.createElement('tr')
         for (let j = 0; j < countCols; j++) {
-            text = document.createTextNode(data["lost"][i][j] - minValues[j])
+            text = document.createTextNode(round(data["lost"][i][j] - minValues[j], 2))
             td = document.createElement("td")
             td.appendChild(text)
             th.appendChild(td)
@@ -634,14 +634,14 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
         tr.appendChild(td)
         let maxValue = 0
         for (let j = 0; j < countCols; j++) {
-            text = document.createTextNode(data["lost"][i][j] - minValues[j])
+            text = document.createTextNode(round(data["lost"][i][j] - minValues[j], 2))
             if (Number(text.textContent) > maxValue)
                 maxValue = Number(text.textContent)
         }
 
         // Максимальное в строке
         td = document.createElement("td")
-        text = document.createTextNode(maxValue)
+        text = document.createTextNode(round(maxValue, 2))
         td.appendChild(text)
         tr.appendChild(td)
         table.appendChild(tr)
@@ -658,6 +658,7 @@ function printTableForRiskManagerStrategy(data) {
     let tdName = document.createElement("td")
     let tdEventLoss = document.createElement("td")
     tdName.setAttribute("id", "headerOfTable")
+    tdName.setAttribute("style", "width:35%")
     tdNumber.setAttribute("id", "headerOfTable")
 
     let textNumber = document.createTextNode("№")
