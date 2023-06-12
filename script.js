@@ -497,9 +497,22 @@ function printTableConditionalBenefits(data) {
 
     thHeader.appendChild(tdStrategy)
 
+    //Вычисление минимумов столбцов
+    let minim = []
+    for (let i = 0; i < data['event'].length; i++) {
+        let minValue = round(data['rent'] - data["lost"][0][i], 2)
+        for (let j = 1; j < data['minimization'].length; j++) {
+            let value = round(data['rent'] - data["lost"][j][i], 2)
+            if (value < minValue) {
+                minValue = value
+            }
+        }
+        minim[i] = Number(minValue)
+    }
+
     let bigTd = document.createElement("td")
     bigTd.setAttribute("colspan", countCols)
-    bigTd.setAttribute("rowspan", countRows + 2)
+    bigTd.setAttribute("rowspan", countRows + 3)
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
@@ -535,6 +548,14 @@ function printTableConditionalBenefits(data) {
         }
         subMatrix.appendChild(th)
     }
+    th = document.createElement("tr")
+    for (let i = 0; i < data["event"].length; i++) {
+        let minVal = document.createElement("td")
+        let minName = document.createTextNode(minim[i])
+        minVal.appendChild(minName)
+        th.appendChild(minVal)
+    }
+    subMatrix.appendChild(th)
     subMatrixBlock2.appendChild(subMatrix)
     bigTd.appendChild(subMatrixBlock2)
     thHeader.appendChild(bigTd)
@@ -577,69 +598,38 @@ function printTableConditionalBenefits(data) {
         table.appendChild(tr)
     }
 
-    // Минимальные значения в столбцах
-
-    let tableMin = document.createElement("table")
-
-    let minTr = document.createElement("tr")
-
-    // Первая ячейка
-    let tdMin = document.createElement("td")
+    tr = document.createElement('tr')
+    td = document.createElement("td")
     let minName = document.createTextNode("min")
-    tdMin.appendChild(minName)
-    minTr.appendChild(tdMin)
+    td.appendChild(minName)
+    tr.appendChild(td)
 
-    //Вычисление минимумов столбцов
-    let minim = []
-    for (let i = 0; i < data['event'].length; i++) {
-        let minValue = round(data['rent'] - data["lost"][0][i], 2)
-        for (let j = 1; j < data['minimization'].length; j++) {
-            let value = round(data['rent'] - data["lost"][j][i], 2)
-            if (value < minValue) {
-                minValue = value
-            }
-        }
-        minim[i] = Number(minValue)
-    }
 
-    // Надо засунуть в сабматрикс
-    for (let i = 0; i < data["event"].length; i++) {
-        let minVal = document.createElement("td")
-        let minName = document.createTextNode(minim[i])
-        minVal.appendChild(minName)
-        minTr.appendChild(minVal)
-    }
-
-    //Минимум
     let need1 = minim[0]
     for (let i = 0; i < minim.length; i++) {
         if (minim[i] < need1) {
             need1 = minim[i]
         }
     }
-    let minVal = document.createElement("td")
+    td = document.createElement("td")
     
     let min = document.createTextNode(need1)
-    minVal.appendChild(min)
-    minTr.appendChild(minVal)
+    td.appendChild(min)
+    tr.appendChild(td)
 
-    //Максимум
     let need2 = minim[0]
     for (let i = 0; i < minim.length; i++) {
         if (minim[i] > need2) {
             need2 = minim[i]
         }
     }
-    let maxVal = document.createElement("td")
+    td = document.createElement("td")
     let max = document.createTextNode(need2)
-    maxVal.appendChild(max)
-    maxVal.setAttribute('class', 'tdImportantToResult')
-    minTr.appendChild(maxVal)
+    td.appendChild(max)
+    td.setAttribute('id', 'tdImportantToResult')
+    tr.appendChild(td)
 
-
-    tableMin.appendChild(minTr)
-    div.appendChild(tableMin)
-
+    table.appendChild(tr)
 }
 
 function printTableEconomicEffectsAfterRealizationStrategy(data) {
