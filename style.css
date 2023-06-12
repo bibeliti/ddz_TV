@@ -36,7 +36,7 @@ h1 {
 }
 
 #tdImportantToResult {
-    background-color: green;
+    background-color: aqua;
 }
 
 table {
@@ -210,6 +210,10 @@ td {
 .addDown {
     margin: 10px 41%;
     width: 18%;
+}
+
+.rightStrategy {
+    background-color: aqua !important;
 }
 
 #saveEvent {

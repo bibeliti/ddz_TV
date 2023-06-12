@@ -25,6 +25,19 @@ function consoleTable() {
     printTableChooseStrategyBySavageCriteria(data)
     printTableChooseStrategyByValdCriteria(data)
     printTableChooseStrategyByGurvicCriteria(data)
+    selectByGurvic(data)
+}
+
+function selectByGurvic(data) {
+    let strategies = document.getElementsByClassName('strategy')
+    let crit = Number(document.getElementById('tdImportantToResult').textContent)
+    for (let i = 0; i < data['minimization'].length; i++) {
+        for (let j = 0; j < data['lost'].length; j++) {
+            if (Number(data['rent'] - data['lost'][i][j]) == crit) {
+                strategies[i].setAttribute('class', 'rightStrategy')
+            }
+        }
+    }
 }
 
 function autoFilling() {
@@ -87,6 +100,7 @@ function autoFilling() {
     printTableChooseStrategyBySavageCriteria(data)
     printTableChooseStrategyByValdCriteria(data)
     printTableChooseStrategyByGurvicCriteria(data)
+    selectByGurvic(data)
 }
 
 function round(value, decimals) {
@@ -257,7 +271,6 @@ function printTableChooseStrategyByValdCriteria(data) {
     let strategyText = ""
 
     let crit = Number(document.getElementById('tdImportantToResult').textContent)
-    console.log(crit)
     for (let i = 0; i < data['minimization'].length; i++) {
         for (let j = 0; j < data['lost'].length; j++) {
             if (Number(data['rent'] - data['lost'][i][j]) == crit) {
@@ -541,6 +554,7 @@ function printTableConditionalBenefits(data) {
         tr = document.createElement("tr")
         let td = document.createElement("td")
         let text = document.createTextNode(data["minimization"][i][0])
+        td.setAttribute('class', 'strategy')
         td.appendChild(text)
         tr.appendChild(td)
         let minValue = 999999999
