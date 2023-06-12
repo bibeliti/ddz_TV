@@ -1,34 +1,51 @@
-* {
-    @font-face {
+@font-face {
     font-family: Jura;
     src: url(font/Jura-Regular.ttf);
-    }
-    font-family: "Jura-Regular",sans-serif;
-    box-sizing: border-box;
-    /* background-color: #e3e3e3f0; */
 }
 
-.risksTable {
+* {
+    font-family: "Jura-Regular", sans-serif;
+    box-sizing: border-box;
+}
+
+#risksTable {
     padding: 50px 0;
     margin: 50px 0;
 }
 
-h4{
+#autoFilling {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#autoFilling img {
+    width: 300px;
+    height: 200px;
+}
+
+h4 {
     margin-left: 20px;
 }
+
 h1 {
     text-align: center;
     margin-top: 5%;
     padding-top: 15px;
 }
 
+#tdImportantToResult {
+    background-color: green;
+}
+
 table {
-    cursor: pointer;
+    cursor: all-scroll;
     position: relative;
     background: antiquewhite;
     font-size: 18px;
     transition: 0.2s;
-    border: 2px solid !important;
+    border: 2px solid;
     width: 100%;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -40,16 +57,15 @@ table {
 
 td {
     background: white;
-    text-align: left;
-    min-width: 35%;
+    min-width: 50px;
     height: 42px;
     border: 1px solid black;
     text-align: center;
-    padding: 0px;
+    padding: 0;
 }
 
-.content{
-    margin:auto;
+#content {
+    margin: auto;
     width: 80%;
     padding-bottom: 2%;
     background-color: #e3e3e3f0;
@@ -64,7 +80,7 @@ td {
 }
 
 .close {
-    padding: 10.25px 16px 10.25px 16px;
+    padding: 10px 20px;
 }
 
 .close:hover {
@@ -97,7 +113,6 @@ td {
 .inputText {
     margin: 0;
     border-color: black;
-    /* border: none; */
     border-radius: 3px;
     width: 25%;
     height: 76%;
@@ -107,11 +122,9 @@ td {
     background-color: white;
 }
 
-#tableMinimization td{
-    width: 25% ;
-}
-
-#idForEvent .inputText, #idForEvent .addBtn {
+#idForEvent .inputText,
+#idForEvent .addBtn,
+#tableMinimization td {
     width: 25%;
 }
 
@@ -127,7 +140,7 @@ td {
     cursor: pointer;
     transition: 0.3s;
     border-radius: 3px;
-    border:none;
+    border: none;
     text-decoration: none;
     text-transform: uppercase;
     clear: right;
@@ -136,10 +149,10 @@ td {
 
 .addBtn:hover {
     background-color: #3e5c86;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.regulirovochka {
+.setHeight {
     height: 119px;
 }
 
@@ -147,21 +160,26 @@ td {
     margin-top: 120px;
 }
 
-#forBase, #forRent {
+#forBase,
+#forRent {
     width: 100%;
     float: left;
 }
 
-.displayNone {
+.displayNone,
+.subMatrixBlock3::-webkit-scrollbar,
+.subMatrixBlock::-webkit-scrollbar,
+.subMatrixBlock2::-webkit-scrollbar {
     display: none;
 }
 
-#headerOfTable {
+.headerOfTable {
     background-color: #4c75a3 !important;
     color: #fff;
 }
 
-#forBase p, #forRent p {
+#forBase p,
+#forRent p {
     font-size: 25px;
     display: block;
     float: left;
@@ -173,20 +191,9 @@ td {
     margin: auto;
 }
 
-#divSaveStrategyRisk input , #divSaveEvent input{
-    margin-top: 50px;
-    background-color: #4C75A3;
-    border-radius: 3px;
-    border: none;
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-#inputCalculate input{
+#divSaveStrategyRisk input,
+#divSaveEvent input,
+#inputCalculate input {
     margin-top: 50px;
     background-color: #4C75A3;
     border-radius: 3px;
@@ -208,95 +215,51 @@ td {
 #saveEvent {
     margin-right: 30%;
     margin-left: 30%;
-    /* width: 45%; */
 }
 
-#divSaveEvent hover{
-    background-color: #3e5c86;
-    cursor:pointer;
+#calculationParametersStrategicRiskManagementOngoingProject,
+#matrixAlternativeLosses,
+#calculationLostProfitsBasicCase,
+#calculationEconomicEffectsAfterRealizationStrategy,
+#results,
+#calculationConditionalBenefits,
+#calculationEstimatedCharacteristics {
+    margin-right: 5%;
+    margin-left: 5%;
 }
 
-.bezdar{
-    border:none;
+.subSubMatrix {
+    border: 0;
+    margin: -1px;
+    width: 101.5%;
+    width: 120%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
-#matrixAlternativeLosses{
-
-    margin-right:5%;
-    margin-left:5%;
-
-}
-#calculationParametersStrategicRiskManagementOngoingProject{
-    margin-right:5%;
-    margin-left:5%;
+.subSubMatrix td {
+    border: 1px solid black;
+    padding: 5px;
 }
 
-#calculationLostProfitsBasicCase{
-    margin-right:5%;
-    margin-left:5%;
-}
-
-.subSubMatrix{
-  border: 0;
-  margin: -1px;
-  width: 101.5%;
-  height: 100%;
-}
-
-
-
-.subSubMatrix tr td:first-child{
-}
-
-
-#sorry{
-    /* bottom: -2.15px; */
-}
-
-#CalculationEconomicEffectsAfterRealizationStrategy{
-    margin-right:5%;
-    margin-left:5%;
-}
-
-#results {
-    margin-right:5%;
-    margin-left:5%;
-}
-
-.subMatrixBlock3 {
+.subMatrixBlock3,
+.subMatrixBlock {
     scrollbar-width: none;
     height: 100%;
     top: 0;
     bottom: 0;
     overflow-x: scroll;
     overflow-y: hidden;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 0px;
-}
-.subMatrixBlock3::-webkit-scrollbar {
-    display: none;
-}
-.subMatrixBlock{
-   scrollbar-width: none;
-   height: 100%;
-   top: 0;
-   bottom: 0;
-   /* left: 0; */
-   /* position: absolute; */
-   /* width: 30%; */
-   overflow-x: scroll;
-   overflow-y: hidden;
-   margin-top: 0px;
-   margin-bottom: 0px;
-   padding: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
 }
 
-.subMatrixBlock::-webkit-scrollbar {
-    display: none;
+.subMatrixBlock {
+    width: 100%;
 }
 
-.subMatrixBlock2{
+.subMatrixBlock2 {
     scrollbar-width: none;
     height: auto;
     width: 100%;
@@ -304,19 +267,14 @@ td {
     bottom: 0;
     overflow-x: scroll;
     overflow-y: hidden;
-    /* margin-top: -4px; */
-}
-
-.subMatrixBlock2::-webkit-scrollbar {
-    display: none;
 }
 
 #tableCalculationParametersStrategicRiskManagementOngoingProject td {
     height: 66px;
 }
 
-.perebivka {
-    height: 71px !important;
+.fullWidth {
+    width: 100%;
     border-top: 2px solid black;
 }
 
@@ -324,84 +282,52 @@ td {
     height: 84px;
 }
 
-/* 
-#tableCalculationParametersStrategicRiskManagementOngoingProject tr td:first-child{
-        width: 10%;
-}
-#tableCalculationLostProfitsBasicCase tr td:first-child{
+#tableResults tr td:first-child {
     width: 10%;
 }
 
-#tableCalculationConditionalBenefits tr td:first-child{
-    width: 10%;
+.firstSubMatrix tr td:last-child {
+    height: 43px;
 }
 
-#tableCalculationEconomicEffectsAfterRealizationStrategy tr td:first-child{
-    width: 10%;
-}
-#matrixAlternativeLosses td:first-child{
-    /* width: 10%; */
-
-
-#tableResults tr td:first-child{
-    width: 10%;
-} */
-.firstSubMatrix tr td:last-child{
-    height:43px;
-}
-#calculationConditionalBenefits {
-    margin-right: 5%;
-    margin-left: 5%;
-}
-.firstSubMatrix{
+.firstSubMatrix {
     border: 0;
     margin: -2px;
     width: 101.5%;
     height: 100%;
 }
-.firstSubMatrix td{
-    width:auto;
-    min-width:50px;
-}
-.revenge{
-   width: 33%;
-}
-#tableBodyAltLoss td{
-   vertical-align:middle;
-   text-align:center;
-}
-.subMatrixBlock3{
-   vertical-align:top;
+
+.firstSubMatrix td {
+    width: auto;
+    min-width: 50px;
 }
 
-.firstColumn {
-   width:10% !important;
+#tableBodyAltLoss td {
+    vertical-align: middle;
+    text-align: center;
 }
 
-tr:nth-child(2n) td {
-    background-color: #c7dff3;
-} 
+.subMatrixBlock3 {
+    vertical-align: top;
+}
 
-.subSubMatrix tr:nth-child(2n + 1) td {
-    background-color: #c7dff3;
-} 
-
-#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n) td {
+#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n) td,
+.subSubMatrix tr:nth-child(2n + 1) td,
+tr:nth-child(2n) td,
+.firstSubMatrix tr:nth-child(2n + 1) td,
+.SubMatrix tr:nth-child(2n + 1) td {
     background-color: #c7dff3;
 }
 
-#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n + 1) td {
+#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n + 1) td,
+.subSubMatrix tr:nth-child(2n) td,
+.firstSubMatrix tr:nth-child(2n) td,
+.SubMatrix tr:nth-child(2n) td {
     background-color: #fff;
-} 
+}
 
-.subSubMatrix tr:nth-child(2n) td {
-    background-color: #fff;
-} 
-
-.firstSubMatrix tr:nth-child(2n + 1) td {
-    background-color: #c7dff3;
-} 
-
-.firstSubMatrix tr:nth-child(2n) td {
-    background-color: #fff;
-} 
+.SubMatrix {
+    border: 0;
+    margin: -1px;
+    width: 101.5%;
+}
