@@ -1,0 +1,20 @@
+old_str = input()
+new_str = input()
+
+html = open('index.html', encoding='utf-8')
+html = html.read()
+js = open('script.js', encoding='utf-8')
+js =  js.read()
+css = open('style.css', encoding='utf-8')
+css = css.read()
+
+html = html.replace(old_str, new_str)
+js = js.replace(old_str, new_str)
+css = css.replace(old_str, new_str)
+
+html_w = open('index.html', 'w', encoding='utf-8')
+html_w.write(html)
+js_w = open('script.js', 'w', encoding='utf-8')
+js_w.write(js)
+css_w = open('style.css', 'w', encoding='utf-8')
+css_w.write(css)

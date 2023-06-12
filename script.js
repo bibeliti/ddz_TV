@@ -1,3 +1,4 @@
+// Forms the 'data' array and calls the table rendering functions
 function consoleTable() {
     let data = {}
     data["base"] = Number(document.getElementById("baseValue").textContent)
@@ -13,21 +14,22 @@ function consoleTable() {
 
     tableEntry("tableEvent", "event", data)
     tableEntry("tableMinimization", "minimization", data)
-    let table = document.getElementById("tableBodyAltLoss")
+    let table = document.getElementById("tableEventsCharacteristics")
     table.innerHTML = "";
     console.log(data)
-    printTableCalculationProfitsBasicCase(data)
-    printTableForRiskManagerStrategy(data)
+    printTableOfEventsCharacteristics(data)
+    printTableOfStrategiesCharacteristics(data)
     printTableAltLoss(data)
     printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
     printTableCalculationEstimatedCharacteristics(data)
-    printTableChooseStrategyBySavageCriteria(data)
-    printTableChooseStrategyByValdCriteria(data)
-    printTableChooseStrategyByGurvicCriteria(data)
+    ChooseStrategyBySavageCriteria(data)
+    ChooseStrategyByValdCriteria(data)
+    ChooseStrategyByGurvicCriteria(data)
     selectByGurvic(data)
 }
 
+// Highlights important lines for the Gurwitz criterion
 function selectByGurvic(data) {
     let strategies = document.getElementsByClassName('strategy')
     let crit = Number(document.getElementById('tdImportantToResult').textContent)
@@ -88,25 +90,27 @@ function autoFilling() {
     koef[3] = 0.9
     data['koef'] = koef
 
-    let table = document.getElementById("tableBodyAltLoss")
+    let table = document.getElementById("tableEventsCharacteristics")
     table.innerHTML = '';
     console.log(data)
-    printTableCalculationProfitsBasicCase(data)
-    printTableForRiskManagerStrategy(data)
+    printTableOfEventsCharacteristics(data)
+    printTableOfStrategiesCharacteristics(data)
     printTableAltLoss(data)
     printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
     printTableCalculationEstimatedCharacteristics(data)
-    printTableChooseStrategyBySavageCriteria(data)
-    printTableChooseStrategyByValdCriteria(data)
-    printTableChooseStrategyByGurvicCriteria(data)
+    ChooseStrategyBySavageCriteria(data)
+    ChooseStrategyByValdCriteria(data)
+    ChooseStrategyByGurvicCriteria(data)
     selectByGurvic(data)
 }
 
+// Function for rounding real numbers
 function round(value, decimals) {
     return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
+//??????????????????????????????????????????????????????
 function printTableCalculationEstimatedCharacteristics(data) {
     const table = document.getElementById("tableCalculationEstimatedCharacteristics");
     document.getElementById("calculationEstimatedCharacteristics").classList.remove("class");
@@ -191,7 +195,7 @@ function printTableCalculationEstimatedCharacteristics(data) {
     }
 }
 
-function printTableChooseStrategyByGurvicCriteria(data) {
+function ChooseStrategyByGurvicCriteria(data) {
     let gurvic = document.getElementsByClassName("Gurvic")
 
     let max1 = 0
@@ -255,7 +259,7 @@ function printTableChooseStrategyByGurvicCriteria(data) {
     table.appendChild(trGurvic2)
 }
 
-function printTableChooseStrategyByValdCriteria(data) {
+function ChooseStrategyByValdCriteria(data) {
 
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
@@ -294,7 +298,7 @@ function printTableChooseStrategyByValdCriteria(data) {
     table.appendChild(trVald)
 }
 
-function printTableChooseStrategyBySavageCriteria(data) {
+function ChooseStrategyBySavageCriteria(data) {
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
 
@@ -339,9 +343,10 @@ function printTableChooseStrategyBySavageCriteria(data) {
     table.appendChild(trSavage)
 }
 
+//prints alternative Losses table
 function printTableAltLoss(data) {
-    let table = document.getElementById("tableCalculationLostProfitsBasicCase")
-    document.getElementById("calculationLostProfitsBasicCase").removeAttribute("class")
+    let table = document.getElementById("tableAlternativeLosses")
+    document.getElementById("MatrixAlternativeLosses").removeAttribute("class")
     // Шапка таблицы
     let thHeader = document.createElement("tr")
     let tdStrategy = document.createElement("td")
@@ -391,6 +396,7 @@ function printTableAltLoss(data) {
     th = document.createElement("tr")
     th.setAttribute("style", "height: 60px")
 
+    //шапка подтаблицы
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
@@ -398,6 +404,8 @@ function printTableAltLoss(data) {
         th.appendChild(td)
     }
     subMatrix.appendChild(th)
+
+    //заполнение подтаблицы
     for (let i = 0; i < countRows; i++) {
         th = document.createElement("tr")
         for (let j = 0; j < countCols; j++) {
@@ -449,6 +457,7 @@ function printTableAltLoss(data) {
     }
 }
 
+// prints Conditional Benefits table
 function printTableConditionalBenefits(data) {
     let table = document.getElementById("tableCalculationConditionalBenefits")
     let div = document.getElementById("calculationConditionalBenefits")
@@ -515,6 +524,7 @@ function printTableConditionalBenefits(data) {
     th = document.createElement("tr")
     th.setAttribute("style", "height: 60px")
 
+    // шапка подтаблицы
     for (let i = 0; i < countCols; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
@@ -522,6 +532,8 @@ function printTableConditionalBenefits(data) {
         th.appendChild(td)
     }
     subMatrix.appendChild(th)
+
+    // основное заполнение подтаблицы
     for (let i = 0; i < countRows; i++) {
         th = document.createElement("tr")
         for (let j = 0; j < countCols; j++) {
@@ -533,6 +545,8 @@ function printTableConditionalBenefits(data) {
         subMatrix.appendChild(th)
     }
     th = document.createElement("tr")
+
+    // строка минимумов
     for (let i = 0; i < data["event"].length; i++) {
         let minVal = document.createElement("td")
         let minName = document.createTextNode(minim[i])
@@ -589,7 +603,7 @@ function printTableConditionalBenefits(data) {
     td.appendChild(minName)
     tr.appendChild(td)
 
-
+    // минимально значение
     let need1 = minim[0]
     for (let i = 0; i < minim.length; i++) {
         if (minim[i] < need1) {
@@ -602,6 +616,7 @@ function printTableConditionalBenefits(data) {
     td.appendChild(min)
     tr.appendChild(td)
 
+    // максимально значение
     let need2 = minim[0]
     for (let i = 0; i < minim.length; i++) {
         if (minim[i] > need2) {
@@ -617,6 +632,7 @@ function printTableConditionalBenefits(data) {
     table.appendChild(tr)
 }
 
+// print Economic Effects After Realization of every Strategy table
 function printTableEconomicEffectsAfterRealizationStrategy(data) {
     let table = document.getElementById("tableCalculationEconomicEffectsAfterRealizationStrategy")
     document.getElementById("calculationEconomicEffectsAfterRealizationStrategy").removeAttribute("class")
@@ -663,6 +679,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     th = document.createElement("tr")
     th.setAttribute("style", "height: 60px")
 
+    // шапка подтаблицы
     for (let i = 0; i < countCols; i++) {
         td = document.createElement("td")
         let text = document.createTextNode(data["event"][i][0])
@@ -671,6 +688,7 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     }
     subMatrix.appendChild(th)
 
+    // подсчёт минимального значения
     let minValues = []
 
     for (let i = 0; i < data["lost"].length; i++) {
@@ -726,9 +744,9 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
     }
 }
 
-function printTableForRiskManagerStrategy(data) {
-    let table = document.getElementById("tableCalculationParametersStrategicRiskManagementOngoingProject")
-    document.getElementById("calculationParametersStrategicRiskManagementOngoingProject").removeAttribute("class")
+function printTableOfStrategiesCharacteristics(data) {
+    let table = document.getElementById("tableStrategiesCharacteristics")
+    document.getElementById("matrixStrategiesCharacteristics").removeAttribute("class")
     //Шапка таблицы(надписи)
     let thHeader = document.createElement("tr")
     thHeader.setAttribute("class", "fullWidth")
@@ -748,8 +766,6 @@ function printTableForRiskManagerStrategy(data) {
 
     let countColsForLast = data["event"].length
 
-    // tdNumber.setAttribute("rowspan", 2)
-    // tdName.setAttribute("rowspan", 2)
     tdEventLoss.setAttribute("rowspan", data["minimization"].length * 7 + 1)
 
     let block = document.createElement("div")
@@ -953,9 +969,9 @@ function printTableForRiskManagerStrategy(data) {
     }
 }
 
-function printTableCalculationProfitsBasicCase(data) {
-    let table = document.getElementById("tableBodyAltLoss")
-    document.getElementById("matrixAlternativeLosses").removeAttribute("class")
+function printTableOfEventsCharacteristics(data) {
+    let table = document.getElementById("tableEventsCharacteristics")
+    document.getElementById("matrixEventsCharacteristics").removeAttribute("class")
 
     //Шапка таблицы(надписи)
     let thHeader = document.createElement("tr")
@@ -1106,7 +1122,7 @@ function printTableCalculationProfitsBasicCase(data) {
     table.appendChild(tr)
 }
 
-
+// fills the 'data' array by the specified key with data from the table
 function tableEntry(nameTable, nameData, data) {
     let tableRisk = document.getElementById(nameTable)
 
@@ -1145,6 +1161,7 @@ for (let i = 0; i < close.length; i++) {
     }
 }
 
+// adds new event
 function newEvent() {
     let tr = document.createElement("tr")
     let inputEventName = document.getElementById("inputEventName").value
@@ -1200,6 +1217,7 @@ function createCloseButton(tr) {
     }
 }
 
+// adds new strategi of minimization
 function newMinimization(data) {
     let tr = document.createElement("tr")
     let inputNameMinimization = document.getElementById("inputNameMinimization").value
@@ -1240,6 +1258,7 @@ function newMinimization(data) {
     createCloseButton(tr)
 }
 
+// adds a base for calculations and a profitability threshold
 function newBase() {
     let inputBase = document.getElementById("inputBase").value
     let inputRent = document.getElementById("inputRent").value
@@ -1259,6 +1278,7 @@ function newBase() {
     document.getElementById("inputBase").value = ""
     document.getElementById("inputRent").value = ""
 }
+
 
 function creatingTableWithLostProfits(data) {
     const table = document.getElementById("tableLostProfits")

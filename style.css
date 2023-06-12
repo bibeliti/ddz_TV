@@ -221,9 +221,9 @@ td {
     margin-left: 30%;
 }
 
-#calculationParametersStrategicRiskManagementOngoingProject,
-#matrixAlternativeLosses,
-#calculationLostProfitsBasicCase,
+#matrixStrategiesCharacteristics,
+#matrixEventsCharacteristics,
+#MatrixAlternativeLosses,
 #calculationEconomicEffectsAfterRealizationStrategy,
 #results,
 #calculationConditionalBenefits,
@@ -274,7 +274,7 @@ td {
     overflow-y: hidden;
 }
 
-#tableCalculationParametersStrategicRiskManagementOngoingProject td {
+#tableStrategiesCharacteristics td {
     height: 66px;
 }
 
@@ -311,7 +311,7 @@ td {
     white-space:nowrap;
 }
 
-#tableBodyAltLoss td {
+#tableEventsCharacteristics td {
     vertical-align: middle;
     text-align: center;
 }
@@ -320,7 +320,7 @@ td {
     vertical-align: top;
 }
 
-#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n) td,
+#tableStrategiesCharacteristics .subSubMatrix tr:nth-child(2n) td,
 .subSubMatrix tr:nth-child(2n + 1) td,
 tr:nth-child(2n) td,
 .firstSubMatrix tr:nth-child(2n + 1) td,
@@ -328,7 +328,7 @@ tr:nth-child(2n) td,
     background-color: #c7dff3;
 }
 
-#tableCalculationParametersStrategicRiskManagementOngoingProject .subSubMatrix tr:nth-child(2n + 1) td,
+#tableStrategiesCharacteristics .subSubMatrix tr:nth-child(2n + 1) td,
 .subSubMatrix tr:nth-child(2n) td,
 .firstSubMatrix tr:nth-child(2n) td,
 .SubMatrix tr:nth-child(2n) td {
