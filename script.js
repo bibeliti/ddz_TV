@@ -183,7 +183,6 @@ function printTableChooseStrategyByGurvicCriteria(data) {
     let max1 = 0
     let gur1 = 0
     for (let i = 0; i < data["minimization"].length; i++) {
-        console.log(Number(gurvic[4 * i].textContent))
         if (Number(gurvic[4 * i].textContent) > max1) {
             max1 = Number(gurvic[4 * i].textContent)
             gur1 = i
@@ -193,14 +192,11 @@ function printTableChooseStrategyByGurvicCriteria(data) {
     let max2 = 0
     let gur2 = 0
     for (let i = 0; i < data["minimization"].length; i++) {
-        console.log(Number(gurvic[4 * i + 3].textContent))
         if (Number(gurvic[4 * i + 3].textContent) > max2) {
             max2 = Number(gurvic[4 * i + 3].textContent)
-            console.log(max2)
             gur2 = i
         }
     }
-    console.log(max2)
 
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
@@ -246,7 +242,6 @@ function printTableChooseStrategyByGurvicCriteria(data) {
 }
 
 function printTableChooseStrategyByValdCriteria(data) {
-    let mode = "z"
 
     let table = document.getElementById("tableResults")
     document.getElementById("results").removeAttribute("class")
@@ -261,59 +256,13 @@ function printTableChooseStrategyByValdCriteria(data) {
     let criteriaName = document.createTextNode("Критерий Вальда")
     let strategyText = ""
 
-    if (mode === "z") {
-        let max = 0
-        for (let i = 0; i < data["lost"].length; i++) {
-            let min = -1
-            for (let j = 0; j < data["lost"][i].length; j++) {
-                if (min === -1 || data["rent"] - data["lost"][i][j] < min) {
-                    min = data["rent"] - data["lost"][i][j]
-                }
-            }
-            if (max < min) {
-                max = min
-            }
-        }
-
-        for (let i = 0; i < data["lost"].length; i++) {
-            let min = -1
-            for (let j = 0; j < data["lost"][i].length; j++) {
-                if (min === -1 || data["rent"] - data["lost"][i][j] < min) {
-                    min = min = data["rent"] - data["lost"][i][j]
-                }
-            }
-            if (min === max) {
-                console.log(data["minimization"][i][0])
-                strategyText = strategyText.concat(" ", data["minimization"][i][0])
-            }
-        }
-    }
-
-    if (mode === "h") {
-        let max = 0
-        for (let i = 0; i < data["lost"][0].length; i++) {
-            let min = -1
-            for (let j = 0; j < data["lost"].length; j++) {
-                if (min === -1 || data["rent"] - data["lost"][j][i] < min) {
-                    min = data["rent"] - data["lost"][j][i]
-                }
-            }
-
-            if (max < min) {
-                max = min
-            }
-        }
-
-        for (let i = 0; i < data["lost"][0].length; i++) {
-            let min = -1
-            for (let j = 0; j < data["lost"].length; j++) {
-                if (min === -1 || data["rent"] - data["lost"][j][i] < min) {
-                    min = min = data["rent"] - data["lost"][j][i]
-                }
-            }
-            if (min === max) {
-                console.log(data["minimization"][i][0])
-                strategyText = strategyText.concat(" ", data["minimization"][i][0])
+    let crit = Number(document.getElementById('tdImportantToResult').textContent)
+    console.log(crit)
+    for (let i = 0; i < data['minimization'].length; i++) {
+        for (let j = 0; j < data['lost'].length; j++) {
+            if (Number(data['rent'] - data['lost'][i][j]) == crit) {
+                strategyText = strategyText.concat(data['minimization'][i][0], ' ')
+                break
             }
         }
     }
