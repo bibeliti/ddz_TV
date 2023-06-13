@@ -23,23 +23,9 @@ function consoleTable() {
     printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
     printTableCalculationEstimatedCharacteristics(data)
-    ChooseStrategyBySavageCriteria(data)
-    ChooseStrategyByValdCriteria(data)
-    ChooseStrategyByGurvicCriteria(data)
-    selectByGurvic(data)
-}
-
-// Highlights important lines for the Gurwitz criterion
-function selectByGurvic(data) {
-    let strategies = document.getElementsByClassName('strategy')
-    let crit = Number(document.getElementById('tdImportantToResult').textContent)
-    for (let i = 0; i < data['minimization'].length; i++) {
-        for (let j = 0; j < data['lost'].length; j++) {
-            if (Number(data['rent'] - data['lost'][i][j]) == crit) {
-                strategies[i].setAttribute('class', 'rightStrategy')
-            }
-        }
-    }
+    printTableChooseStrategyBySavageCriteria(data)
+    printTableChooseStrategyByValdCriteria(data)
+    printTableChooseStrategyByGurvicCriteria(data)
 }
 
 function autoFilling() {
@@ -49,38 +35,16 @@ function autoFilling() {
     data['base'] = Number(60823)
     data['rent'] = Number(30289)
     data['event'] = [
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1],
-        ['e1', 1, 1]
+        ['e1', 5, 0.008],
+        ['e2', 2, 0.02],
+        ['e3', 3, 0.015],
+        ['e4', 2, 0.0125]
     ]
     data['minimization'] = [
-        ['s1', 'e1', 5250, 0.875]
+        ['s1', 'e1', 5250, 0.875],
+        ['s2', 'e2', 9860, 0.75],
+        ['s3', 'e3', 4130, 0.666],
+        ['s4', 'e4', 3950, 0.8]
     ]
 
     let koef = []
@@ -770,6 +734,9 @@ function printTableOfStrategiesCharacteristics(data) {
 
     let block = document.createElement("div")
     block.setAttribute("class", "subMatrixBlock")
+    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)))
+    let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)) + "px;"
+    block.setAttribute("style", width)
     let eventsTable = document.createElement("table")
     eventsTable.setAttribute("class", "subSubMatrix")
     let textRow = document.createElement("tr")
