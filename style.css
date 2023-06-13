@@ -338,3 +338,7 @@ tr:nth-child(2n) td,
     margin: -1px;
     width: 101.5%;
 }
+
+#tableRenameEvents tr td:first-child, #tableRenameStrategy tr td:first-child {
+    width: 70%;
+}
