@@ -28,8 +28,8 @@ function consoleTable() {
 }
 
 function autoFilling() {
-    let Jopka = document.getElementById("autofilling")
-    Jopka.setAttribute('onclick', "")
+    let autoFilling = document.getElementById("autofilling")
+    autoFilling.setAttribute('onclick', "")
     let data = {}
     data['base'] = Number(60823)
     data['rent'] = Number(30289)
