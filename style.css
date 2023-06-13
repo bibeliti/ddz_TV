@@ -236,7 +236,6 @@ td {
     border: 0;
     margin: -1px;
     width: 101.5%;
-    width: 213%;
     table-layout: fixed;
     border-collapse: collapse;
 }
@@ -299,7 +298,6 @@ td {
 .firstSubMatrix {
     border: 0;
     margin: -2px;
-    width: 213%;
     table-layout: fixed;
     height: 100%;
 }

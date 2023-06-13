@@ -23,9 +23,6 @@ function consoleTable() {
     printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
     printTableCalculationEstimatedCharacteristics(data)
-    printTableChooseStrategyBySavageCriteria(data)
-    printTableChooseStrategyByValdCriteria(data)
-    printTableChooseStrategyByGurvicCriteria(data)
 }
 
 function autoFilling() {
@@ -69,6 +66,21 @@ function autoFilling() {
     selectByGurvic(data)
 }
 
+// Highlights important lines for the Gurwitz criterion
+function selectByGurvic(data) {
+    let strategies = document.getElementsByClassName('strategy')
+    console.log(strategies)
+    let crit = Number(document.getElementById('tdImportantToResult').textContent)
+    for (let i = 0; i < data['minimization'].length; i++) {
+        for (let j = 0; j < data['lost'].length; j++) {
+            if (Number(data['rent'] - data['lost'][i][j]) === crit) {
+                console.log(strategies[i])
+                strategies[i].setAttribute('class', 'rightStrategy strategy')
+            }
+        }
+    }
+}
+
 // Function for rounding real numbers
 function round(value, decimals) {
     return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
@@ -77,7 +89,7 @@ function round(value, decimals) {
 //??????????????????????????????????????????????????????
 function printTableCalculationEstimatedCharacteristics(data) {
     const table = document.getElementById("tableCalculationEstimatedCharacteristics");
-    document.getElementById("calculationEstimatedCharacteristics").classList.remove("class");
+    document.getElementById("calculationEstimatedCharacteristics").removeAttribute("class");
 
     const thHeader = document.createElement("tr");
     const tdStrategy = document.createElement("td");
@@ -148,9 +160,6 @@ function printTableCalculationEstimatedCharacteristics(data) {
 
     for (let i = 0; i < data.minimization.length; i++) {
         tr = document.createElement("tr");
-        if (i === data.minimization.length - 1) {
-            tr.style.height = height - 1 + "px";
-        }
         const td = document.createElement("td");
         const text = document.createTextNode(data.minimization[i][0]);
         td.appendChild(text);
