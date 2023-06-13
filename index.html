@@ -11,7 +11,7 @@
 <div id="content">
     <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
 
-    <span id="autoFilling"><img id="Jopka" onclick="autoFilling()" src="Жопка.gif" alt="жопка"></span>
+    <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>
 
     <div class="formInput">
         <div id="idForBase">
@@ -67,6 +67,18 @@
     <div id="divSaveStrategyRisk">
         <input type="submit" id="inputCalculate" name="calculate" value="Вывести все таблицы"
                onclick="consoleTable()"/>
+    </div>
+
+    <!-- переименование событий -->
+    <div id="matrixRenameEvents" class="displayNone">
+        <h4>Названия событий</h4>
+        <table id="tableRenameEvents"></table>
+    </div>
+
+    <!-- переименование стратегий -->
+    <div id="matrixRenameStrategy" class="displayNone">
+        <h4>Названия стратегий</h4>
+        <table id="tableRenameStrategy"></table>
     </div>
 
     <!-- расчет упущенной выгоды при реализации проекта базовый случай -->

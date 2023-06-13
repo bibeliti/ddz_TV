@@ -12,11 +12,13 @@ function consoleTable() {
 
     document.getElementById("inputCalculate").setAttribute("class", "disable")
 
-    tableEntry("tableEvent", "event", data)
-    tableEntry("tableMinimization", "minimization", data)
+    tableEntry("tableEvent", "userEvent", data)
+    tableEntry("tableMinimization", "userMinimization", data)
     let table = document.getElementById("tableEventsCharacteristics")
     table.innerHTML = "";
     console.log(data)
+    printRenameEvents(data)
+    printRenameStr(data)
     printTableOfEventsCharacteristics(data)
     printTableOfStrategiesCharacteristics(data)
     printTableAltLoss(data)
@@ -26,18 +28,18 @@ function consoleTable() {
 }
 
 function autoFilling() {
-    let Jopka = document.getElementById("Jopka")
+    let Jopka = document.getElementById("autofilling")
     Jopka.setAttribute('onclick', "")
     let data = {}
     data['base'] = Number(60823)
     data['rent'] = Number(30289)
-    data['event'] = [
+    data['userEvent'] = [
         ['e1', 5, 0.008],
         ['e2', 2, 0.02],
         ['e3', 3, 0.015],
         ['e4', 2, 0.0125]
     ]
-    data['minimization'] = [
+    data['userMinimization'] = [
         ['s1', 'e1', 5250, 0.875],
         ['s2', 'e2', 9860, 0.75],
         ['s3', 'e3', 4130, 0.666],
@@ -54,6 +56,8 @@ function autoFilling() {
     let table = document.getElementById("tableEventsCharacteristics")
     table.innerHTML = '';
     console.log(data)
+    printRenameEvents(data)
+    printRenameStr(data)
     printTableOfEventsCharacteristics(data)
     printTableOfStrategiesCharacteristics(data)
     printTableAltLoss(data)
@@ -86,7 +90,82 @@ function round(value, decimals) {
     return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
-//??????????????????????????????????????????????????????
+function printRenameEvents(data) {
+    const table = document.getElementById("tableRenameEvents");
+    document.getElementById("matrixRenameEvents").removeAttribute("class");
+
+    const thHeader = document.createElement("tr");
+    const tdEvent = document.createElement("td");
+    const tdRename = document.createElement("td");
+    tdEvent.classList.add("headerOfTable");
+    tdRename.classList.add("headerOfTable");
+
+    const textTdEvent = document.createTextNode("Название события");
+    const textTdRename = document.createTextNode("Замена");
+
+    tdEvent.appendChild(textTdEvent);
+    tdRename.appendChild(textTdRename);
+    thHeader.appendChild(tdEvent);
+    thHeader.appendChild(tdRename);
+    table.appendChild(thHeader);
+    data['event'] = new Array(data['userEvent'].length)
+    for (let i = 0; i < data['userEvent'].length; i++) {
+        let th = document.createElement("tr");
+        let td = document.createElement("td");
+        let td2 = document.createElement("td");
+
+        textTd = document.createTextNode(data['userEvent'][i][0]);
+        textTd2 = document.createTextNode('e' + (i + 1));
+        
+        data['event'][i] = data['userEvent'][i]
+        data['event'][i][0] = 'e' + (i + 1)
+
+        td.appendChild(textTd);
+        td2.appendChild(textTd2);
+        th.appendChild(td);
+        th.appendChild(td2);
+        table.appendChild(th);
+    }
+}
+
+function printRenameStr(data) {
+    const table = document.getElementById("tableRenameStrategy");
+    document.getElementById("matrixRenameStrategy").removeAttribute("class");
+
+    const thHeader = document.createElement("tr");
+    const tdStr = document.createElement("td");
+    const tdRename = document.createElement("td");
+    tdStr.classList.add("headerOfTable");
+    tdRename.classList.add("headerOfTable");
+
+    const textTdStr = document.createTextNode("Название стратегии");
+    const textTdRename = document.createTextNode("Замена");
+
+    tdStr.appendChild(textTdStr);
+    tdRename.appendChild(textTdRename);
+    thHeader.appendChild(tdStr);
+    thHeader.appendChild(tdRename);
+    table.appendChild(thHeader);
+    data['minimization'] = new Array(data['userMinimization'].length)
+    for (let i = 0; i < data['userMinimization'].length; i++) {
+        let th = document.createElement("tr");
+        let td = document.createElement("td");
+        let td2 = document.createElement("td");
+
+        textTd = document.createTextNode(data['userMinimization'][i][0]);
+        textTd2 = document.createTextNode('s' + (i + 1));
+        
+        data['minimization'][i] = data['userMinimization'][i]
+        data['minimization'][i][0] = 's' + (i + 1)
+
+        td.appendChild(textTd);
+        td2.appendChild(textTd2);
+        th.appendChild(td);
+        th.appendChild(td2);
+        table.appendChild(th);
+    }
+}
+
 function printTableCalculationEstimatedCharacteristics(data) {
     const table = document.getElementById("tableCalculationEstimatedCharacteristics");
     document.getElementById("calculationEstimatedCharacteristics").removeAttribute("class");
@@ -98,7 +177,6 @@ function printTableCalculationEstimatedCharacteristics(data) {
 
     const countCols = data.event.length;
     const countRows = data.minimization.length;
-    tdStrategy.setAttribute("rowspan", 1);
 
     const textTdStrategy = document.createTextNode("Стратегия");
     const textTdCost = document.createTextNode("Оценки по критерию Гурвица");
@@ -112,6 +190,9 @@ function printTableCalculationEstimatedCharacteristics(data) {
 
     const subMatrixBlock2 = document.createElement("div");
     subMatrixBlock2.classList.add("subMatrixBlock2");
+    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.95, 0)))
+    let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.95, 0)) + "px;"
+    subMatrixBlock2.setAttribute("style", width)
     const subMatrix = document.createElement("table");
     subMatrix.classList.add("SubMatrix");
 
@@ -333,9 +414,6 @@ function printTableAltLoss(data) {
 
     let countCols = data["event"].length
     let countRows = data["minimization"].length
-    tdStrategy.setAttribute("rowspan", 1)
-    tdMinValue.setAttribute("rowspan", 1)
-    tdMaxValue.setAttribute("rowspan", 1)
 
     let textTdStrategy = document.createTextNode("Стратегия")
     let textTdCost = document.createTextNode("Стоимость альтернативных убытков")
@@ -354,6 +432,9 @@ function printTableAltLoss(data) {
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
+    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)))
+    let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)) + "px;"
+    subMatrixBlock2.setAttribute("style", width)
     let subMatrix = document.createElement("table")
     subMatrix.setAttribute("class", "subSubMatrix")
 
@@ -448,9 +529,6 @@ function printTableConditionalBenefits(data) {
 
     let countCols = data["event"].length
     let countRows = data["minimization"].length
-    tdStrategy.setAttribute("rowspan", 1)
-    tdMinValue.setAttribute("rowspan", 1)
-    tdMaxValue.setAttribute("rowspan", 1)
 
     let textTdStrategy = document.createTextNode("Стратегия")
     let textTdCost = document.createTextNode("Условная выгода")
@@ -482,6 +560,9 @@ function printTableConditionalBenefits(data) {
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
+    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)))
+    let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)) + "px;"
+    subMatrixBlock2.setAttribute("style", width)
     let subMatrix = document.createElement("table")
     subMatrix.setAttribute("class", "subSubMatrix")
 
@@ -619,8 +700,6 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
 
     let countCols = data["event"].length
     let countRows = data["minimization"].length
-    tdStrategy.setAttribute("rowspan", 1)
-    tdMaxValue.setAttribute("rowspan", 1)
 
     let textTdStrategy = document.createTextNode("Стратегия")
     let textTdCost = document.createTextNode("Экономические последствия рисков реализации стратегии")
@@ -637,6 +716,9 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
+    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.75, 0)))
+    let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.75, 0)) + "px;"
+    subMatrixBlock2.setAttribute("style", width)
     let subMatrix = document.createElement("table")
     subMatrix.setAttribute("class", "subSubMatrix")
 
@@ -969,6 +1051,10 @@ function printTableOfEventsCharacteristics(data) {
 
     let subMatrixBlock = document.createElement("div")
     subMatrixBlock.setAttribute("class", "subMatrixBlock3")
+    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.59, 0)))
+    let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.59, 0)) + "px;"
+    subMatrixBlock.setAttribute("style", width)
+
     let eventsTable = document.createElement("table")
     eventsTable.setAttribute("class", "firstSubMatrix")
     let textRow = document.createElement("tr")

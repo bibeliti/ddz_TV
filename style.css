@@ -222,6 +222,8 @@ td {
 }
 
 #matrixStrategiesCharacteristics,
+#matrixRenameStrategy,
+#matrixRenameEvents,
 #matrixEventsCharacteristics,
 #MatrixAlternativeLosses,
 #calculationEconomicEffectsAfterRealizationStrategy,
@@ -236,7 +238,6 @@ td {
     border: 0;
     margin: -1px;
     width: 101.5%;
-    table-layout: fixed;
     border-collapse: collapse;
 }
 
@@ -298,7 +299,6 @@ td {
 .firstSubMatrix {
     border: 0;
     margin: -2px;
-    table-layout: fixed;
     height: 100%;
 }
 
