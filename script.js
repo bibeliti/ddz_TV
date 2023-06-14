@@ -16,7 +16,6 @@ function consoleTable() {
     tableEntry("tableMinimization", "userMinimization", data)
     let table = document.getElementById("tableEventsCharacteristics")
     table.innerHTML = "";
-    console.log(data)
     printRenameEvents(data)
     printRenameStr(data)
     printTableOfEventsCharacteristics(data)
@@ -34,16 +33,16 @@ function autoFilling() {
     data['base'] = Number(60823)
     data['rent'] = Number(30289)
     data['userEvent'] = [
-        ['e1', 5, 0.008],
-        ['e2', 2, 0.02],
-        ['e3', 3, 0.015],
-        ['e4', 2, 0.0125]
+        ['Снижение показателей выручки', 5, 0.008],
+        ['Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 2, 0.02],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора', 3, 0.015],
+        ['Отклонения от экологических стандартов', 2, 0.0125]
     ]
     data['userMinimization'] = [
-        ['s1', 'e1', 5250, 0.875],
-        ['s2', 'e2', 9860, 0.75],
-        ['s3', 'e3', 4130, 0.666],
-        ['s4', 'e4', 3950, 0.8]
+        ['Стратегия обслуживания', 'e1', 5250, 0.875],
+        ['Инфокомникационная стратегия', 'e2', 9860, 0.75],
+        ['Инновационная стратегия', 'e3', 4130, 0.666],
+        ['Экологическая стартегия', 'e4', 3950, 0.8]
     ]
 
     let koef = []
@@ -55,7 +54,6 @@ function autoFilling() {
 
     let table = document.getElementById("tableEventsCharacteristics")
     table.innerHTML = '';
-    console.log(data)
     printRenameEvents(data)
     printRenameStr(data)
     printTableOfEventsCharacteristics(data)
@@ -73,12 +71,10 @@ function autoFilling() {
 // Highlights important lines for the Gurwitz criterion
 function selectByGurvic(data) {
     let strategies = document.getElementsByClassName('strategy')
-    console.log(strategies)
     let crit = Number(document.getElementById('tdImportantToResult').textContent)
     for (let i = 0; i < data['minimization'].length; i++) {
         for (let j = 0; j < data['lost'].length; j++) {
             if (Number(data['rent'] - data['lost'][i][j]) === crit) {
-                console.log(strategies[i])
                 strategies[i].setAttribute('class', 'rightStrategy strategy')
             }
         }
@@ -116,7 +112,7 @@ function printRenameEvents(data) {
 
         textTd = document.createTextNode(data['userEvent'][i][0]);
         textTd2 = document.createTextNode('e' + (i + 1));
-        
+
         data['event'][i] = data['userEvent'][i]
         data['event'][i][0] = 'e' + (i + 1)
 
@@ -154,7 +150,7 @@ function printRenameStr(data) {
 
         textTd = document.createTextNode(data['userMinimization'][i][0]);
         textTd2 = document.createTextNode('s' + (i + 1));
-        
+
         data['minimization'][i] = data['userMinimization'][i]
         data['minimization'][i][0] = 's' + (i + 1)
 
@@ -190,7 +186,6 @@ function printTableCalculationEstimatedCharacteristics(data) {
 
     const subMatrixBlock2 = document.createElement("div");
     subMatrixBlock2.classList.add("subMatrixBlock2");
-    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.95, 0)))
     let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.95, 0)) + "px;"
     subMatrixBlock2.setAttribute("style", width)
     const subMatrix = document.createElement("table");
@@ -340,7 +335,6 @@ function ChooseStrategyByValdCriteria(data) {
 
     let strategyName = document.createTextNode(strategyText)
 
-    console.log("Vald " + strategyText)
     num.appendChild(number)
     criteria.appendChild(criteriaName)
     strategy.appendChild(strategyName)
@@ -432,7 +426,6 @@ function printTableAltLoss(data) {
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
-    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)))
     let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)) + "px;"
     subMatrixBlock2.setAttribute("style", width)
     let subMatrix = document.createElement("table")
@@ -560,7 +553,6 @@ function printTableConditionalBenefits(data) {
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
-    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)))
     let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)) + "px;"
     subMatrixBlock2.setAttribute("style", width)
     let subMatrix = document.createElement("table")
@@ -665,7 +657,7 @@ function printTableConditionalBenefits(data) {
         }
     }
     td = document.createElement("td")
-    
+
     let min = document.createTextNode(need1)
     td.appendChild(min)
     tr.appendChild(td)
@@ -716,7 +708,6 @@ function printTableEconomicEffectsAfterRealizationStrategy(data) {
 
     let subMatrixBlock2 = document.createElement("div")
     subMatrixBlock2.setAttribute("class", "subMatrixBlock2")
-    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.75, 0)))
     let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.75, 0)) + "px;"
     subMatrixBlock2.setAttribute("style", width)
     let subMatrix = document.createElement("table")
@@ -825,7 +816,6 @@ function printTableOfStrategiesCharacteristics(data) {
 
     let block = document.createElement("div")
     block.setAttribute("class", "subMatrixBlock")
-    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)))
     let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.6, 0)) + "px;"
     block.setAttribute("style", width)
     let eventsTable = document.createElement("table")
@@ -1051,7 +1041,6 @@ function printTableOfEventsCharacteristics(data) {
 
     let subMatrixBlock = document.createElement("div")
     subMatrixBlock.setAttribute("class", "subMatrixBlock3")
-    console.log(Number(round(window.innerWidth * 0.9 * 0.8 * 0.59, 0)))
     let width = "width:" + Number(round(window.innerWidth * 0.9 * 0.8 * 0.59, 0)) + "px;"
     subMatrixBlock.setAttribute("style", width)
 
@@ -1245,7 +1234,7 @@ function newEvent() {
     if (inputEventName === "" || inputEventIntensity === "" || inputEventProbability === "") {
         alert("Необходимо заполнить все поля!")
     } else {
-        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && (0 <= inputEventProbability) && (inputEventProbability <= 1) && (Number(inputEventIntensity) * Number(inputEventProbability) <= 1)) {
+        if (!isNaN(inputEventIntensity) && !isNaN(inputEventProbability) && (0 <= inputEventProbability) && (inputEventProbability <= 1) && (0 <= Number(inputEventIntensity)) && (Number(inputEventIntensity) * Number(inputEventProbability) <= 1)) {
             document.getElementById("tableEvent").appendChild(tr)
             document.getElementById("tableEvent").removeAttribute("class")
         } else {
@@ -1307,7 +1296,7 @@ function newMinimization(data) {
     } else if (inputNameMinimization === "" || inputCostMinimization === "" || inputPowerAffect === "") {
         alert("Необходимо заполнить все поля!")
     } else {
-        if (!isNaN(inputCostMinimization) && !isNaN(inputPowerAffect) && Number(inputCostMinimization) <= Number(document.getElementById("baseValue").textContent)) {
+        if (!isNaN(inputCostMinimization) && !isNaN(inputPowerAffect) && (0 <= inputPowerAffect) && (inputPowerAffect <= 1) && (0 <= inputCostMinimization) && Number(inputCostMinimization) <= Number(document.getElementById("baseValue").textContent)) {
             document.getElementById("tableMinimization").appendChild(tr);
             document.getElementById("tableMinimization").removeAttribute("class");
         } else {
@@ -1327,7 +1316,7 @@ function newBase() {
     if (inputBase === "" && inputRent === "") {
         alert("Необходимо заполнить все поля!");
     } else {
-        if (!isNaN(inputBase) && !isNaN(inputRent) && (Number(inputRent) <= Number(inputBase))) {
+        if (!isNaN(inputBase) && !isNaN(inputRent) && (Number(inputRent) <= Number(inputBase)) && (Number(inputRent) >= 0) && (Number(inputBase) >= 0)) {
             document.getElementById("baseValue").innerText = document.createTextNode(inputBase).nodeValue;
             document.getElementById("rentValue").innerText = document.createTextNode(inputRent).nodeValue;
             document.getElementById("forBase").removeAttribute("class");

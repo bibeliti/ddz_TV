@@ -8,6 +8,10 @@
     box-sizing: border-box;
 }
 
+h3 {
+    text-align: center;
+}
+
 #risksTable {
     padding: 50px 0;
     margin: 50px 0;
@@ -284,7 +288,7 @@ td {
 }
 
 .param {
-    width:35%;
+    width: 35%;
     height: 84px;
 }
 
@@ -304,9 +308,9 @@ td {
 
 .firstSubMatrix td {
     min-width: 75px;
-    width:auto;
+    width: auto;
     height: auto;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 #tableEventsCharacteristics td {
