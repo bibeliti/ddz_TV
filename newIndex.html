@@ -66,13 +66,11 @@
             </div>
         </div>
         <div id="divForEvents" class="displayNone col-md-12 md-12 form-row">
-            <table id="Events" class="table">
-
-            </table>
+            <table id="Events" class="table"></table>
         </div>
     </form>
     <form id="formForStrategy" class="displayNone">
-        <div class="form-row">
+        <div class="form-row" id="divForStrategy">
             <div class="col-md-3 mb-3">
                 <label for="validationNameStrategy">Название стратегии:</label>
                 <input type="text" class="form-control" id="validationNameStrategy" placeholder="В буквах">
@@ -83,12 +81,12 @@
                     <select id="validationAtWhichEvent"></select>
                 </span>
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-3 mb-3" id="divForCostStrategy">
                 <label for="validationCostsStrategy">Затраты на внедрение:</label>
                 <input type="text" class="form-control" id="validationCostsStrategy" placeholder="В тысячах рублей"
                        required>
             </div>
-            <div class="form-check col-md-2 mb-2">
+            <div class="form-check col-md-2 mb-2" id="divForHowMach">
                 <label for="validationByHowMuch">На сколько влияет:</label>
                 <input type="text" class="form-control" id="validationByHowMuch" placeholder="В долях" required>
             </div>
@@ -97,6 +95,9 @@
                 <button type="submit" class="btn btn-primary mb-2 form-control" onclick="newMinimization()">Добавить
                 </button>
             </div>
+        </div>
+        <div id="divForStrategies" class="displayNone col-md-12 md-12 form-row">
+            <table id="Strategies" class="table"></table>
         </div>
     </form>
 </div>
