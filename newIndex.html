@@ -71,7 +71,7 @@
             </table>
         </div>
     </form>
-    <form>
+    <form id="formForStrategy" class="displayNone">
         <div class="form-row">
             <div class="col-md-3 mb-3">
                 <label for="validationNameStrategy">Название стратегии:</label>
@@ -79,14 +79,9 @@
             </div>
             <div class="col-md-3 mb-3 dropdown">
                 <label for="validationAtWhichEvent">На какое событие:</label>
-                <button class="btn btn-secondary dropdown-toggle" id="validationAtWhichEvent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Кнопка выпадающего списка
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="validationAtWhichEvent">
-                    <li><a class="dropdown-item" href="#">Действие</a></li>
-                    <li><a class="dropdown-item" href="#">Другое действие</a></li>
-                    <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
-                </ul>
+                <span class="custom-dropdown">
+                    <select id="validationAtWhichEvent"></select>
+                </span>
             </div>
             <div class="col-md-3 mb-3">
                 <label for="validationCostsStrategy">Затраты на внедрение:</label>
@@ -104,14 +99,6 @@
             </div>
         </div>
     </form>
-    <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">МЕНЮ <b class="caret"></b>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="http://bloggood.ru/">BlogGood.ru</a></li>
-            <li><a href="http://stepkinblog.ru/">StepkinBlog.ru</a></li>
-        </ul>
-    </div>
 </div>
 </body>
 </html>

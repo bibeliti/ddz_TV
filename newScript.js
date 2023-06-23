@@ -1,3 +1,6 @@
+let data = {}
+data["countEvent"] = 0
+
 function main() {
     let data = {}
     data["base"] = Number(document.getElementById("baseValue").textContent)
@@ -152,14 +155,14 @@ function newEvent() {
     } else {
         intensityEvent = Number(intensityEvent)
     }
-    if ((isNaN(probabilityEvent))  || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
+    if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
         flag = false
         document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
         let feedbackProbability = document.createElement("div")
         feedbackProbability.setAttribute("class", "invalid-feedback")
         feedbackProbability.innerHTML = "Введите положительное дробное число меньшее 1"
         divForProbabilityEvent.appendChild(feedbackProbability)
-    } else if (Number(probabilityEvent) * intensityEvent > 1){
+    } else if (Number(probabilityEvent) * intensityEvent > 1) {
         flag = false
         document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
 
@@ -179,7 +182,7 @@ function newEvent() {
         let events = document.getElementById("Events")
         let event = document.createElement('tr')
         let newNameEvent = document.createElement('td')
-        newNameEvent.setAttribute("class", "col-md-3 mb-3")
+        newNameEvent.setAttribute("class", "col-md-3 mb-3 eventName")
         newNameEvent.innerHTML = nameEvent
         let newIntensityEvent = document.createElement("td")
         newIntensityEvent.setAttribute("class", "col-md-3 mb-3")
@@ -195,8 +198,39 @@ function newEvent() {
         event.appendChild(newProbabilityEvent)
         event.appendChild(newDivClose)
         event.classList.remove("displayNone")
-
         events.appendChild(event)
+
+        data["countEvent"] += 1
+        document.getElementById("formForStrategy").classList.remove("displayNone")
+        let newOption = document.createElement("option")
+        newOption.innerHTML = nameEvent
+        document.getElementById("validationAtWhichEvent").appendChild(newOption)
+
+        let close = document.getElementsByClassName("close")
+        console.log(close)
+
+        for (let i = 0; i < close.length; i++) {
+            console.log(i)
+            close[i].onclick = function () {
+                let div = this.parentElement.parentElement
+                div.setAttribute("class", "deleteClass")
+                const deleteElement = document.querySelector(".deleteClass")
+                const parent = deleteElement.parentNode
+                parent.removeChild(deleteElement)
+                data["countEvent"] -= 1
+                if (data["countEvent"] === 0) {
+                    document.getElementById("formForStrategy").setAttribute("class", "displayNone")
+                }
+                let strategyNames = document.getElementsByClassName("eventName")
+                let selector = document.getElementById("validationAtWhichEvent")
+                selector.innerHTML = ''
+                for (let i = 0; i < strategyNames.length; i++) {
+                    let option = document.createElement("option")
+                    option.innerHTML = strategyNames[i].textContent
+                    selector.appendChild(option)
+                }
+            }
+        }
     }
 
     document.getElementById("validationNameEvent").value = ""
@@ -205,20 +239,12 @@ function newEvent() {
 
 }
 
+
 function createCloseButton(div) {
     let spanForClose = document.createElement("span")
     let txt = document.createTextNode("\u00D7")
     spanForClose.appendChild(txt)
     spanForClose.className = "close"
     div.appendChild(spanForClose)
-    let close = document.querySelectorAll(".close")
-    for (let i = 0; i < close.length; i++) {
-        close[i].onclick = function () {
-            let div = this.parentElement.parentElement
-            div.setAttribute("class", "deleteClass")
-            const deleteElement = document.querySelector(".deleteClass")
-            const parent = deleteElement.parentNode
-            parent.removeChild(deleteElement)
-        }
-    }
+    // let close = document.querySelectorAll(".close")
 }
