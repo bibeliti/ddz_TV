@@ -168,6 +168,7 @@ function newEvent() {
     } else if (Number(probabilityEvent) * intensityEvent > 1) {
         flag = false
         document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
 
         let feedbackProbability = document.createElement("div")
         feedbackProbability.setAttribute("class", "invalid-feedback")
@@ -279,7 +280,7 @@ function newMinimization() {
     }
     if ((isNaN(howMach)) || (Number(howMach) < 0) || (Number(howMach) > 1)) {
         flag = false
-        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        document.getElementById("validationByHowMuch").setAttribute("class", "form-control is-invalid")
         let feedbackHowMach = document.createElement("div")
         feedbackHowMach.setAttribute("class", "invalid-feedback")
         feedbackHowMach.innerHTML = "Введите положительное дробное число меньшее 1"
