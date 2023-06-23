@@ -176,31 +176,27 @@ function newEvent() {
     }
 
     if (flag) {
-        let divForEvent = document.getElementById("divForEvent")
-        let newNameEvent = document.createElement("div")
+        let events = document.getElementById("Events")
+        let event = document.createElement('tr')
+        let newNameEvent = document.createElement('td')
         newNameEvent.setAttribute("class", "col-md-3 mb-3")
         newNameEvent.innerHTML = nameEvent
-        let newIntensityEvent = document.createElement("div")
+        let newIntensityEvent = document.createElement("td")
         newIntensityEvent.setAttribute("class", "col-md-3 mb-3")
         newIntensityEvent.innerHTML = intensityEvent
-        let newProbabilityEvent = document.createElement("div")
+        let newProbabilityEvent = document.createElement("td")
         newProbabilityEvent.setAttribute("class", "col-md-3 mb-3")
         newProbabilityEvent.innerHTML = probabilityEvent
-        let newDivClose = document.createElement("div")
+        let newDivClose = document.createElement("td")
         createCloseButton(newDivClose)
 
-        divForEvent.appendChild(newNameEvent)
-        divForEvent.appendChild(newIntensityEvent)
-        divForEvent.appendChild(newProbabilityEvent)
-        divForEvent.appendChild(newDivClose)
-        divForEvent.classList.remove("displayNone")
+        event.appendChild(newNameEvent)
+        event.appendChild(newIntensityEvent)
+        event.appendChild(newProbabilityEvent)
+        event.appendChild(newDivClose)
+        event.classList.remove("displayNone")
 
-        let newLi = document.createElement("li")
-        let hrefForLi = document.createElement("a")
-        hrefForLi.setAttribute("class", "dropdown-item")
-        hrefForLi.innerHTML = nameEvent
-        newLi.appendChild(hrefForLi)
-        document.getElementById("dropdownMenu").appendChild(newLi)
+        events.appendChild(event)
     }
 
     document.getElementById("validationNameEvent").value = ""
