@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>newDDZ</title>
+    <link rel="stylesheet" type="text/css" href="newStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="newScript.js"></script>
+</head>
+<body>
+<header>
+    <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
+
+    <!--    <h3>Автозаполнение по примеру Кориб (нажмите на кнопку ниже)</h3>-->
+    <!--    <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>-->
+</header>
+<div id="formFilling">
+    <form>
+        <div class="form-row">
+            <div class="col-md-5 mb-4" id="divForBase">
+                <label for="validationBaseValue">Значение базового расчета:</label>
+                <input type="text" class="form-control" id="validationBaseValue" placeholder="В тысячах рублей"
+                       required>
+            </div>
+            <div class="col-md-4 mb-4" id="divForRent">
+                <label for="validationRentValue">Значение рентабильности:</label>
+                <input type="text" class="form-control" id="validationRentValue" placeholder="В тысячах рублей"
+                       required>
+            </div>
+            <div class="col-md-2 mb-2"></div>
+            <div class="form-check col-md-1 mb-1">
+                <label style="color: white">добавить</label>
+                <span class="btn btn-primary mb-2 form-control" onclick="newBase()">Добавить</span>
+            </div>
+            <div id="valueOutput" class="displayNone">
+                <div class="col-md-5 mb-4">
+                    <p>Значение базового расчета:</p>
+                </div>
+                <div class="col-md-5 mb-4" id="pForBaseValue"></div>
+                <div class="col-md-5 mb-4">
+                    <p>Значение рентабельности:</p>
+                </div>
+                <div class="col-md-5 mb-4" id="pForRentValue"></div>
+            </div>
+        </div>
+    </form>
+    <form>
+        <div class="form-row">
+            <div class="col-md-3 mb-3">
+                <label for="validationNameEvent">Название события</label>
+                <input type="text" class="form-control" id="validationNameEvent" placeholder="В буквах">
+            </div>
+            <div class="col-md-3 mb-3" id="divForIntensityEvent">
+                <label for="validationIntensityEvent">Интенсивность возникновения</label>
+                <input type="text" class="form-control" id="validationIntensityEvent" placeholder="В числах" required>
+            </div>
+            <div class="col-md-3 mb-3" id="divForProbabilityEvent">
+                <label for="validationProbabilityEvent">Вероятность наступления</label>
+                <input type="text" class="form-control" id="validationProbabilityEvent" placeholder="В долях" required>
+            </div>
+            <div class="col-md-2 mb-2"></div>
+            <div class="form-check col-md-1 mb-1">
+                <label style="color: white">добавить</label>
+                <span class="btn btn-primary mb-2 form-control" onclick="newEvent()">Добавить</span>
+            </div>
+        </div>
+        <div id="divForEvent" class="displayNone col-md-12 md-12 form-row"></div>
+    </form>
+    <form>
+        <div class="form-row">
+            <div class="col-md-3 mb-3">
+                <label for="validationNameStrategy">Название стратегии:</label>
+                <input type="text" class="form-control" id="validationNameStrategy" placeholder="В буквах">
+            </div>
+            <div class="col-md-3 mb-3 dropdown">
+                <label for="validationAtWhichEvent">На какое событие:</label>
+                <button class="btn btn-secondary dropdown-toggle" id="validationAtWhichEvent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Кнопка выпадающего списка
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="validationAtWhichEvent">
+                    <li><a class="dropdown-item" href="#">Действие</a></li>
+                    <li><a class="dropdown-item" href="#">Другое действие</a></li>
+                    <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="validationCostsStrategy">Затраты на внедрение:</label>
+                <input type="text" class="form-control" id="validationCostsStrategy" placeholder="В тысячах рублей"
+                       required>
+            </div>
+            <div class="form-check col-md-2 mb-2">
+                <label for="validationByHowMuch">На сколько влияет:</label>
+                <input type="text" class="form-control" id="validationByHowMuch" placeholder="В долях" required>
+            </div>
+            <div class="form-check col-md-1 mb-1">
+                <label style="color: white">добавить</label>
+                <button type="submit" class="btn btn-primary mb-2 form-control" onclick="newMinimization()">Добавить
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">МЕНЮ <b class="caret"></b>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="http://bloggood.ru/">BlogGood.ru</a></li>
+            <li><a href="http://stepkinblog.ru/">StepkinBlog.ru</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

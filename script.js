@@ -24,6 +24,10 @@ function consoleTable() {
     printTableConditionalBenefits(data)
     printTableEconomicEffectsAfterRealizationStrategy(data)
     printTableCalculationEstimatedCharacteristics(data)
+    ChooseStrategyBySavageCriteria(data)
+    ChooseStrategyByValdCriteria(data)
+    ChooseStrategyByGurvicCriteria(data)
+    selectByGurvic(data)
 }
 
 function autoFilling() {
@@ -1244,6 +1248,14 @@ function newEvent() {
     document.getElementById("inputEventName").value = ""
     document.getElementById("inputEventIntensity").value = ""
     document.getElementById("inputEventProbability").value = ""
+    let strategyNames = document.getElementsByClassName("eventName")
+    let selector = document.getElementById("inputWhatEventThisStrategy")
+    selector.innerHTML = ''
+    for (let i = 0; i < strategyNames.length; i++) {
+        let option = document.createElement("option")
+        option.innerHTML = strategyNames[i].textContent
+        selector.appendChild(option)
+    }
     createCloseButton(tr)
 }
 
@@ -1264,6 +1276,14 @@ function createCloseButton(tr) {
             const deleteElement = document.querySelector(".deleteClass")
             const parent = deleteElement.parentNode
             parent.removeChild(deleteElement)
+            let strategyNames = document.getElementsByClassName("eventName")
+            let selector = document.getElementById("inputWhatEventThisStrategy")
+            selector.innerHTML = ''
+            for (let i = 0; i < strategyNames.length; i++) {
+                let option = document.createElement("option")
+                option.innerHTML = strategyNames[i].textContent
+                selector.appendChild(option)
+            }
         }
     }
 }

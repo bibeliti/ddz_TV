@@ -1,0 +1,17 @@
+* {
+    text-align: center;
+}
+
+#formFilling form {
+    width: 95%;
+    margin: auto;
+}
+
+.displayNone {
+    display: none;
+}
+
+.close {
+    background-color: #3e5c86;
+    padding: 10px 20px;
+}
