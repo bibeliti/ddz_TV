@@ -66,7 +66,7 @@ function newBase() {
     document.getElementById("validationBaseValue").classList.remove("is-invalid")
     document.getElementById("validationRentValue").classList.remove("is-invalid")
     let flag = true
-    if (isNaN(inputBase)) {
+    if (isNaN(inputBase) || inputBase == "") {
         flag = false
         document.getElementById("validationBaseValue").setAttribute("class", "form-control is-invalid")
         let feedbackBase = document.createElement("div")
@@ -83,7 +83,7 @@ function newBase() {
     } else {
         inputBase = Number(inputBase)
     }
-    if (isNaN(inputRent)) {
+    if (isNaN(inputRent) || inputRent == "") {
         flag = false
         document.getElementById("validationRentValue").setAttribute("class", "form-control is-invalid")
         let feedbackRent = document.createElement("div")
@@ -124,13 +124,40 @@ function newEvent() {
     let nameEvent = document.getElementById("validationNameEvent").value
     let intensityEvent = document.getElementById("validationIntensityEvent").value
     let probabilityEvent = document.getElementById("validationProbabilityEvent").value
+    let divForNameEvent = document.getElementById("divForNameEvent")
     let divForIntensityEvent = document.getElementById("divForIntensityEvent")
     let divForProbabilityEvent = document.getElementById("divForProbabilityEvent")
+    console.log(data['countEvent'])
     document.querySelectorAll(".invalid-feedback").forEach(e => e.remove())
+    document.getElementById("validationNameEvent").classList.remove("is-invalid")
     document.getElementById("validationIntensityEvent").classList.remove("is-invalid")
     document.getElementById("validationProbabilityEvent").classList.remove("is-invalid")
 
     let flag = true
+    if (nameEvent == "") {
+        flag = false
+        let feedbackName = document.createElement("div")
+        document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
+        feedbackName.setAttribute("class", "invalid-feedback")
+        feedbackName.innerHTML = "Заполните это поле"
+        divForNameEvent.appendChild(feedbackName)
+    }
+    if (intensityEvent == "") {
+        flag = false
+        let feedbackIntensity = document.createElement("div")
+        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+        feedbackIntensity.setAttribute("class", "invalid-feedback")
+        feedbackIntensity.innerHTML = "Заполните это поле"
+        divForIntensityEvent.appendChild(feedbackIntensity)
+    }
+    if (probabilityEvent == "") {
+        flag = false
+        let feedbackProbability = document.createElement("div")
+        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        feedbackProbability.setAttribute("class", "invalid-feedback")
+        feedbackProbability.innerHTML = "Заполните это поле"
+        divForProbabilityEvent.appendChild(feedbackProbability)
+    }
     if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
         flag = false
         let feedbackIntensity = document.createElement("div")
@@ -186,7 +213,6 @@ function newEvent() {
         event.appendChild(newDivClose)
         event.classList.remove("displayNone")
         events.appendChild(event)
-
         data["countEvent"] += 1
         document.getElementById("formForStrategy").classList.remove("displayNone")
         let newOption = document.createElement("option")
@@ -221,7 +247,6 @@ function newEvent() {
     document.getElementById("validationNameEvent").value = ""
     document.getElementById("validationIntensityEvent").value = ""
     document.getElementById("validationProbabilityEvent").value = ""
-
 }
 
 function createCloseButton(div) {
@@ -237,13 +262,48 @@ function newMinimization() {
     let atWhichEvent = document.getElementById("validationAtWhichEvent").value
     let costStrategy = document.getElementById("validationCostsStrategy").value
     let howMach = document.getElementById("validationByHowMuch").value
+    let divNameStrategy = document.getElementById("divForNameStrategy")
     let divCostStrategy = document.getElementById("divForCostStrategy")
     let divHowMach = document.getElementById("divForHowMach")
     document.querySelectorAll(".invalid-feedback").forEach(e => e.remove())
-    document.getElementById("validationAtWhichEvent").classList.remove("is-invalid")
+    document.getElementById("validationNameStrategy").classList.remove("is-invalid")
     document.getElementById("validationCostsStrategy").classList.remove("is-invalid")
+    document.getElementById("validationAtWhichEvent").classList.remove("is-invalid")
+    document.getElementById("validationByHowMuch").classList.remove("is-invalid")
 
     let flag = true
+    if (nameStrategy == "") {
+        flag = false
+        document.getElementById("validationNameStrategy").setAttribute("class", "form-control is-invalid")
+        let feedbackName = document.createElement("div")
+        feedbackName.setAttribute("class", "invalid-feedback")
+        feedbackName.innerHTML = "Заполните это поле"
+        divNameStrategy.appendChild(feedbackName)
+    }
+    if (atWhichEvent == "") {
+        flag = false
+        document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
+        let feedbackCost = document.createElement("div")
+        feedbackCost.setAttribute("class", "invalid-feedback")
+        feedbackCost.innerHTML = "Заполните это поле"
+        divCostStrategy.appendChild(feedbackCost)
+    }
+    if (costStrategy == "") {
+        flag = false
+        document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
+        let feedbackCost = document.createElement("div")
+        feedbackCost.setAttribute("class", "invalid-feedback")
+        feedbackCost.innerHTML = "Заполните это поле"
+        divCostStrategy.appendChild(feedbackCost)
+    }
+    if (howMach == "") {
+        flag = false
+        document.getElementById("validationByHowMuch").setAttribute("class", "form-control is-invalid")
+        let feedbackHowMach = document.createElement("div")
+        feedbackHowMach.setAttribute("class", "invalid-feedback")
+        feedbackHowMach.innerHTML = "Заполните это поле"
+        divHowMach.appendChild(feedbackHowMach)
+    }
     if ((isNaN(costStrategy)) || (Number(costStrategy) < 0)) {
         flag = false
         document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
