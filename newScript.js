@@ -134,7 +134,6 @@ function newEvent() {
     document.getElementById("validationProbabilityEvent").classList.remove("is-invalid")
 
     let names = document.getElementsByClassName('eventName')
-    console.log(names)
 
     let flag = true
     if (nameEvent == "") {
@@ -160,6 +159,7 @@ function newEvent() {
         feedbackProbability.setAttribute("class", "invalid-feedback")
         feedbackProbability.innerHTML = "Заполните это поле"
         divForProbabilityEvent.appendChild(feedbackProbability)
+    }
     for (let index = 0; index < names.length; index++) {
         if (nameEvent === names[index].innerText) {
             flag = false
@@ -284,6 +284,8 @@ function newMinimization() {
     document.getElementById("validationAtWhichEvent").classList.remove("is-invalid")
     document.getElementById("validationByHowMuch").classList.remove("is-invalid")
 
+    let names = document.getElementsByClassName('strategyName')
+
     let flag = true
     if (nameStrategy == "") {
         flag = false
@@ -317,6 +319,17 @@ function newMinimization() {
         feedbackHowMach.innerHTML = "Заполните это поле"
         divHowMach.appendChild(feedbackHowMach)
     }
+    for (let index = 0; index < names.length; index++) {
+        if (nameStrategy === names[index].innerText) {
+            flag = false
+            let feedbackStrategyName = document.createElement("div")
+            document.getElementById("validationNameStrategy").setAttribute("class", "form-control is-invalid")
+            feedbackStrategyName.setAttribute("class", "invalid-feedback")
+            feedbackStrategyName.innerHTML = "Названия стратегий не должны повторяться"
+            divNameStrategy.appendChild(feedbackStrategyName)
+            break
+        }
+    }
     if ((isNaN(costStrategy)) || (Number(costStrategy) < 0)) {
         flag = false
         document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
@@ -348,7 +361,7 @@ function newMinimization() {
         let strategies = document.getElementById("Strategies")
         let strategy = document.createElement("tr")
         let newNameStrategy = document.createElement("td")
-        newNameStrategy.setAttribute("class", "col-md-3 mb-3")
+        newNameStrategy.setAttribute("class", "col-md-3 mb-3 strategyName")
         newNameStrategy.innerHTML = nameStrategy
         let newAtWhichEvent = document.createElement("td")
         newAtWhichEvent.setAttribute("class", "col-md-3 mb-3")
