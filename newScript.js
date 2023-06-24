@@ -77,15 +77,12 @@ function newEvent() {
     let divForNameEvent = document.getElementById("divForNameEvent")
     let divForIntensityEvent = document.getElementById("divForIntensityEvent")
     let divForProbabilityEvent = document.getElementById("divForProbabilityEvent")
-    console.log(data['countEvent'])
     document.querySelectorAll(".invalid-feedback").forEach(e => e.remove())
     document.getElementById("validationNameEvent").classList.remove("is-invalid")
     document.getElementById("validationIntensityEvent").classList.remove("is-invalid")
     document.getElementById("validationProbabilityEvent").classList.remove("is-invalid")
 
     let names = document.getElementsByClassName('eventName')
-    console.log(names)
-
     let flag = true
     if (nameEvent === "") {
         flag = false
@@ -129,6 +126,8 @@ function newEvent() {
             feedbackIntensity.innerHTML = "Введите положительное число"
             divForIntensityEvent.appendChild(feedbackIntensity)
         } else {
+            console.log(7)
+
             intensityEvent = Number(intensityEvent)
         }
         if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
@@ -154,63 +153,63 @@ function newEvent() {
         } else {
             probabilityEvent = Number(probabilityEvent)
         }
+    }
 
-        if (flag) {
-            let events = document.getElementById("Events")
-            let event = document.createElement("tr")
-            let newNameEvent = document.createElement("td")
-            newNameEvent.setAttribute("class", "col-md-3 mb-3 eventName")
-            newNameEvent.innerHTML = nameEvent
-            let newIntensityEvent = document.createElement("td")
-            newIntensityEvent.setAttribute("class", "col-md-3 mb-3")
-            newIntensityEvent.innerHTML = intensityEvent
-            let newProbabilityEvent = document.createElement("td")
-            newProbabilityEvent.setAttribute("class", "col-md-3 mb-3")
-            newProbabilityEvent.innerHTML = probabilityEvent
-            let newDivClose = document.createElement("td")
-            createCloseButton(newDivClose)
+    if (flag) {
+        let events = document.getElementById("Events")
+        let event = document.createElement("tr")
+        let newNameEvent = document.createElement("td")
+        newNameEvent.setAttribute("class", "col-md-3 mb-3 eventName")
+        newNameEvent.innerHTML = nameEvent
+        let newIntensityEvent = document.createElement("td")
+        newIntensityEvent.setAttribute("class", "col-md-3 mb-3")
+        newIntensityEvent.innerHTML = intensityEvent
+        let newProbabilityEvent = document.createElement("td")
+        newProbabilityEvent.setAttribute("class", "col-md-3 mb-3")
+        newProbabilityEvent.innerHTML = probabilityEvent
+        let newDivClose = document.createElement("td")
+        createCloseButton(newDivClose)
 
-            event.appendChild(newNameEvent)
-            event.appendChild(newIntensityEvent)
-            event.appendChild(newProbabilityEvent)
-            event.appendChild(newDivClose)
-            event.classList.remove("displayNone")
-            events.appendChild(event)
-            data["countEvent"] += 1
-            document.getElementById("formForStrategy").classList.remove("displayNone")
-            let newOption = document.createElement("option")
-            newOption.innerHTML = nameEvent
-            document.getElementById("validationAtWhichEvent").appendChild(newOption)
+        event.appendChild(newNameEvent)
+        event.appendChild(newIntensityEvent)
+        event.appendChild(newProbabilityEvent)
+        event.appendChild(newDivClose)
+        event.classList.remove("displayNone")
+        events.appendChild(event)
+        data["countEvent"] += 1
+        document.getElementById("formForStrategy").classList.remove("displayNone")
+        let newOption = document.createElement("option")
+        newOption.innerHTML = nameEvent
+        document.getElementById("validationAtWhichEvent").appendChild(newOption)
 
-            let close = document.getElementsByClassName("close")
+        let close = document.getElementsByClassName("close")
 
-            for (let i = 0; i < close.length; i++) {
-                close[i].onclick = function () {
-                    let div = this.parentElement.parentElement
-                    div.setAttribute("class", "deleteClass")
-                    const deleteElement = document.querySelector(".deleteClass")
-                    const parent = deleteElement.parentNode
-                    parent.removeChild(deleteElement)
-                    data["countEvent"] -= 1
-                    if (data["countEvent"] === 0) {
-                        document.getElementById("formForStrategy").setAttribute("class", "displayNone")
-                    }
-                    let strategyNames = document.getElementsByClassName("eventName")
-                    let selector = document.getElementById("validationAtWhichEvent")
-                    selector.innerHTML = ''
-                    for (let i = 0; i < strategyNames.length; i++) {
-                        let option = document.createElement("option")
-                        option.innerHTML = strategyNames[i].textContent
-                        selector.appendChild(option)
-                    }
+        for (let i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                let div = this.parentElement.parentElement
+                div.setAttribute("class", "deleteClass")
+                const deleteElement = document.querySelector(".deleteClass")
+                const parent = deleteElement.parentNode
+                parent.removeChild(deleteElement)
+                data["countEvent"] -= 1
+                if (data["countEvent"] === 0) {
+                    document.getElementById("formForStrategy").setAttribute("class", "displayNone")
+                }
+                let strategyNames = document.getElementsByClassName("eventName")
+                let selector = document.getElementById("validationAtWhichEvent")
+                selector.innerHTML = ''
+                for (let i = 0; i < strategyNames.length; i++) {
+                    let option = document.createElement("option")
+                    option.innerHTML = strategyNames[i].textContent
+                    selector.appendChild(option)
                 }
             }
         }
-
-        document.getElementById("validationNameEvent").value = ""
-        document.getElementById("validationIntensityEvent").value = ""
-        document.getElementById("validationProbabilityEvent").value = ""
     }
+
+    document.getElementById("validationNameEvent").value = ""
+    document.getElementById("validationIntensityEvent").value = ""
+    document.getElementById("validationProbabilityEvent").value = ""
 }
 
 function createCloseButton(div) {
@@ -363,7 +362,7 @@ function calculatePrintTable() {
     printTableOfStrategiesCharacteristics()
     printTableAltLoss()
     printTableConditionalBenefits()
-    printTableEconomicEffectsAfterRealizationStrategy()
+    // printTableEconomicEffectsAfterRealizationStrategy()
 }
 
 function printRename(nameData) {
@@ -542,7 +541,7 @@ function autoFilling() {
     printTableOfStrategiesCharacteristics()
     printTableAltLoss()
     printTableConditionalBenefits()
-    printTableEconomicEffectsAfterRealizationStrategy()
+    // printTableEconomicEffectsAfterRealizationStrategy()
     console.log(data)
 }
 
@@ -786,7 +785,7 @@ function printTableConditionalBenefits() {
         let tr = document.createElement("tr")
         let td = document.createElement("td")
         let text = document.createTextNode(data["userMinimization"][strategy][4])
-        if (maxMinList.includes(strategy)){
+        if (maxMinList.includes(strategy)) {
             td.setAttribute("class", "blue")
         }
         td.appendChild(text)
@@ -801,12 +800,12 @@ function printTableConditionalBenefits() {
             } else {
                 number = data["rent"] - data["userEvent"][event][9]
             }
-            if (number < data["userEvent"][event][10]){
+            if (number < data["userEvent"][event][10]) {
                 data["userEvent"][event][10] = number
             }
             let text = document.createTextNode(number)
             td = document.createElement("td")
-            if (number === minMaxValue){
+            if (number === minMaxValue) {
                 td.setAttribute("class", "blue")
             }
             td.appendChild(text)
@@ -845,7 +844,7 @@ function printTableConditionalBenefits() {
     for (let i = 0; i < data["countEvent"]; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["userEvent"][i][10])
-        if (data["userEvent"][i][10] === minMaxValue){
+        if (data["userEvent"][i][10] === minMaxValue) {
             td.setAttribute("class", "blue")
         }
         td.appendChild(text)
