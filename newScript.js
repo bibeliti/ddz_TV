@@ -1,5 +1,6 @@
 let data = {}
 data["countEvent"] = 0
+data["countStrategy"] = 0
 data["base"] = 0
 
 function main() {
@@ -19,24 +20,6 @@ function main() {
     tableEntry("tableMinimization", "userMinimization", data)
     printRenameEvents(data)
     printRenameStr(data)
-}
-
-function tableEntry(nameTable, nameData, data) {
-    let tableRisk = document.getElementById(nameTable)
-
-    data[nameData] = []
-    let currRows = tableRisk.getElementsByTagName("tr")
-
-    for (let j = 0; j < currRows.length; j++) {
-        data[nameData][j] = []
-        let cells = currRows[j].getElementsByTagName("td")
-
-        for (let k = 0; k < cells.length - 1; k++) {
-            {
-                data[nameData][j][k] = cells[k].textContent
-            }
-        }
-    }
 }
 
 function printRenameEvents(data) {
@@ -305,6 +288,8 @@ function newMinimization() {
         newHowMAch.innerHTML = howMach
         let newDivClose = document.createElement("td")
         createCloseButton(newDivClose)
+        data["countStrategy"] += 1
+        document.getElementById("divForButtonCalculate").classList.remove("displayNone")
 
         strategy.appendChild(newNameStrategy)
         strategy.appendChild(newAtWhichEvent)
@@ -319,6 +304,10 @@ function newMinimization() {
             close[i].onclick = function () {
                 let div = this.parentElement.parentElement
                 div.setAttribute("class", "deleteClass")
+                data["countStrategy"] -= 1
+                if (data["countStrategy"] === 0){
+                    document.getElementById("divForButtonCalculate").setAttribute("class", "displayNone")
+                }
                 const deleteElement = document.querySelector(".deleteClass")
                 const parent = deleteElement.parentNode
                 parent.removeChild(deleteElement)
@@ -333,9 +322,35 @@ function newMinimization() {
             }
         }
     }
-
     document.getElementById("validationNameStrategy").value = ""
     document.getElementById("validationAtWhichEvent").value = ""
     document.getElementById("validationCostsStrategy").value = ""
     document.getElementById("validationByHowMuch").value = ""
+}
+
+function calculatePrintTable() {
+    document.getElementById("buttonForCalculate").setAttribute("disabled", "disabled")
+    tableEntry("Events", "userEvent")
+    tableEntry("Strategies", "userMinimization")
+    // printRenameEvents(data)
+    // printRenameStr(data)
+    console.log(data)
+}
+
+function tableEntry(nameTable, nameData) {
+    let tableRisk = document.getElementById(nameTable)
+
+    data[nameData] = []
+    let currRows = tableRisk.getElementsByTagName("tr")
+
+    for (let j = 0; j < currRows.length; j++) {
+        data[nameData][j] = []
+        let cells = currRows[j].getElementsByTagName("td")
+
+        for (let k = 0; k < cells.length - 1; k++) {
+            {
+                data[nameData][j][k] = cells[k].textContent
+            }
+        }
+    }
 }

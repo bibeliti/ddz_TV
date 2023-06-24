@@ -62,7 +62,7 @@
             <div class="col-md-2 mb-2"></div>
             <div class="form-check col-md-1 mb-1">
                 <label style="color: white">добавить</label>
-                <span class="btn btn-primary mb-2 form-control" onclick="newEvent()">Добавить</span>
+                <span class="btn btn-primary mb-2 form-control buttonAdd" onclick="newEvent()">Добавить</span>
             </div>
         </div>
         <div id="divForEvents" class="displayNone col-md-12 md-12 form-row">
@@ -78,13 +78,12 @@
             <div class="col-md-3 mb-3 dropdown">
                 <label for="validationAtWhichEvent">На какое событие:</label>
                 <span class="custom-dropdown">
-                    <select id="validationAtWhichEvent"></select>
+                    <select id="validationAtWhichEvent" required></select>
                 </span>
             </div>
             <div class="col-md-3 mb-3" id="divForCostStrategy">
                 <label for="validationCostsStrategy">Затраты на внедрение:</label>
-                <input type="text" class="form-control" id="validationCostsStrategy" placeholder="В тысячах рублей"
-                       required>
+                <input type="text" class="form-control" id="validationCostsStrategy" placeholder="В тысячах рублей" required>
             </div>
             <div class="form-check col-md-2 mb-2" id="divForHowMach">
                 <label for="validationByHowMuch">На сколько влияет:</label>
@@ -92,7 +91,7 @@
             </div>
             <div class="form-check col-md-1 mb-1">
                 <label style="color: white">добавить</label>
-                <button type="submit" class="btn btn-primary mb-2 form-control" onclick="newMinimization()">Добавить
+                <button type="submit" class="btn btn-primary mb-2 form-control buttonAdd" onclick="newMinimization()">Добавить
                 </button>
             </div>
         </div>
@@ -100,6 +99,9 @@
             <table id="Strategies" class="table"></table>
         </div>
     </form>
+    <div id="divForButtonCalculate" class="displayNone">
+        <button id="buttonForCalculate" type="button" class="btn btn-primary btn-lg btn-block" onclick="calculatePrintTable()">Расчитать стратегии и вывести все таблицы</button>
+    </div>
 </div>
 </body>
 </html>
