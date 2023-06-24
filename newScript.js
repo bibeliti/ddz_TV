@@ -539,7 +539,7 @@ function autoFilling() {
     document.getElementById("printTable").classList.remove("displayNone")
     printTableOfStrategiesCharacteristics()
     printTableAltLoss()
-    // printTableConditionalBenefits()
+    printTableConditionalBenefits()
     console.log(data)
 }
 
@@ -734,4 +734,120 @@ function printTableAltLoss() {
 
         tbody.appendChild(tr)
     }
+}
+
+function printTableConditionalBenefits() {
+    let tbody = document.getElementById("tbodyConditionalBenefits")
+    let trThead = document.getElementById("trConditionalBenefits")
+    let tdThead = document.getElementById("tdTheadConditionalBenefits")
+    tdThead.setAttribute("colspan", data["countEvent"])
+
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][3])
+        td.appendChild(text)
+        trThead.appendChild(td)
+    }
+    let minMaxValue = 9999999999
+    let maxMinList = []
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        data["userMinimization"][strategy][7] = -9999999999
+        data["userMinimization"][strategy][8] = 9999999999
+        for (let event = 0; event < data["countEvent"]; event++) {
+            let number
+            if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
+                number = data["rent"] - data["userEvent"][event][8]
+            } else {
+                number = data["rent"] - data["userEvent"][event][9]
+            }
+            if (number > data["userMinimization"][strategy][7]) {
+                data["userMinimization"][strategy][7] = number
+            }
+            if (number < data["userMinimization"][strategy][8]) {
+                data["userMinimization"][strategy][8] = number
+            }
+            if ((minMaxValue > data["userMinimization"][strategy][7]) && (event === data["countEvent"] - 1)) {
+                minMaxValue = data["userMinimization"][strategy][7]
+                maxMinList = []
+            }
+            if (minMaxValue === number && !maxMinList.includes(strategy)) {
+                maxMinList.push(strategy)
+            }
+        }
+    }
+    for (let i = 0; i < data["countEvent"]; i++)
+        data["userEvent"][i][10] = 9999999999
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userMinimization"][strategy][4])
+        if (maxMinList.includes(strategy)){
+            td.setAttribute("class", "blue")
+        }
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        data["userMinimization"][strategy][7] = -9999999999
+        data["userMinimization"][strategy][8] = 9999999999
+        for (let event = 0; event < data["countEvent"]; event++) {
+            let number
+            if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
+                number = data["rent"] - data["userEvent"][event][8]
+            } else {
+                number = data["rent"] - data["userEvent"][event][9]
+            }
+            if (number < data["userEvent"][event][10]){
+                data["userEvent"][event][10] = number
+            }
+            let text = document.createTextNode(number)
+            td = document.createElement("td")
+            if (number === minMaxValue){
+                td.setAttribute("class", "blue")
+            }
+            td.appendChild(text)
+            tr.appendChild(td)
+            if (number > data["userMinimization"][strategy][7]) {
+                data["userMinimization"][strategy][7] = number
+            }
+            if (number < data["userMinimization"][strategy][8]) {
+                data["userMinimization"][strategy][8] = number
+            }
+            if ((minMaxValue > data["userMinimization"][strategy][7]) && (event === data["countEvent"] - 1)) {
+                minMaxValue = data["userMinimization"][strategy][7]
+                maxMinList = []
+            }
+            if (minMaxValue === number && !maxMinList.includes(strategy)) {
+                maxMinList.push(strategy)
+            }
+        }
+        let tdMax = document.createElement("td")
+        let maxText = document.createTextNode(data["userMinimization"][strategy][8])
+        tdMax.appendChild(maxText)
+        tr.appendChild(tdMax)
+
+        let tdMin = document.createElement("td")
+        let minText = document.createTextNode(data["userMinimization"][strategy][7])
+        tdMin.appendChild(minText)
+        tr.appendChild(tdMin)
+
+        tbody.appendChild(tr)
+    }
+    let tr = document.createElement("tr")
+    let bTd = document.createElement("td")
+    let bText = document.createTextNode("b")
+    bTd.appendChild(bText)
+    tr.appendChild(bTd)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][10])
+        if (data["userEvent"][i][10] === minMaxValue){
+            td.setAttribute("class", "blue")
+        }
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+
+    tbody.appendChild(tr)
 }
