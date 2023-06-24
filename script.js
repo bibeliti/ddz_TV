@@ -1289,7 +1289,7 @@ function createCloseButton(tr) {
 }
 
 // adds new strategi of minimization
-function newMinimization(data) {
+function newMinimization() {
     let tr = document.createElement("tr")
     let inputNameMinimization = document.getElementById("inputNameMinimization").value
     let inputRiskStrategy = document.getElementById("inputWhatEventThisStrategy").value
