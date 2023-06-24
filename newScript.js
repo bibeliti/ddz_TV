@@ -138,13 +138,29 @@ function newEvent() {
     let nameEvent = document.getElementById("validationNameEvent").value
     let intensityEvent = document.getElementById("validationIntensityEvent").value
     let probabilityEvent = document.getElementById("validationProbabilityEvent").value
+    let divForNameEvent = document.getElementById("divForNameEvent")
     let divForIntensityEvent = document.getElementById("divForIntensityEvent")
     let divForProbabilityEvent = document.getElementById("divForProbabilityEvent")
     document.querySelectorAll('.invalid-feedback').forEach(e => e.remove())
+    document.getElementById("validationNameEvent").classList.remove("is-invalid")
     document.getElementById("validationIntensityEvent").classList.remove("is-invalid")
     document.getElementById("validationProbabilityEvent").classList.remove("is-invalid")
 
+    let names = document.getElementsByClassName('eventName')
+    console.log(names)
+
     let flag = true
+    for (let index = 0; index < names.length; index++) {
+        if (nameEvent === names[index].innerText) {
+            flag = false
+            let feedbackEventName = document.createElement("div")
+            document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
+            feedbackEventName.setAttribute("class", "invalid-feedback")
+            feedbackEventName.innerHTML = "Названия событий не должны повторяться"
+            divForNameEvent.appendChild(feedbackEventName)
+            break
+        }
+    }
     if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
         flag = false
         let feedbackIntensity = document.createElement("div")
