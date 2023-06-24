@@ -359,9 +359,11 @@ function calculatePrintTable() {
     printRename("userEvent")
     printRename("userMinimization")
     printTableOfEventsCharacteristics()
-    document.getElementById("printTable").classList.remove("displayList")
-    console.log(data)
+    document.getElementById("printTable").classList.remove("displayNone")
     printTableOfStrategiesCharacteristics()
+    printTableAltLoss()
+    printTableConditionalBenefits()
+    printTableEconomicEffectsAfterRealizationStrategy()
 }
 
 function printRename(nameData) {
@@ -540,6 +542,7 @@ function autoFilling() {
     printTableOfStrategiesCharacteristics()
     printTableAltLoss()
     printTableConditionalBenefits()
+    printTableEconomicEffectsAfterRealizationStrategy()
     console.log(data)
 }
 
@@ -848,6 +851,7 @@ function printTableConditionalBenefits() {
         td.appendChild(text)
         tr.appendChild(td)
     }
-
     tbody.appendChild(tr)
 }
+
+
