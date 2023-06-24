@@ -471,7 +471,7 @@ function printTableOfEventsCharacteristics() {
     tr.appendChild(tdNumber)
     tr.appendChild(tdName)
     for (let i = 0; i < data["countEvent"]; i++) {
-        data["userEvent"][i][4] = Number(data["userEvent"][i][1]) * Number(data["userEvent"][i][2])
+        data["userEvent"][i][4] = round(Number(data["userEvent"][i][1]) * Number(data["userEvent"][i][2]), 3)
         let td = document.createElement("td")
         let text = document.createTextNode(data["userEvent"][i][4])
         td.appendChild(text)
@@ -541,7 +541,7 @@ function autoFilling() {
     printTableOfStrategiesCharacteristics()
     printTableAltLoss()
     printTableConditionalBenefits()
-    // printTableEconomicEffectsAfterRealizationStrategy()
+    printTableEconomicEffectsAfterRealizationStrategy()
     console.log(data)
 }
 
@@ -853,4 +853,48 @@ function printTableConditionalBenefits() {
     tbody.appendChild(tr)
 }
 
+function printTableEconomicEffectsAfterRealizationStrategy() {
+    let tbody = document.getElementById("tbodyEconomicEffectsAfterRealizationStrategy")
+    let trThead = document.getElementById("trEconomicEffectsAfterRealizationStrategy")
+    let tdThead = document.getElementById("tdTheadEconomicEffectsAfterRealizationStrategy")
+    tdThead.setAttribute("colspan", data["countEvent"])
 
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][3])
+        td.appendChild(text)
+        trThead.appendChild(td)
+    }
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userMinimization"][strategy][4])
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        data["userMinimization"][strategy][11] = -9999999
+        for (let event = 0; event < data["countEvent"]; event++) {
+            let number
+            if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
+                number = 0
+            } else {
+                number = data["userEvent"][event][9] - data["userEvent"][event][8]
+            }
+            let text = document.createTextNode(number)
+            td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+            if (number > data["userMinimization"][strategy][11]) {
+                data["userMinimization"][strategy][11] = number
+            }
+        }
+
+        let tdMax = document.createElement("td")
+        let maxText = document.createTextNode(data["userMinimization"][strategy][11])
+        tdMax.appendChild(maxText)
+        tr.appendChild(tdMax)
+
+        tbody.appendChild(tr)
+    }
+}
