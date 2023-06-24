@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>newDDZ</title>
@@ -13,7 +13,8 @@
     <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
 
     <!--    <h3>Автозаполнение по примеру Кориб (нажмите на кнопку ниже)</h3>-->
-    <!--    <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>-->
+    <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>
+
 </header>
 <div id="formFilling">
     <form>
@@ -51,7 +52,7 @@
                 <label for="validationNameEvent">Название события</label>
                 <input type="text" class="form-control" id="validationNameEvent" placeholder="В буквах">
             </div>
-            <div class="col-md-3 mb-3" id="divForIntensityEvent">
+            <div class="col-md-3 mb-3" id="">
                 <label for="validationIntensityEvent">Интенсивность возникновения</label>
                 <input type="text" class="form-control" id="validationIntensityEvent" placeholder="В числах" required>
             </div>
@@ -66,7 +67,7 @@
             </div>
         </div>
         <div id="divForEvents" class="displayNone col-md-12 md-12 form-row">
-            <table id="Events" class="table"></table>
+            <table id="Events" class="table table-hover table-bordered"></table>
         </div>
     </form>
     <form id="formForStrategy" class="displayNone">
@@ -91,16 +92,95 @@
             </div>
             <div class="form-check col-md-1 mb-1">
                 <label style="color: white">добавить</label>
-                <button type="submit" class="btn btn-primary mb-2 form-control buttonAdd" onclick="newMinimization()">Добавить
+                <button type="submit" class="btn btn-primary mb-2 form-control buttonAdd" onclick="newMinimization()">
+                    Добавить
                 </button>
             </div>
         </div>
         <div id="divForStrategies" class="displayNone col-md-12 md-12 form-row">
-            <table id="Strategies" class="table"></table>
+            <table id="Strategies" class="table table-hover table-bordered"></table>
         </div>
     </form>
     <div id="divForButtonCalculate" class="displayNone">
-        <button id="buttonForCalculate" type="button" class="btn btn-primary btn-lg btn-block" onclick="calculatePrintTable()">Расчитать стратегии и вывести все таблицы</button>
+        <button id="buttonForCalculate" type="button" class="btn btn-primary btn-lg btn-block"
+                onclick="calculatePrintTable()">Расчитать стратегии и вывести все таблицы
+        </button>
+    </div>
+</div>
+<div id="printTable" class="displayNone">
+    <table class="table table-hover table-bordered" id="tableForNameEvent">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Первоначальное название</th>
+            <th scope="col">Обозначение</th>
+        </tr>
+        </thead>
+        <tbody id="tbodyForNameEvent"></tbody>
+    </table>
+    <table class="table table-hover table-bordered" id="tableForNameStrategies">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Первоначальное название</th>
+            <th scope="col">Обозначение</th>
+        </tr>
+        </thead>
+        <tbody id="tbodyForNameStrategy"></tbody>
+    </table>
+    <div id="divForTableEventCharacteristics">
+        <table id="tableEventsCharacteristics" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr id="trTheadCharacteristicsEvent">
+                <td rowspan="2">№</td>
+                <td rowspan="2">Имя параметра</td>
+            </tr>
+            <tr id="trCharacteristicsEvent"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyCharacteristicsEvent"></tbody>
+        </table>
+    </div>
+    <div id="divForTableStrategyCharacteristics">
+        <table id="tableStrategyCharacteristics" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr id="trTheadCharacteristicsStrategy">
+                <td rowspan="2">№</td>
+                <td rowspan="2">Имя параметра</td>
+            </tr>
+            <tr id="trCharacteristicsStrategy"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyCharacteristicsStrategy"></tbody>
+        </table>
+    </div>
+    <div id="divForTableAltLoss">
+        <table id="tableAltLoss" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td rowspan="2">Стратегии</td>
+                <td id="tdTheadAltLoss">Стоимость альтернативных убытков</td>
+                <td rowspan="2">Минимальное значение(Min)</td>
+                <td rowspan="2">Максимальное значение(Max)</td>
+            </tr>
+            <tr id="trAltLoss"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyAltLoss"></tbody>
+        </table>
+    </div>
+    <div id="divForTableConditionalBenefits">
+        <table id="tableConditionalBenefits" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td rowspan="2">Стратегии</td>
+                <td id="tdTheadConditionalBenefits">Стоимость альтернативных убытков</td>
+                <td rowspan="2">Минимальное значение(Min)</td>
+                <td rowspan="2">Максимальное значение(Max)</td>
+            </tr>
+            <tr id="trConditionalBenefits"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyConditionalBenefits"></tbody>
+        </table>
     </div>
 </div>
 </body>

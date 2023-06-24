@@ -6,6 +6,10 @@
     width: 95%;
     margin: auto;
 }
+#printTable {
+    width: 95%;
+    margin: auto;
+}
 
 .displayNone {
     display: none;
@@ -41,4 +45,9 @@
 
 #validationAtWhichEvent {
     width: 100%;
+}
+
+#tableForNameEvent,
+#tableForNameStrategies{
+    margin-top: 5%;
 }

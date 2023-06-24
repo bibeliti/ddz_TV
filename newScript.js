@@ -3,58 +3,8 @@ data["countEvent"] = 0
 data["countStrategy"] = 0
 data["base"] = 0
 
-function main() {
-    let data = {}
-    data["base"] = Number(document.getElementById("baseValue").textContent)
-    data["rent"] = Number(document.getElementById("rentValue").textContent)
-    let coefficient = []
-    coefficient[0] = 0.5
-    coefficient[1] = 0.7
-    coefficient[2] = 0.8
-    coefficient[3] = 0.9
-    data["coefficients"] = coefficient
-
-    document.getElementById("inputCalculate").setAttribute("class", "disable")
-
-    tableEntry("tableEvent", "userEvent", data)
-    tableEntry("tableMinimization", "userMinimization", data)
-    printRenameEvents(data)
-    printRenameStr(data)
-}
-
-function printRenameEvents(data) {
-    const table = document.getElementById("tableRenameEvents");
-    document.getElementById("matrixRenameEvents").removeAttribute("class");
-    const thHeader = document.createElement("th");
-    const tdEvent = document.createElement("td");
-    const tdRename = document.createElement("td");
-    const textTdEvent = document.createTextNode("Название события");
-    const textTdRename = document.createTextNode("Замена");
-
-    table.appendChild(thHeader);
-    thHeader.appendChild(tdEvent);
-    thHeader.appendChild(tdRename);
-    tdEvent.appendChild(textTdEvent);
-    tdRename.appendChild(textTdRename);
-
-    data["event"] = new Array(data["userEvent"].length)
-    for (let i = 0; i < data["userEvent"].length; i++) {
-        let tr = document.createElement("tr");
-        let tdNameOriginal = document.createElement("td");
-        let tdNameReplacement = document.createElement("td");
-
-        let original = document.createTextNode(data["userEvent"][i][0]);
-        let replacement = document.createTextNode("Событие-" + (i + 1));
-
-        data["event"][i] = data["userEvent"][i]
-        data["event"][i][0] = "e" + (i + 1)
-
-        tdNameOriginal.appendChild(textTd);
-        tdNameReplacement.appendChild(textTd2);
-        tr.appendChild(tdNameOriginal);
-        tr.appendChild(tdNameReplacement);
-        table.appendChild(tr);
-    }
+function round(value, decimals) {
+    return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
 function newBase() {
@@ -66,7 +16,7 @@ function newBase() {
     document.getElementById("validationBaseValue").classList.remove("is-invalid")
     document.getElementById("validationRentValue").classList.remove("is-invalid")
     let flag = true
-    if (isNaN(inputBase) || inputBase == "") {
+    if (isNaN(inputBase) || inputBase === "") {
         flag = false
         document.getElementById("validationBaseValue").setAttribute("class", "form-control is-invalid")
         let feedbackBase = document.createElement("div")
@@ -83,7 +33,7 @@ function newBase() {
     } else {
         inputBase = Number(inputBase)
     }
-    if (isNaN(inputRent) || inputRent == "") {
+    if (isNaN(inputRent) || inputRent === "") {
         flag = false
         document.getElementById("validationRentValue").setAttribute("class", "form-control is-invalid")
         let feedbackRent = document.createElement("div")
@@ -133,8 +83,11 @@ function newEvent() {
     document.getElementById("validationIntensityEvent").classList.remove("is-invalid")
     document.getElementById("validationProbabilityEvent").classList.remove("is-invalid")
 
+    let names = document.getElementsByClassName('eventName')
+    console.log(names)
+
     let flag = true
-    if (nameEvent == "") {
+    if (nameEvent === "") {
         flag = false
         let feedbackName = document.createElement("div")
         document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
@@ -142,7 +95,7 @@ function newEvent() {
         feedbackName.innerHTML = "Заполните это поле"
         divForNameEvent.appendChild(feedbackName)
     }
-    if (intensityEvent == "") {
+    if (intensityEvent === "") {
         flag = false
         let feedbackIntensity = document.createElement("div")
         document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
@@ -150,103 +103,114 @@ function newEvent() {
         feedbackIntensity.innerHTML = "Заполните это поле"
         divForIntensityEvent.appendChild(feedbackIntensity)
     }
-    if (probabilityEvent == "") {
+    if (probabilityEvent === "") {
         flag = false
         let feedbackProbability = document.createElement("div")
         document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
         feedbackProbability.setAttribute("class", "invalid-feedback")
         feedbackProbability.innerHTML = "Заполните это поле"
         divForProbabilityEvent.appendChild(feedbackProbability)
-    }
-    if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
-        flag = false
-        let feedbackIntensity = document.createElement("div")
-        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
-        feedbackIntensity.setAttribute("class", "invalid-feedback")
-        feedbackIntensity.innerHTML = "Введите положительное число"
-        divForIntensityEvent.appendChild(feedbackIntensity)
-    } else {
-        intensityEvent = Number(intensityEvent)
-    }
-    if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
-        flag = false
-        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
-        let feedbackProbability = document.createElement("div")
-        feedbackProbability.setAttribute("class", "invalid-feedback")
-        feedbackProbability.innerHTML = "Введите положительное дробное число меньшее 1"
-        divForProbabilityEvent.appendChild(feedbackProbability)
-    } else if (Number(probabilityEvent) * intensityEvent > 1) {
-        flag = false
-        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
-        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+        for (let index = 0; index < names.length; index++) {
+            if (nameEvent === names[index].innerText) {
+                flag = false
+                let feedbackEventName = document.createElement("div")
+                document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
+                feedbackEventName.setAttribute("class", "invalid-feedback")
+                feedbackEventName.innerHTML = "Названия событий не должны повторяться"
+                divForNameEvent.appendChild(feedbackEventName)
+                break
+            }
+        }
+        if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
+            flag = false
+            let feedbackIntensity = document.createElement("div")
+            document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+            feedbackIntensity.setAttribute("class", "invalid-feedback")
+            feedbackIntensity.innerHTML = "Введите положительное число"
+            divForIntensityEvent.appendChild(feedbackIntensity)
+        } else {
+            intensityEvent = Number(intensityEvent)
+        }
+        if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
+            flag = false
+            document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+            let feedbackProbability = document.createElement("div")
+            feedbackProbability.setAttribute("class", "invalid-feedback")
+            feedbackProbability.innerHTML = "Введите положительное дробное число меньшее 1"
+            divForProbabilityEvent.appendChild(feedbackProbability)
+        } else if (Number(probabilityEvent) * intensityEvent > 1) {
+            flag = false
+            document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+            document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
 
-        let feedbackProbability = document.createElement("div")
-        feedbackProbability.setAttribute("class", "invalid-feedback")
-        feedbackProbability.innerHTML = "Риск наступления не должен превышать 1"
-        divForProbabilityEvent.appendChild(feedbackProbability)
-        let feedbackIntensity = document.createElement("div")
-        feedbackIntensity.setAttribute("class", "invalid-feedback")
-        feedbackIntensity.innerHTML = "Риск = Интенсивность * Вероятность"
-        divForIntensityEvent.appendChild(feedbackIntensity)
-    } else {
-        probabilityEvent = Number(probabilityEvent)
-    }
+            let feedbackProbability = document.createElement("div")
+            feedbackProbability.setAttribute("class", "invalid-feedback")
+            feedbackProbability.innerHTML = "Риск наступления не должен превышать 1"
+            divForProbabilityEvent.appendChild(feedbackProbability)
+            let feedbackIntensity = document.createElement("div")
+            feedbackIntensity.setAttribute("class", "invalid-feedback")
+            feedbackIntensity.innerHTML = "Риск = Интенсивность * Вероятность"
+            divForIntensityEvent.appendChild(feedbackIntensity)
+        } else {
+            probabilityEvent = Number(probabilityEvent)
+        }
 
-    if (flag) {
-        let events = document.getElementById("Events")
-        let event = document.createElement("tr")
-        let newNameEvent = document.createElement("td")
-        newNameEvent.setAttribute("class", "col-md-3 mb-3 eventName")
-        newNameEvent.innerHTML = nameEvent
-        let newIntensityEvent = document.createElement("td")
-        newIntensityEvent.setAttribute("class", "col-md-3 mb-3")
-        newIntensityEvent.innerHTML = intensityEvent
-        let newProbabilityEvent = document.createElement("td")
-        newProbabilityEvent.setAttribute("class", "col-md-3 mb-3")
-        newProbabilityEvent.innerHTML = probabilityEvent
-        let newDivClose = document.createElement("td")
-        createCloseButton(newDivClose)
+        if (flag) {
+            let events = document.getElementById("Events")
+            let event = document.createElement("tr")
+            let newNameEvent = document.createElement("td")
+            newNameEvent.setAttribute("class", "col-md-3 mb-3 eventName")
+            newNameEvent.innerHTML = nameEvent
+            let newIntensityEvent = document.createElement("td")
+            newIntensityEvent.setAttribute("class", "col-md-3 mb-3")
+            newIntensityEvent.innerHTML = intensityEvent
+            let newProbabilityEvent = document.createElement("td")
+            newProbabilityEvent.setAttribute("class", "col-md-3 mb-3")
+            newProbabilityEvent.innerHTML = probabilityEvent
+            let newDivClose = document.createElement("td")
+            createCloseButton(newDivClose)
 
-        event.appendChild(newNameEvent)
-        event.appendChild(newIntensityEvent)
-        event.appendChild(newProbabilityEvent)
-        event.appendChild(newDivClose)
-        event.classList.remove("displayNone")
-        events.appendChild(event)
-        data["countEvent"] += 1
-        document.getElementById("formForStrategy").classList.remove("displayNone")
-        let newOption = document.createElement("option")
-        newOption.innerHTML = nameEvent
-        document.getElementById("validationAtWhichEvent").appendChild(newOption)
+            event.appendChild(newNameEvent)
+            event.appendChild(newIntensityEvent)
+            event.appendChild(newProbabilityEvent)
+            event.appendChild(newDivClose)
+            event.classList.remove("displayNone")
+            events.appendChild(event)
+            data["countEvent"] += 1
+            document.getElementById("formForStrategy").classList.remove("displayNone")
+            let newOption = document.createElement("option")
+            newOption.innerHTML = nameEvent
+            document.getElementById("validationAtWhichEvent").appendChild(newOption)
 
-        let close = document.getElementsByClassName("close")
+            let close = document.getElementsByClassName("close")
 
-        for (let i = 0; i < close.length; i++) {
-            close[i].onclick = function () {
-                let div = this.parentElement.parentElement
-                div.setAttribute("class", "deleteClass")
-                const deleteElement = document.querySelector(".deleteClass")
-                const parent = deleteElement.parentNode
-                parent.removeChild(deleteElement)
-                data["countEvent"] -= 1
-                if (data["countEvent"] === 0) {
-                    document.getElementById("formForStrategy").setAttribute("class", "displayNone")
-                }
-                let strategyNames = document.getElementsByClassName("eventName")
-                let selector = document.getElementById("validationAtWhichEvent")
-                selector.innerHTML = ''
-                for (let i = 0; i < strategyNames.length; i++) {
-                    let option = document.createElement("option")
-                    option.innerHTML = strategyNames[i].textContent
-                    selector.appendChild(option)
+            for (let i = 0; i < close.length; i++) {
+                close[i].onclick = function () {
+                    let div = this.parentElement.parentElement
+                    div.setAttribute("class", "deleteClass")
+                    const deleteElement = document.querySelector(".deleteClass")
+                    const parent = deleteElement.parentNode
+                    parent.removeChild(deleteElement)
+                    data["countEvent"] -= 1
+                    if (data["countEvent"] === 0) {
+                        document.getElementById("formForStrategy").setAttribute("class", "displayNone")
+                    }
+                    let strategyNames = document.getElementsByClassName("eventName")
+                    let selector = document.getElementById("validationAtWhichEvent")
+                    selector.innerHTML = ''
+                    for (let i = 0; i < strategyNames.length; i++) {
+                        let option = document.createElement("option")
+                        option.innerHTML = strategyNames[i].textContent
+                        selector.appendChild(option)
+                    }
                 }
             }
         }
-    }
 
-    document.getElementById("validationNameEvent").value = ""
-    document.getElementById("validationIntensityEvent").value = ""
-    document.getElementById("validationProbabilityEvent").value = ""
+        document.getElementById("validationNameEvent").value = ""
+        document.getElementById("validationIntensityEvent").value = ""
+        document.getElementById("validationProbabilityEvent").value = ""
+    }
 }
 
 function createCloseButton(div) {
@@ -272,7 +236,7 @@ function newMinimization() {
     document.getElementById("validationByHowMuch").classList.remove("is-invalid")
 
     let flag = true
-    if (nameStrategy == "") {
+    if (nameStrategy === "") {
         flag = false
         document.getElementById("validationNameStrategy").setAttribute("class", "form-control is-invalid")
         let feedbackName = document.createElement("div")
@@ -280,7 +244,7 @@ function newMinimization() {
         feedbackName.innerHTML = "Заполните это поле"
         divNameStrategy.appendChild(feedbackName)
     }
-    if (atWhichEvent == "") {
+    if (atWhichEvent === "") {
         flag = false
         document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
         let feedbackCost = document.createElement("div")
@@ -288,7 +252,7 @@ function newMinimization() {
         feedbackCost.innerHTML = "Заполните это поле"
         divCostStrategy.appendChild(feedbackCost)
     }
-    if (costStrategy == "") {
+    if (costStrategy === "") {
         flag = false
         document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
         let feedbackCost = document.createElement("div")
@@ -296,7 +260,7 @@ function newMinimization() {
         feedbackCost.innerHTML = "Заполните это поле"
         divCostStrategy.appendChild(feedbackCost)
     }
-    if (howMach == "") {
+    if (howMach === "") {
         flag = false
         document.getElementById("validationByHowMuch").setAttribute("class", "form-control is-invalid")
         let feedbackHowMach = document.createElement("div")
@@ -365,7 +329,7 @@ function newMinimization() {
                 let div = this.parentElement.parentElement
                 div.setAttribute("class", "deleteClass")
                 data["countStrategy"] -= 1
-                if (data["countStrategy"] === 0){
+                if (data["countStrategy"] === 0) {
                     document.getElementById("divForButtonCalculate").setAttribute("class", "displayNone")
                 }
                 const deleteElement = document.querySelector(".deleteClass")
@@ -392,9 +356,41 @@ function calculatePrintTable() {
     document.getElementById("buttonForCalculate").setAttribute("disabled", "disabled")
     tableEntry("Events", "userEvent")
     tableEntry("Strategies", "userMinimization")
-    // printRenameEvents(data)
-    // printRenameStr(data)
+    printRename("userEvent")
+    printRename("userMinimization")
+    printTableOfEventsCharacteristics()
+    document.getElementById("printTable").classList.remove("displayList")
     console.log(data)
+    printTableOfStrategiesCharacteristics()
+}
+
+function printRename(nameData) {
+    let tbody
+    if (nameData === "userEvent") {
+        tbody = document.getElementById("tbodyForNameEvent")
+    } else {
+        tbody = document.getElementById("tbodyForNameStrategy")
+    }
+    for (let i = 0; i < data[nameData].length; i++) {
+        let tr = document.createElement("tr")
+        let tdNameOriginal = document.createElement("td")
+        let tdNameReplacement = document.createElement("td")
+
+        let original = document.createTextNode(data[nameData][i][0])
+        let replacement
+        if (nameData === "userEvent") {
+            replacement = document.createTextNode("Событие-" + (i + 1))
+            data[nameData][i][3] = "Событие-" + (i + 1)
+        } else {
+            replacement = document.createTextNode("Стратегия-" + (i + 1))
+            data[nameData][i][4] = "Стратегия-" + (i + 1)
+        }
+        tdNameOriginal.appendChild(original)
+        tdNameReplacement.appendChild(replacement)
+        tr.appendChild(tdNameOriginal)
+        tr.appendChild(tdNameReplacement)
+        tbody.appendChild(tr)
+    }
 }
 
 function tableEntry(nameTable, nameData) {
@@ -407,10 +403,335 @@ function tableEntry(nameTable, nameData) {
         data[nameData][j] = []
         let cells = currRows[j].getElementsByTagName("td")
 
-        for (let k = 0; k < cells.length - 1; k++) {
-            {
-                data[nameData][j][k] = cells[k].textContent
+        for (let k = 0; k < cells.length - 1; k++)
+            data[nameData][j][k] = cells[k].textContent
+    }
+}
+
+function printTableOfEventsCharacteristics() {
+    let tbody = document.getElementById("tbodyCharacteristicsEvent")
+    let trThead = document.getElementById("trTheadCharacteristicsEvent")
+    let trSecondThead = document.getElementById("trCharacteristicsEvent")
+
+    let th = document.createElement("td")
+    th.setAttribute("colspan", data["countEvent"])
+    let thText = document.createTextNode("События, провоцирующие возникновение риска")
+    th.appendChild(thText)
+    trThead.appendChild(th)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let tdText = document.createTextNode(data["userEvent"][i][3])
+        td.appendChild(tdText)
+        trSecondThead.appendChild(td)
+    }
+
+    let tr = document.createElement("tr")
+    let tdNumber = document.createElement("td")
+    let number = document.createTextNode("1.")
+    tdNumber.appendChild(number)
+    let tdName = document.createElement("td")
+    let name = document.createTextNode("Интенсивность возникновения i-го события")
+    tdName.appendChild(name)
+    tr.appendChild(tdNumber)
+    tr.appendChild(tdName)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][1])
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+    tbody.appendChild(tr)
+
+    tr = document.createElement("tr")
+    tdNumber = document.createElement("td")
+    number = document.createTextNode("2.")
+    tdNumber.appendChild(number)
+    tdName = document.createElement("td")
+    name = document.createTextNode("Вероятность наступления i-го события")
+    tdName.appendChild(name)
+    tr.appendChild(tdNumber)
+    tr.appendChild(tdName)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][2])
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+    tbody.appendChild(tr)
+
+
+    tr = document.createElement("tr")
+    tdNumber = document.createElement("td")
+    number = document.createTextNode("3.")
+    tdNumber.appendChild(number)
+    tdName = document.createElement("td")
+    name = document.createTextNode("Риск наступления i-го события")
+    tdName.appendChild(name)
+    tr.appendChild(tdNumber)
+    tr.appendChild(tdName)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        data["userEvent"][i][4] = Number(data["userEvent"][i][1]) * Number(data["userEvent"][i][2])
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][4])
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+    tbody.appendChild(tr)
+
+    tr = document.createElement("tr")
+    tdNumber = document.createElement("td")
+    number = document.createTextNode("4.")
+    tdNumber.appendChild(number)
+    tdName = document.createElement("td")
+    name = document.createTextNode("База для расчета упущенной выгоды компании, тыс. руб")
+    tdName.appendChild(name)
+    tr.appendChild(tdNumber)
+    tr.appendChild(tdName)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["base"])
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+    tbody.appendChild(tr)
+
+    tr = document.createElement("tr")
+    tdNumber = document.createElement("td")
+    number = document.createTextNode("5.")
+    tdNumber.appendChild(number)
+    tdName = document.createElement("td")
+    name = document.createTextNode("Выгода упущенная компанией из-за снижения выручки в результате i-го события, тыс. руб")
+    tdName.appendChild(name)
+    tr.appendChild(tdNumber)
+    tr.appendChild(tdName)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        data["userEvent"][i][5] = Number(data["base"] * Number(data["userEvent"][i][4]))
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][5])
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+    tbody.appendChild(tr)
+}
+
+function autoFilling() {
+    let autoFilling = document.getElementById("autofilling")
+    autoFilling.setAttribute('onclick', "")
+    data['countEvent'] = 4
+    data['countStrategy'] = 4
+    data['base'] = Number(60823)
+    data['rent'] = Number(30289)
+    data['userEvent'] = [
+        ['Снижение показателей выручки', 5, 0.008],
+        ['Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 2, 0.02],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора', 3, 0.015],
+        ['Отклонения от экологических стандартов', 2, 0.0125]
+    ]
+    data['userMinimization'] = [
+        ['Стратегия обслуживания', 'Снижение показателей выручки', 5250, 0.875],
+        ['Инфокомникационная стратегия', 'Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 9860, 0.75],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора', 4130, 0.666],
+        ['Экологическая стратегия', 'Отклонения от экологических стандартов', 3950, 0.8]
+    ]
+    printRename("userEvent")
+    printRename("userMinimization")
+    printTableOfEventsCharacteristics()
+    document.getElementById("printTable").classList.remove("displayNone")
+    printTableOfStrategiesCharacteristics()
+    printTableAltLoss()
+    // printTableConditionalBenefits()
+    console.log(data)
+}
+
+function printTableOfStrategiesCharacteristics() {
+    let tbody = document.getElementById("tbodyCharacteristicsStrategy")
+    let trThead = document.getElementById("trTheadCharacteristicsStrategy")
+    let trSecondThead = document.getElementById("trCharacteristicsStrategy")
+
+    let th = document.createElement("td")
+    th.setAttribute("colspan", data["countEvent"])
+    let thText = document.createTextNode("События, провоцирующие возникновение риска")
+    th.appendChild(thText)
+    trThead.appendChild(th)
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let tdText = document.createTextNode(data["userEvent"][i][3])
+        td.appendChild(tdText)
+        trSecondThead.appendChild(td)
+    }
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let trNameStrategy = document.createElement("tr")
+        let tdNameStrategy = document.createElement("td")
+        tdNameStrategy.setAttribute("colspan", data["countEvent"] + 2)
+        let nameStrategy = document.createTextNode(data["userMinimization"][strategy][0])
+        tdNameStrategy.appendChild(nameStrategy)
+        trNameStrategy.appendChild(tdNameStrategy)
+        tbody.appendChild(trNameStrategy)
+
+        let tr = document.createElement("tr")
+        let tdNumber = document.createElement("td")
+        let number = document.createTextNode((strategy + 1) + ".1")
+        tdNumber.appendChild(number)
+        let tdName = document.createElement("td")
+        let name = document.createTextNode("Интенсивность возникновения i-го события")
+        tdName.appendChild(name)
+        tr.appendChild(tdNumber)
+        tr.appendChild(tdName)
+        for (let i = 0; i < data["countEvent"]; i++) {
+            let text
+            if (data["userEvent"][i][0] === data["userMinimization"][strategy][1]) {
+                data["userEvent"][i][5] = data["userEvent"][i][1] - 1
+                text = document.createTextNode(data["userEvent"][i][5])
+            } else {
+                text = document.createTextNode(data["userEvent"][i][1])
+            }
+            let td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        tbody.appendChild(tr)
+
+        tr = document.createElement("tr")
+        tdNumber = document.createElement("td")
+        number = document.createTextNode((strategy + 1) + ".2")
+        tdNumber.appendChild(number)
+        tdName = document.createElement("td")
+        name = document.createTextNode("Вероятность наступления i-го события")
+        tdName.appendChild(name)
+        tr.appendChild(tdNumber)
+        tr.appendChild(tdName)
+        for (let i = 0; i < data["countEvent"]; i++) {
+            let text
+            if (data["userEvent"][i][0] === data["userMinimization"][strategy][1]) {
+                data["userEvent"][i][6] = round(data["userEvent"][i][2] * data["userMinimization"][strategy][3], 3)
+                text = document.createTextNode(data["userEvent"][i][6])
+            } else {
+                text = document.createTextNode(data["userEvent"][i][2])
+            }
+            let td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        tbody.appendChild(tr)
+
+        tr = document.createElement("tr")
+        tdNumber = document.createElement("td")
+        number = document.createTextNode((strategy + 1) + ".3")
+        tdNumber.appendChild(number)
+        tdName = document.createElement("td")
+        name = document.createTextNode("Риск наступления i-го события")
+        tdName.appendChild(name)
+        tr.appendChild(tdNumber)
+        tr.appendChild(tdName)
+        for (let i = 0; i < data["countEvent"]; i++) {
+            let text
+            if (data["userEvent"][i][0] === data["userMinimization"][strategy][1]) {
+                data["userEvent"][i][7] = round(data["userEvent"][i][5] * data["userEvent"][i][6], 3)
+                text = document.createTextNode(data["userEvent"][i][7])
+            } else {
+                let number = Number(data["userEvent"][i][1] * data["userEvent"][i][2])
+                text = document.createTextNode(number)
+            }
+            let td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        tbody.appendChild(tr)
+
+        tr = document.createElement("tr")
+        tdNumber = document.createElement("td")
+        number = document.createTextNode((strategy + 1) + ".4")
+        tdNumber.appendChild(number)
+        tdName = document.createElement("td")
+        name = document.createTextNode("База для расчета упущенной выгоды компании, тыс. руб")
+        tdName.appendChild(name)
+        tr.appendChild(tdNumber)
+        tr.appendChild(tdName)
+        for (let i = 0; i < data["countEvent"]; i++) {
+            let td = document.createElement("td")
+            let text = document.createTextNode(data["base"])
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        tbody.appendChild(tr)
+
+        tr = document.createElement("tr")
+        tdNumber = document.createElement("td")
+        number = document.createTextNode((strategy + 1) + ".5")
+        tdNumber.appendChild(number)
+        tdName = document.createElement("td")
+        name = document.createTextNode("Выгода упущенная компанией из-за снижения выручки в результате i-го события, тыс. руб")
+        tdName.appendChild(name)
+        tr.appendChild(tdNumber)
+        tr.appendChild(tdName)
+        for (let i = 0; i < data["countEvent"]; i++) {
+            let text
+            if (data["userEvent"][i][0] === data["userMinimization"][strategy][1]) {
+                data["userEvent"][i][8] = round(data["base"] * data["userEvent"][i][7], 0)
+                text = document.createTextNode(data["userEvent"][i][8])
+            } else {
+                data["userEvent"][i][9] = round(data["base"] * data["userEvent"][i][2] * data["userEvent"][i][1], 0)
+                text = document.createTextNode(data["userEvent"][i][9])
+            }
+            let td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+        tbody.appendChild(tr)
+    }
+}
+
+function printTableAltLoss() {
+    let tbody = document.getElementById("tbodyAltLoss")
+    let trThead = document.getElementById("trAltLoss")
+    let tdThead = document.getElementById("tdTheadAltLoss")
+    tdThead.setAttribute("colspan", data["countEvent"])
+
+    for (let i = 0; i < data["countEvent"]; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userEvent"][i][3])
+        td.appendChild(text)
+        trThead.appendChild(td)
+    }
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userMinimization"][strategy][4])
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        data["userMinimization"][strategy][5] = -9999999
+        data["userMinimization"][strategy][6] = 9999999
+        for (let event = 0; event < data["countEvent"]; event++) {
+            let number
+            if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
+                number = data["userEvent"][event][8]
+            } else {
+                number = data["userEvent"][event][9]
+            }
+            let text = document.createTextNode(number)
+            td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+            if (number > data["userMinimization"][strategy][5]) {
+                data["userMinimization"][strategy][5] = number
+            }
+            if (number < data["userMinimization"][strategy][6]) {
+                data["userMinimization"][strategy][6] = number
             }
         }
+        let tdMin = document.createElement("td")
+        let minText = document.createTextNode(data["userMinimization"][strategy][6])
+        tdMin.appendChild(minText)
+        tr.appendChild(tdMin)
+
+        let tdMax = document.createElement("td")
+        let maxText = document.createTextNode(data["userMinimization"][strategy][5])
+        tdMax.appendChild(maxText)
+        tr.appendChild(tdMax)
+
+        tbody.appendChild(tr)
     }
 }
