@@ -1034,8 +1034,6 @@ function printTableCalculationEstimatedCharacteristics() {
         td.appendChild(text)
         tr.appendChild(td)
     }
-
-
     tbody.appendChild(tr)
 }
 
