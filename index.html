@@ -1,134 +1,227 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Управление рисками</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <script src="script.js"></script>
+    <title>newDDZ</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <script src="script/script.js"></script>
+    <script src="script/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div id="content">
+<header>
     <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
-
-    <h3>Автозаполнение по примеру Кориб (нажмите на кнопку ниже)</h3>
-    <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>
-
-    <div class="formInput">
-        <div id="idForBase">
-            <input type="text" id="inputBase" class="inputText"
-                   placeholder="База для расчета упущенной выгоды компании, тыс. руб">
-            <input type="text" id="inputRent" class="inputText"
-                   placeholder="Порог рентабильности, тыс. руб">
-            <span id="addBtnBase" onclick="newBase()" class="addBtn">Добавить</span>
-            <span class="displayNone" id="forBase">
-                <p id="pForBase">Значение базового расчета:</p>
-                <p id="baseValue"></p>
-            </span>
-            <span class="displayNone" id="forRent">
-                <p id="pForRent">Значение рентабильности:</p>
-                <p id="rentValue"></p>
-            </span>
+     <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>
+</header>
+<div id="formFilling">
+    <form>
+        <div class="form-row">
+            <div class="col-md-5 mb-4" id="divForBase">
+                <label for="validationBaseValue">Значение базового расчета:</label>
+                <input type="text" class="form-control" id="validationBaseValue" placeholder="В тысячах рублей"
+                       required>
+            </div>
+            <div class="col-md-4 mb-4" id="divForRent">
+                <label for="validationRentValue">Значение рентабильности:</label>
+                <input type="text" class="form-control" id="validationRentValue" placeholder="В тысячах рублей"
+                       required>
+            </div>
+            <div class="col-md-2 mb-2"></div>
+            <div class="form-check col-md-1 mb-1">
+                <label style="color: white">добавить</label>
+                <span class="btn btn-primary mb-2 form-control" onclick="newBase()">Добавить</span>
+            </div>
+            <div id="valueOutput" class="displayNone">
+                <div class="col-md-5 mb-4">
+                    <p>Значение базового расчета:</p>
+                </div>
+                <div class="col-md-5 mb-4" id="pForBaseValue"></div>
+                <div class="col-md-5 mb-4">
+                    <p>Значение рентабельности:</p>
+                </div>
+                <div class="col-md-5 mb-4" id="pForRentValue"></div>
+            </div>
         </div>
-        <div id="idForEvent">
-            <h2>События</h2>
-            <input type="text" id="inputEventName" class="inputText" placeholder="Название события">
-            <input type="text" id="inputEventIntensity" class="inputText"
-                   placeholder="Интенсивность возникновения события">
-            <input type="text" id="inputEventProbability" class="inputText"
-                   placeholder="Вероятность наступелния события">
-            <span onclick="newEvent()" class="addBtn">Добавить</span>
+    </form>
+    <form>
+        <div class="form-row">
+            <div class="col-md-3 mb-3" id="divForNameEvent">
+                <label for="validationNameEvent">Название события</label>
+                <input type="text" class="form-control" id="validationNameEvent" placeholder="В буквах">
+            </div>
+            <div class="col-md-3 mb-3" id="">
+                <label for="validationIntensityEvent">Интенсивность возникновения</label>
+                <input type="text" class="form-control" id="validationIntensityEvent" placeholder="В числах" required>
+            </div>
+            <div class="col-md-3 mb-3" id="divForProbabilityEvent">
+                <label for="validationProbabilityEvent">Вероятность наступления</label>
+                <input type="text" class="form-control" id="validationProbabilityEvent" placeholder="В долях" required>
+            </div>
+            <div class="col-md-2 mb-2"></div>
+            <div class="form-check col-md-1 mb-1">
+                <label style="color: white">добавить</label>
+                <span class="btn btn-primary mb-2 form-control buttonAdd" onclick="newEvent()">Добавить</span>
+            </div>
         </div>
-        <div id="divEventTable">
-            <table id="tableEvent" class="displayNone"></table>
+        <div id="divForEvents" class="displayNone col-md-12 md-12 form-row">
+            <table id="Events" class="table table-hover table-bordered"></table>
         </div>
-        <div id="idForMinimization" >
-            <h2>Стратегии минимизации рисков</h2>
-            <input type="text" id="inputNameMinimization" class="inputText"
-                   placeholder="Названия стратегии минимизации">
-            <select class="inputText" id="inputWhatEventThisStrategy">
-                <option>Выбор события</option>
-            </select>
-            <input type="text" id="inputCostMinimization" class="inputText"
-                   placeholder="Затраты на внедрение в тыс. руб">
-            <input type="text" id="inputPowerAffect" class="inputText"
-                   placeholder="Как сильно влияет на вероятность наступления события">
-            <span onclick="newMinimization()" class="addBtn addDown">Добавить</span>
+    </form>
+    <form id="formForStrategy" class="displayNone">
+        <div class="form-row" id="divForStrategy">
+            <div class="col-md-3 mb-3" id="divForNameStrategy">
+                <label for="validationNameStrategy">Название стратегии:</label>
+                <input type="text" class="form-control" id="validationNameStrategy" placeholder="В буквах">
+            </div>
+            <div class="col-md-3 mb-3 dropdown">
+                <label for="validationAtWhichEvent">На какое событие:</label>
+                <span class="custom-dropdown">
+                    <select id="validationAtWhichEvent"></select>
+                </span>
+            </div>
+            <div class="col-md-3 mb-3" id="divForCostStrategy">
+                <label for="validationCostsStrategy">Затраты на внедрение:</label>
+                <input type="text" class="form-control" id="validationCostsStrategy" placeholder="В тысячах рублей">
+            </div>
+            <div class="form-check col-md-2 mb-2" id="divForHowMach">
+                <label for="validationByHowMuch">На сколько влияет:</label>
+                <input type="text" class="form-control" id="validationByHowMuch" placeholder="В долях">
+            </div>
+            <div class="form-check col-md-1 mb-1">
+                <label style="color: white">добавить</label>
+                <span class="btn btn-primary mb-2 form-control buttonAdd" onclick="newMinimization()">
+                    Добавить
+                </span>
+            </div>
         </div>
-<!--        <div id="divSaveEvent">-->
-<!--            <input type="submit" id="saveEvent" name="calculate" value="Запомнить базу и события"-->
-<!--                   onclick="drawStrategy()"/>-->
-<!--        </div>-->
-
-        <div id="risksTable">
-            <table id="tableMinimization" class="displayNone"></table>
+        <div id="divForStrategies" class="displayNone col-md-12 md-12 form-row">
+            <table id="Strategies" class="table table-hover table-bordered"></table>
         </div>
+    </form>
+    <div id="divForButtonCalculate" class="displayNone">
+        <button id="buttonForCalculate" type="button" class="btn btn-primary btn-lg btn-block"
+                onclick="calculatePrintTable()">Расчитать стратегии и вывести все таблицы
+        </button>
     </div>
-
-    <!-- кнопка для рисовки всех таблиц-->
-    <div id="divSaveStrategyRisk">
-        <input type="submit" id="inputCalculate" name="calculate" value="Вывести все таблицы"
-               onclick="consoleTable()"/>
-    </div>
-
-    <!-- переименование событий -->
-    <div id="matrixRenameEvents" class="displayNone">
-        <h4>Названия событий</h4>
-        <table id="tableRenameEvents"></table>
-    </div>
-
-    <!-- переименование стратегий -->
-    <div id="matrixRenameStrategy" class="displayNone">
-        <h4>Названия стратегий</h4>
-        <table id="tableRenameStrategy"></table>
-    </div>
-
-    <!-- расчет упущенной выгоды при реализации проекта базовый случай -->
-    <div id="matrixEventsCharacteristics" class="displayNone">
-        <h4>Параметры событий</h4>
-        <table id="tableEventsCharacteristics"></table>
-    </div>
-
-    <!-- расчет параметров для стратегии управления рисками реализуемого проекта -->
-    <div id="matrixStrategiesCharacteristics" class="displayNone">
-        <h4>Описание стратегий управления рисками проекта </h4>
-        <table id="tableStrategiesCharacteristics"></table>
-    </div>
-
-    <!-- расчет упущенной выгоды базовый случай -->
-    <div id="MatrixAlternativeLosses" class="displayNone">
-        <h4>Матрица альтернативных потерь участников проекта</h4>
-        <table id="tableAlternativeLosses"></table>
-    </div>
-
-    <!-- расчет условной выгоды -->
-    <div id="calculationConditionalBenefits" class="displayNone">
-        <h4>Матрица условных выгод от реализации стратегий управления рисками</h4>
-        <table id="tableCalculationConditionalBenefits"></table>
-    </div>
-
-    <!-- показывает экономические последствия после реализации стратегии -->
-    <div id="calculationEconomicEffectsAfterRealizationStrategy" class="displayNone">
-        <h4>Матрица экономических последствий проектных рисков при реализации стратегий управления рисками</h4>
-        <table id="tableCalculationEconomicEffectsAfterRealizationStrategy"></table>
-    </div>
-
-    <!-- таблица оценочных характеристик для критерия Гурвица -->
-    <div id="calculationEstimatedCharacteristics" class="displayNone">
-        <h4>Матрица оценочных характеристик для критерия Гурвица</h4>
-        <table id="tableCalculationEstimatedCharacteristics"></table>
-    </div>
-
-    <!-- таблица, оценивающая стратегии по критериям-->
-    <div id="results" class="displayNone">
-        <h4>Результат</h4>
-        <table id="tableResults">
+</div>
+<div id="printTable" class="displayNone">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered" id="tableForNameEvent">
+            <thead class="thead-light">
             <tr>
-                <td class="headerOfTable">№</td>
-                <td class="headerOfTable">Критерий выбора стратегии</td>
-                <td class="headerOfTable">Рекомендуемая стратегия</td>
+                <th scope="col">Первоначальное название</th>
+                <th scope="col">Обозначение</th>
             </tr>
+            </thead>
+            <tbody id="tbodyForNameEvent"></tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered" id="tableForNameStrategies">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Первоначальное название</th>
+                <th scope="col">Обозначение</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyForNameStrategy"></tbody>
+        </table>
+    </div>
+    <div id="divForTableEventCharacteristics" class=" table-wrap">
+        <table id="tableEventsCharacteristics" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr id="trTheadCharacteristicsEvent">
+                <td rowspan="2">№</td>
+                <td rowspan="2" class="nameParameter">Имя параметра</td>
+            </tr>
+            <tr id="trCharacteristicsEvent"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyCharacteristicsEvent"></tbody>
+        </table>
+    </div>
+    <div id="divForTableStrategyCharacteristics" class=" table-wrap">
+        <table id="tableStrategyCharacteristics" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr id="trTheadCharacteristicsStrategy">
+                <td rowspan="2">№</td>
+                <td rowspan="2" class="nameParameter">Имя параметра</td>
+            </tr>
+            <tr id="trCharacteristicsStrategy"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyCharacteristicsStrategy"></tbody>
+        </table>
+    </div>
+    <div id="divForTableAltLoss" class=" table-wrap">
+        <table id="tableAltLoss" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td rowspan="2">Стратегии</td>
+                <td id="tdTheadAltLoss">Стоимость альтернативных убытков</td>
+                <td rowspan="2">Минимальное значение(Min)</td>
+                <td rowspan="2">Максимальное значение(Max)</td>
+            </tr>
+            <tr id="trAltLoss"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyAltLoss"></tbody>
+        </table>
+    </div>
+    <div id="divForTableConditionalBenefits" class=" table-wrap">
+        <table id="tableConditionalBenefits" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td rowspan="2">Стратегии</td>
+                <td id="tdTheadConditionalBenefits">Условный выигрыш</td>
+                <td rowspan="2">Минимальное значение(Min)</td>
+                <td rowspan="2">Максимальное значение(Max)</td>
+            </tr>
+            <tr id="trConditionalBenefits"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyConditionalBenefits"></tbody>
+        </table>
+    </div>
+    <div id="divForTableEconomicEffectsAfterRealizationStrategy" class=" table-wrap">
+        <table id="tableEconomicEffectsAfterRealizationStrategy" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td rowspan="2">Стратегии</td>
+                <td id="tdTheadEconomicEffectsAfterRealizationStrategy">Стоимость альтернативных убытков</td>
+                <td rowspan="2">Максимальное значение(Max)</td>
+            </tr>
+            <tr id="trEconomicEffectsAfterRealizationStrategy"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyEconomicEffectsAfterRealizationStrategy"></tbody>
+        </table>
+    </div>
+    <div id="divForTableCalculationEstimatedCharacteristics" class=" table-wrap">
+        <table id="tableCalculationEstimatedCharacteristics" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td rowspan="2">Стратегии</td>
+                <td id="tdTheadCalculationEstimatedCharacteristics">Матрица оценочных характеристик для критерия
+                    Гурвица
+                </td>
+            </tr>
+            <tr id="trCalculationEstimatedCharacteristics"></tr>
+            </thead>
+            <tr></tr>
+            <tbody id="tbodyCalculationEstimatedCharacteristics"></tbody>
+        </table>
+    </div>
+    <div id="divForTableResult" class="table-wrap">
+        <table id="tableResult" class="table table-hover table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <td>№</td>
+                <td>Критерий выбора стратегии</td>
+                <td>Рекомендуемая стратегия</td>
+            </tr>
+            </thead>
+            <tbody id="tbodyTableResult"></tbody>
         </table>
     </div>
 </div>

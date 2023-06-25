@@ -118,29 +118,31 @@ function newEvent() {
                 break
             }
         }
-        if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
-            flag = false
-            let feedbackIntensity = document.createElement("div")
-            document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
-            feedbackIntensity.setAttribute("class", "invalid-feedback")
-            feedbackIntensity.innerHTML = "Введите положительное число"
-            divForIntensityEvent.appendChild(feedbackIntensity)
-        } else {
-            console.log(7)
+    }
+    intensityEvent = intensityEvent.replace(/,/g, '.')
 
-            intensityEvent = Number(intensityEvent)
-        }
-        if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
-            flag = false
-            document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
-            let feedbackProbability = document.createElement("div")
-            feedbackProbability.setAttribute("class", "invalid-feedback")
-            feedbackProbability.innerHTML = "Введите положительное дробное число меньшее 1"
-            divForProbabilityEvent.appendChild(feedbackProbability)
-        } else if (Number(probabilityEvent) * intensityEvent > 1) {
-            flag = false
-            document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
-            document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+    if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
+        flag = false
+        let feedbackIntensity = document.createElement("div")
+        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+        feedbackIntensity.setAttribute("class", "invalid-feedback")
+        feedbackIntensity.innerHTML = "Введите положительное число"
+        divForIntensityEvent.appendChild(feedbackIntensity)
+    } else {
+        intensityEvent = Number(intensityEvent)
+    }
+    probabilityEvent = probabilityEvent.replace(/,/g, '.')
+    if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
+        flag = false
+        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        let feedbackProbability = document.createElement("div")
+        feedbackProbability.setAttribute("class", "invalid-feedback")
+        feedbackProbability.innerHTML = "Введите положительное дробное число меньшее 1"
+        divForProbabilityEvent.appendChild(feedbackProbability)
+    } else if (Number(probabilityEvent) * intensityEvent > 1) {
+        flag = false
+        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
     }
     if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
         flag = false
@@ -164,18 +166,18 @@ function newEvent() {
         document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
         document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
 
-            let feedbackProbability = document.createElement("div")
-            feedbackProbability.setAttribute("class", "invalid-feedback")
-            feedbackProbability.innerHTML = "Риск наступления не должен превышать 1"
-            divForProbabilityEvent.appendChild(feedbackProbability)
-            let feedbackIntensity = document.createElement("div")
-            feedbackIntensity.setAttribute("class", "invalid-feedback")
-            feedbackIntensity.innerHTML = "Риск = Интенсивность * Вероятность"
-            divForIntensityEvent.appendChild(feedbackIntensity)
-        } else {
-            probabilityEvent = Number(probabilityEvent)
-        }
+        let feedbackProbability = document.createElement("div")
+        feedbackProbability.setAttribute("class", "invalid-feedback")
+        feedbackProbability.innerHTML = "Риск наступления не должен превышать 1"
+        divForProbabilityEvent.appendChild(feedbackProbability)
+        let feedbackIntensity = document.createElement("div")
+        feedbackIntensity.setAttribute("class", "invalid-feedback")
+        feedbackIntensity.innerHTML = "Риск = Интенсивность * Вероятность"
+        divForIntensityEvent.appendChild(feedbackIntensity)
+    } else {
+        probabilityEvent = Number(probabilityEvent)
     }
+
     for (let index = 0; index < names.length; index++) {
         if (nameEvent === names[index].innerText) {
             flag = false
@@ -301,6 +303,8 @@ function newMinimization() {
         feedbackHowMach.innerHTML = "Заполните это поле"
         divHowMach.appendChild(feedbackHowMach)
     }
+    costStrategy = costStrategy.replace(/,/g, '.')
+    howMach = howMach.replace(/,/g, '.')
     for (let index = 0; index < names.length; index++) {
         if (nameStrategy === names[index].innerText) {
             flag = false
@@ -986,7 +990,7 @@ function printTableCalculationEstimatedCharacteristics() {
     let trThead = document.getElementById("trCalculationEstimatedCharacteristics")
     let tdThead = document.getElementById("tdTheadCalculationEstimatedCharacteristics")
     tdThead.setAttribute("colspan", data["countEvent"])
-    let iks = [5,7,8,9]
+    let iks = [5, 7, 8, 9]
 
     for (let i = 0; i < 4; i++) {
         let td = document.createElement("td")
