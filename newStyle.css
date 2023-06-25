@@ -2,8 +2,7 @@
     text-align: center;
 }
 
-#formFilling form,
-#printTable{
+#formFilling form {
     width: 95%;
     margin: auto;
 }
@@ -51,8 +50,4 @@
 
 .blue {
     background-color: #c7dff3;
-}
-
-table{
-    margin: auto;
 }
