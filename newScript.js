@@ -142,17 +142,6 @@ function newEvent() {
             document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
             document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
     }
-    for (let index = 0; index < names.length; index++) {
-        if (nameEvent === names[index].innerText) {
-            flag = false
-            let feedbackEventName = document.createElement("div")
-            document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
-            feedbackEventName.setAttribute("class", "invalid-feedback")
-            feedbackEventName.innerHTML = "Названия событий не должны повторяться"
-            divForNameEvent.appendChild(feedbackEventName)
-            break
-        }
-    }
     if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
         flag = false
         let feedbackIntensity = document.createElement("div")
@@ -187,7 +176,17 @@ function newEvent() {
             probabilityEvent = Number(probabilityEvent)
         }
     }
-
+    for (let index = 0; index < names.length; index++) {
+        if (nameEvent === names[index].innerText) {
+            flag = false
+            let feedbackEventName = document.createElement("div")
+            document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
+            feedbackEventName.setAttribute("class", "invalid-feedback")
+            feedbackEventName.innerHTML = "Названия событий не должны повторяться"
+            divForNameEvent.appendChild(feedbackEventName)
+            break
+        }
+    }
     if (flag) {
         let events = document.getElementById("Events")
         let event = document.createElement("tr")
@@ -408,7 +407,11 @@ function calculatePrintTable() {
     printTableOfStrategiesCharacteristics()
     printTableAltLoss()
     printTableConditionalBenefits()
-    // printTableEconomicEffectsAfterRealizationStrategy()
+    printTableEconomicEffectsAfterRealizationStrategy()
+    printTableCalculationEstimatedCharacteristics()
+    criteriaSavage()
+    criteriaVald()
+    criteriaGurvic()
 }
 
 function printRename(nameData) {
@@ -552,7 +555,7 @@ function printTableOfEventsCharacteristics() {
     tr.appendChild(tdNumber)
     tr.appendChild(tdName)
     for (let i = 0; i < data["countEvent"]; i++) {
-        data["userEvent"][i][5] = Number(data["base"] * Number(data["userEvent"][i][4]))
+        data["userEvent"][i][5] = round(data["base"] * data["userEvent"][i][4], 3)
         let td = document.createElement("td")
         let text = document.createTextNode(data["userEvent"][i][5])
         td.appendChild(text)
@@ -564,20 +567,36 @@ function printTableOfEventsCharacteristics() {
 function autoFilling() {
     let autoFilling = document.getElementById("autofilling")
     autoFilling.setAttribute('onclick', "")
-    data['countEvent'] = 4
-    data['countStrategy'] = 4
+    data['countEvent'] = 12
+    data['countStrategy'] = 12
     data['base'] = Number(60823)
     data['rent'] = Number(30289)
     data['userEvent'] = [
         ['Снижение показателей выручки', 5, 0.008],
         ['Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 2, 0.02],
         ['Претензии заказчика в связи с несоответсвием качества работы требования договора', 3, 0.015],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора2', 4, 0.01],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора3', 5, 0.05],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора4', 6, 0.005],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора5', 7, 0.025],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора6', 8, 0.015],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора7', 9, 0.035],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора8', 10, 0.015],
+        ['Претензии заказчика в связи с несоответсвием качества работы требования договора9', 11, 0.065],
         ['Отклонения от экологических стандартов', 2, 0.0125]
     ]
     data['userMinimization'] = [
         ['Стратегия обслуживания', 'Снижение показателей выручки', 5250, 0.875],
         ['Инфокомникационная стратегия', 'Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 9860, 0.75],
         ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора', 4130, 0.66],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора2', 5130, 0.47],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора3', 4180, 0.25],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора4', 1130, 0.21],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора5', 3130, 0.1],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора6', 4130, 0.8],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора7', 4630, 0.6],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора8', 17130, 0.9],
+        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора9', 1130, 0.3],
         ['Экологическая стратегия', 'Отклонения от экологических стандартов', 3950, 0.8]
     ]
     printRename("userEvent")
@@ -592,7 +611,6 @@ function autoFilling() {
     criteriaSavage()
     criteriaVald()
     criteriaGurvic()
-    console.log(data)
 }
 
 function printTableOfStrategiesCharacteristics() {
@@ -615,6 +633,7 @@ function printTableOfStrategiesCharacteristics() {
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
         let trNameStrategy = document.createElement("tr")
         let tdNameStrategy = document.createElement("td")
+        tdNameStrategy.setAttribute("class", "head")
         tdNameStrategy.setAttribute("colspan", data["countEvent"] + 2)
         let nameStrategy = document.createTextNode(data["userMinimization"][strategy][0])
         tdNameStrategy.appendChild(nameStrategy)
@@ -682,7 +701,7 @@ function printTableOfStrategiesCharacteristics() {
                 data["userEvent"][i][7] = round(data["userEvent"][i][5] * data["userEvent"][i][6], 3)
                 text = document.createTextNode(data["userEvent"][i][7])
             } else {
-                let number = Number(data["userEvent"][i][1] * data["userEvent"][i][2])
+                let number = round(data["userEvent"][i][1] * data["userEvent"][i][2], 3)
                 text = document.createTextNode(number)
             }
             let td = document.createElement("td")
@@ -1089,7 +1108,7 @@ function criteriaGurvic() {
     }
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
         let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 0)
-        if (number == max) {
+        if (number === max) {
             data['gurvicPessimist'] = data['gurvicPessimist'].concat(data["userMinimization"][strategy][0], '; ')
         }
     }
@@ -1123,7 +1142,7 @@ function criteriaGurvic() {
     }
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
         let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 0)
-        if (number == max) {
+        if (number === max) {
             data['gurvicOptimist'] = data['gurvicOptimist'].concat(data["userMinimization"][strategy][0], '; ')
         }
     }

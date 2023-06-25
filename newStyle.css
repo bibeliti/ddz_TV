@@ -2,7 +2,8 @@
     text-align: center;
 }
 
-#formFilling form {
+#formFilling form,
+#printTable {
     width: 95%;
     margin: auto;
 }
@@ -26,7 +27,7 @@
 }
 
 .custom-dropdown select {
-    cursor:pointer;
+    cursor: pointer;
     background-color: #2980b9;
     color: #fff;
     font-size: inherit;
@@ -44,10 +45,39 @@
 }
 
 #tableForNameEvent,
-#tableForNameStrategies{
+#tableForNameStrategies {
     margin-top: 5%;
 }
 
 .blue {
-    background-color: #c7dff3;
+    background-color: #506CF0;
+}
+
+.head {
+    background-color: #e0af2c;
+}
+
+tbody tr:nth-child(2n + 1) {
+    background-color: #A7C0CD;
+}
+
+#printTable table {
+    margin-top: 8%;
+}
+
+thead {
+    background-color: #FE7860;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow:auto;
+}
+
+table {
+    cursor: all-scroll;
+}
+
+.nameParameter {
+    min-width: 400px;
 }
