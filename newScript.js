@@ -542,6 +542,10 @@ function autoFilling() {
     printTableAltLoss()
     printTableConditionalBenefits()
     printTableEconomicEffectsAfterRealizationStrategy()
+    printTableCalculationEstimatedCharacteristics()
+    criteriaSavage()
+    criteriaVald()
+    criteriaGurvic()
     console.log(data)
 }
 
@@ -743,6 +747,7 @@ function printTableConditionalBenefits() {
     let trThead = document.getElementById("trConditionalBenefits")
     let tdThead = document.getElementById("tdTheadConditionalBenefits")
     tdThead.setAttribute("colspan", data["countEvent"])
+    data['vald'] = ""
 
     for (let i = 0; i < data["countEvent"]; i++) {
         let td = document.createElement("td")
@@ -787,6 +792,7 @@ function printTableConditionalBenefits() {
         let text = document.createTextNode(data["userMinimization"][strategy][4])
         if (maxMinList.includes(strategy)) {
             td.setAttribute("class", "blue")
+            data['vald'] = data['vald'].concat(data["userMinimization"][strategy][0], '; ')
         }
         td.appendChild(text)
         tr.appendChild(td)
@@ -859,6 +865,8 @@ function printTableEconomicEffectsAfterRealizationStrategy() {
     let tdThead = document.getElementById("tdTheadEconomicEffectsAfterRealizationStrategy")
     tdThead.setAttribute("colspan", data["countEvent"])
 
+    data['savage'] = ""
+    let max_risk = 0
     for (let i = 0; i < data["countEvent"]; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["userEvent"][i][3])
@@ -892,9 +900,191 @@ function printTableEconomicEffectsAfterRealizationStrategy() {
 
         let tdMax = document.createElement("td")
         let maxText = document.createTextNode(data["userMinimization"][strategy][11])
+        if (data["userMinimization"][strategy][11] > max_risk) {
+            max_risk = data["userMinimization"][strategy][11]
+        }
         tdMax.appendChild(maxText)
         tr.appendChild(tdMax)
 
         tbody.appendChild(tr)
     }
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        if (max_risk === data["userMinimization"][strategy][11]) {
+            data['savage'] = data['savage'].concat(data["userMinimization"][strategy][0], '; ')
+        }
+    }
+}
+
+function printTableCalculationEstimatedCharacteristics() {
+    let tbody = document.getElementById("tbodyCalculationEstimatedCharacteristics")
+    let trThead = document.getElementById("trCalculationEstimatedCharacteristics")
+    let tdThead = document.getElementById("tdTheadCalculationEstimatedCharacteristics")
+    tdThead.setAttribute("colspan", data["countEvent"])
+    let iks = [5,7,8,9]
+
+    for (let i = 0; i < 4; i++) {
+        let td = document.createElement("td")
+        let text = document.createTextNode('x = 0,' + iks[i])
+        td.appendChild(text)
+        trThead.appendChild(td)
+    }
+
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let tr = document.createElement("tr")
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userMinimization"][strategy][4])
+        td.appendChild(text)
+        tr.appendChild(td)
+
+        for (let event = 0; event < 4; event++) {
+            let number = round(data["userMinimization"][strategy][8] * iks[event] * 0.1 + data["userMinimization"][strategy][7] * (1 - iks[event] * 0.1), 0)
+            let text = document.createTextNode(number)
+            td = document.createElement("td")
+            td.appendChild(text)
+            tr.appendChild(td)
+        }
+
+        tbody.appendChild(tr)
+    }
+
+    let tr = document.createElement("tr")
+    let td = document.createElement("td")
+    let text = document.createTextNode("Рекомендуемая стратегия")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    for (let event = 0; event < 4; event++) {
+        let max = 0
+        let max_strategy
+        for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+            let number = round(data["userMinimization"][strategy][8] * iks[event] * 0.1 + data["userMinimization"][strategy][7] * (1 - iks[event] * 0.1), 0)
+            if (number > max) {
+                max = number
+                max_strategy = strategy
+            }
+        }
+        let td = document.createElement("td")
+        let text = document.createTextNode(data["userMinimization"][max_strategy][4])
+        td.appendChild(text)
+        tr.appendChild(td)
+    }
+    
+
+    tbody.appendChild(tr)
+}
+
+function criteriaSavage() {
+    let tbody = document.getElementById("tbodyTableResult")
+    let tr = document.createElement("tr")
+
+    let td = document.createElement("td")
+    let text = document.createTextNode("1")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    text = document.createTextNode("Критерий Сэвиджа")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    text = document.createTextNode(data['savage'])
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    tbody.appendChild(tr)
+}
+
+function criteriaVald() {
+    let tbody = document.getElementById("tbodyTableResult")
+    let tr = document.createElement("tr")
+
+    let td = document.createElement("td")
+    let text = document.createTextNode("2")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    text = document.createTextNode("Критерий Вальда")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    text = document.createTextNode(data['vald'])
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    tbody.appendChild(tr)
+}
+
+function criteriaGurvic() {
+    data['gurvicPessimist'] = ""
+    let tbody = document.getElementById("tbodyTableResult")
+    let tr = document.createElement("tr")
+
+    let td = document.createElement("td")
+    let text = document.createTextNode("3.1")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    text = document.createTextNode("Критерий Гурвица(оптимистичный)")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    let max = 0
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 0)
+        if (number > max) {
+            max = number
+        }
+    }
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 0)
+        if (number == max) {
+            data['gurvicPessimist'] = data['gurvicPessimist'].concat(data["userMinimization"][strategy][0], '; ')
+        }
+    }
+    text = document.createTextNode(data['gurvicPessimist'])
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    tbody.appendChild(tr)
+
+    data['gurvicOptimist'] = ""
+
+    tr = document.createElement("tr")
+
+    td = document.createElement("td")
+    text = document.createTextNode("3.2")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    text = document.createTextNode("Критерий Гурвица(пессимистичный)")
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    td = document.createElement("td")
+    max = 0
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 0)
+        if (number > max) {
+            max = number
+        }
+    }
+    for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
+        let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 0)
+        if (number == max) {
+            data['gurvicOptimist'] = data['gurvicOptimist'].concat(data["userMinimization"][strategy][0], '; ')
+        }
+    }
+    
+    text = document.createTextNode(data['gurvicOptimist'])
+    td.appendChild(text)
+    tr.appendChild(td)
+
+    tbody.appendChild(tr)
 }
