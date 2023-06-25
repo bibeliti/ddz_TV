@@ -141,6 +141,39 @@ function newEvent() {
             flag = false
             document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
             document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+    }
+    for (let index = 0; index < names.length; index++) {
+        if (nameEvent === names[index].innerText) {
+            flag = false
+            let feedbackEventName = document.createElement("div")
+            document.getElementById("validationNameEvent").setAttribute("class", "form-control is-invalid")
+            feedbackEventName.setAttribute("class", "invalid-feedback")
+            feedbackEventName.innerHTML = "Названия событий не должны повторяться"
+            divForNameEvent.appendChild(feedbackEventName)
+            break
+        }
+    }
+    if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
+        flag = false
+        let feedbackIntensity = document.createElement("div")
+        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
+        feedbackIntensity.setAttribute("class", "invalid-feedback")
+        feedbackIntensity.innerHTML = "Введите положительное число"
+        divForIntensityEvent.appendChild(feedbackIntensity)
+    } else {
+        intensityEvent = Number(intensityEvent)
+    }
+    if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0) || (Number(probabilityEvent) > 1)) {
+        flag = false
+        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        let feedbackProbability = document.createElement("div")
+        feedbackProbability.setAttribute("class", "invalid-feedback")
+        feedbackProbability.innerHTML = "Введите положительное дробное число меньшее 1"
+        divForProbabilityEvent.appendChild(feedbackProbability)
+    } else if (Number(probabilityEvent) * intensityEvent > 1) {
+        flag = false
+        document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
+        document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
 
             let feedbackProbability = document.createElement("div")
             feedbackProbability.setAttribute("class", "invalid-feedback")
@@ -234,6 +267,8 @@ function newMinimization() {
     document.getElementById("validationAtWhichEvent").classList.remove("is-invalid")
     document.getElementById("validationByHowMuch").classList.remove("is-invalid")
 
+    let names = document.getElementsByClassName('strategyName')
+
     let flag = true
     if (nameStrategy === "") {
         flag = false
@@ -267,6 +302,17 @@ function newMinimization() {
         feedbackHowMach.innerHTML = "Заполните это поле"
         divHowMach.appendChild(feedbackHowMach)
     }
+    for (let index = 0; index < names.length; index++) {
+        if (nameStrategy === names[index].innerText) {
+            flag = false
+            let feedbackStrategyName = document.createElement("div")
+            document.getElementById("validationNameStrategy").setAttribute("class", "form-control is-invalid")
+            feedbackStrategyName.setAttribute("class", "invalid-feedback")
+            feedbackStrategyName.innerHTML = "Названия стратегий не должны повторяться"
+            divNameStrategy.appendChild(feedbackStrategyName)
+            break
+        }
+    }
     if ((isNaN(costStrategy)) || (Number(costStrategy) < 0)) {
         flag = false
         document.getElementById("validationCostsStrategy").setAttribute("class", "form-control is-invalid")
@@ -298,7 +344,7 @@ function newMinimization() {
         let strategies = document.getElementById("Strategies")
         let strategy = document.createElement("tr")
         let newNameStrategy = document.createElement("td")
-        newNameStrategy.setAttribute("class", "col-md-3 mb-3")
+        newNameStrategy.setAttribute("class", "col-md-3 mb-3 strategyName")
         newNameStrategy.innerHTML = nameStrategy
         let newAtWhichEvent = document.createElement("td")
         newAtWhichEvent.setAttribute("class", "col-md-3 mb-3")
@@ -969,7 +1015,7 @@ function printTableCalculationEstimatedCharacteristics() {
         td.appendChild(text)
         tr.appendChild(td)
     }
-    
+
 
     tbody.appendChild(tr)
 }
@@ -1081,7 +1127,7 @@ function criteriaGurvic() {
             data['gurvicOptimist'] = data['gurvicOptimist'].concat(data["userMinimization"][strategy][0], '; ')
         }
     }
-    
+
     text = document.createTextNode(data['gurvicOptimist'])
     td.appendChild(text)
     tr.appendChild(td)
