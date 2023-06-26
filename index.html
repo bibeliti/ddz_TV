@@ -11,7 +11,6 @@
 <body>
 <header>
     <h1>Критерии оценки для выбора оптимальной стратегии противодействия рискам проекта</h1>
-     <span id="autoFilling"><img id="autofilling" onclick="autoFilling()" src="images.jpg" alt="autofilling"></span>
 </header>
 <div id="formFilling">
     <form>
@@ -29,7 +28,7 @@
             <div class="col-md-2 mb-2"></div>
             <div class="form-check col-md-1 mb-1">
                 <label style="color: white">добавить</label>
-                <span class="btn btn-primary mb-2 form-control" onclick="newBase()">Добавить</span>
+                <span id="buttonBase" class="btn btn-primary mb-2 form-control" onclick="newBase()">Добавить</span>
             </div>
             <div id="valueOutput" class="displayNone">
                 <div class="col-md-5 mb-4">
@@ -60,7 +59,7 @@
             <div class="col-md-2 mb-2"></div>
             <div class="form-check col-md-1 mb-1">
                 <label style="color: white">добавить</label>
-                <span class="btn btn-primary mb-2 form-control buttonAdd" onclick="newEvent()">Добавить</span>
+                <span id="buttonEvent" class="btn btn-primary mb-2 form-control buttonAdd" onclick="newEvent()">Добавить</span>
             </div>
         </div>
         <div id="divForEvents" class="displayNone col-md-12 md-12 form-row">
@@ -89,7 +88,7 @@
             </div>
             <div class="form-check col-md-1 mb-1">
                 <label style="color: white">добавить</label>
-                <span class="btn btn-primary mb-2 form-control buttonAdd" onclick="newMinimization()">
+                <span id="buttonMinimization" class="btn btn-primary mb-2 form-control buttonAdd" onclick="newMinimization()">
                     Добавить
                 </span>
             </div>

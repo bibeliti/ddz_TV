@@ -402,6 +402,9 @@ function newMinimization() {
 
 function calculatePrintTable() {
     document.getElementById("buttonForCalculate").setAttribute("disabled", "disabled")
+    document.getElementById("buttonMinimization").setAttribute("class", "displayNone")
+    document.getElementById("buttonEvent").setAttribute("class", "displayNone")
+    document.getElementById("buttonBase").setAttribute("class", "displayNone")
     tableEntry("Events", "userEvent")
     tableEntry("Strategies", "userMinimization")
     printRename("userEvent")
@@ -566,39 +569,6 @@ function printTableOfEventsCharacteristics() {
         tr.appendChild(td)
     }
     tbody.appendChild(tr)
-}
-
-function autoFilling() {
-    let autoFilling = document.getElementById("autofilling")
-    autoFilling.setAttribute('onclick', "")
-    data['countEvent'] = 4
-    data['countStrategy'] = 4
-    data['base'] = Number(60823)
-    data['rent'] = Number(30289)
-    data['userEvent'] = [
-        ['Снижение показателей выручки', 5, 0.008],
-        ['Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 2, 0.02],
-        ['Претензии заказчика в связи с несоответсвием качества работы требования договора', 3, 0.015],
-        ['Отклонения от экологических стандартов', 2, 0.0125]
-    ]
-    data['userMinimization'] = [
-        ['Стратегия обслуживания', 'Снижение показателей выручки', 5250, 0.875],
-        ['Инфокомникационная стратегия', 'Превышение фактической стоимости услуг по ремонту над заплонированным уровнем', 9860, 0.75],
-        ['Инновационная стратегия', 'Претензии заказчика в связи с несоответсвием качества работы требования договора', 4130, 0.66],
-        ['Экологическая стратегия', 'Отклонения от экологических стандартов', 3950, 0.8]
-    ]
-    printRename("userEvent")
-    printRename("userMinimization")
-    printTableOfEventsCharacteristics()
-    document.getElementById("printTable").classList.remove("displayNone")
-    printTableOfStrategiesCharacteristics()
-    printTableAltLoss()
-    printTableConditionalBenefits()
-    printTableEconomicEffectsAfterRealizationStrategy()
-    printTableCalculationEstimatedCharacteristics()
-    criteriaSavage()
-    criteriaVald()
-    criteriaGurvic()
 }
 
 function printTableOfStrategiesCharacteristics() {
