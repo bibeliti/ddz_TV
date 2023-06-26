@@ -4,7 +4,7 @@
 
 #formFilling form,
 #printTable {
-    width: 95%;
+    width: 85%;
     margin: auto;
 }
 
@@ -15,6 +15,22 @@
 .close {
     background-color: #3e5c86;
     padding: 10px 20px;
+}
+
+#Events tr td:last-child {
+    border: 0;
+}
+
+#Events tr td{
+    border: 1px solid gray;
+}
+
+#Strategies tr td:last-child {
+    border: 0;
+}
+
+#Strategies tr td{
+    border: 1px solid gray;
 }
 
 .custom-dropdown {
@@ -54,7 +70,8 @@
 }
 
 .head {
-    background-color: #e0af2c;
+    background-color: #3e5c86;
+    color: white;
 }
 
 tbody tr:nth-child(2n + 1) {
