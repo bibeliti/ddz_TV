@@ -423,6 +423,7 @@ function calculatePrintTable() {
     criteriaSavage()
     criteriaVald()
     criteriaGurvic()
+    console.log(data)
 }
 
 function printRename(nameData) {
@@ -838,7 +839,7 @@ function printTableConditionalBenefits() {
         let td = document.createElement("td")
         let text = document.createTextNode(data["userMinimization"][strategy][4])
         if (maxMinList.includes(strategy)) {
-            td.setAttribute("class", "blue")
+            td.setAttribute("class", "blueVald")
             data['vald'] = data['vald'].concat(data["userMinimization"][strategy][0], '; ')
         }
         td.appendChild(text)
@@ -925,11 +926,13 @@ function printTableEconomicEffectsAfterRealizationStrategy() {
         trThead.appendChild(td)
     }
 
+    let tds = []
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
         let tr = document.createElement("tr")
         let td = document.createElement("td")
         let text = document.createTextNode(data["userMinimization"][strategy][4])
         td.appendChild(text)
+        tds.push(td)
         tr.appendChild(td)
 
         data["userMinimization"][strategy][11] = -9999999
@@ -967,6 +970,7 @@ function printTableEconomicEffectsAfterRealizationStrategy() {
 
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
         if (max_risk === data["userMinimization"][strategy][11]) {
+            tds[strategy].setAttribute('class', 'blueSavage')
             data['savage'] = data['savage'].concat(data["userMinimization"][strategy][0], '; ')
         }
     }
@@ -1012,7 +1016,6 @@ function printTableCalculationEstimatedCharacteristics() {
 
     for (let event = 0; event < 4; event++) {
         let max = 0
-        let max_strategy = 0
         let max_strategy_list = []
         let count= 0
         for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
@@ -1034,6 +1037,9 @@ function printTableCalculationEstimatedCharacteristics() {
             text = text + " " + String(data["userMinimization"][max_strategy_list[i]][4])
         }
         text = document.createTextNode(text)
+        if (event == 0 || event == 3) {
+            td.setAttribute('class', 'blueGurvic')
+        }
         td.appendChild(text)
         tr.appendChild(td)
     }
