@@ -16,12 +16,14 @@ function newBase() {
     document.getElementById("validationBaseValue").classList.remove("is-invalid")
     document.getElementById("validationRentValue").classList.remove("is-invalid")
     let flag = true
+    inputRent = inputRent.replace(/,/g, '.')
+    inputBase = inputBase.replace(/,/g, '.')
     if (isNaN(inputBase) || inputBase === "") {
         flag = false
         document.getElementById("validationBaseValue").setAttribute("class", "form-control is-invalid")
         let feedbackBase = document.createElement("div")
         feedbackBase.setAttribute("class", "invalid-feedback")
-        feedbackBase.innerHTML = "Введите целое число"
+        feedbackBase.innerHTML = "Введите положительное число"
         divForBase.appendChild(feedbackBase)
     } else if (Number(inputBase) < 0) {
         flag = false
@@ -38,7 +40,7 @@ function newBase() {
         document.getElementById("validationRentValue").setAttribute("class", "form-control is-invalid")
         let feedbackRent = document.createElement("div")
         feedbackRent.setAttribute("class", "invalid-feedback")
-        feedbackRent.innerHTML = "Введите целое число"
+        feedbackRent.innerHTML = "Введите положительное число"
         divForRent.appendChild(feedbackRent)
     } else if (Number(inputRent) < 0) {
         flag = false
@@ -50,6 +52,8 @@ function newBase() {
     } else {
         inputRent = Number(inputRent)
     }
+
+
     if ((flag === true) && (inputRent > inputBase)) {
         flag = false
         document.getElementById("validationRentValue").setAttribute("class", "form-control is-invalid")
@@ -126,7 +130,7 @@ function newEvent() {
         let feedbackIntensity = document.createElement("div")
         document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
         feedbackIntensity.setAttribute("class", "invalid-feedback")
-        feedbackIntensity.innerHTML = "Введите положительное число"
+        feedbackIntensity.innerHTML = "Введите положительное число больше 1"
         divForIntensityEvent.appendChild(feedbackIntensity)
     } else {
         intensityEvent = Number(intensityEvent)
@@ -144,7 +148,7 @@ function newEvent() {
         document.getElementById("validationProbabilityEvent").setAttribute("class", "form-control is-invalid")
         document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
     }
-    if ((isNaN(intensityEvent)) || (Number(intensityEvent) < 0)) {
+    if ((isNaN(probabilityEvent)) || (Number(probabilityEvent) < 0)) {
         flag = false
         let feedbackIntensity = document.createElement("div")
         document.getElementById("validationIntensityEvent").setAttribute("class", "form-control is-invalid")
@@ -610,7 +614,7 @@ function printTableOfStrategiesCharacteristics() {
         for (let i = 0; i < data["countEvent"]; i++) {
             let text
             if (data["userEvent"][i][0] === data["userMinimization"][strategy][1]) {
-                data["userEvent"][i][5] = data["userEvent"][i][1] - 1
+                data["userEvent"][i][5] = data["userEvent"][i][1]
                 text = document.createTextNode(data["userEvent"][i][5])
             } else {
                 text = document.createTextNode(data["userEvent"][i][1])
@@ -697,10 +701,10 @@ function printTableOfStrategiesCharacteristics() {
         for (let i = 0; i < data["countEvent"]; i++) {
             let text
             if (data["userEvent"][i][0] === data["userMinimization"][strategy][1]) {
-                data["userEvent"][i][8] = round(data["base"] * data["userEvent"][i][7], 0)
+                data["userEvent"][i][8] = round(data["base"] * data["userEvent"][i][7], 3)
                 text = document.createTextNode(data["userEvent"][i][8])
             } else {
-                data["userEvent"][i][9] = round(data["base"] * data["userEvent"][i][2] * data["userEvent"][i][1], 0)
+                data["userEvent"][i][9] = round(data["base"] * data["userEvent"][i][2] * data["userEvent"][i][1], 3)
                 text = document.createTextNode(data["userEvent"][i][9])
             }
             let td = document.createElement("td")
@@ -737,8 +741,18 @@ function printTableAltLoss() {
             let number
             if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
                 number = data["userEvent"][event][8]
+                if (number < 0){
+                    number = round(-number, 2) 
+                } else {
+                    number = round(number , 2)
+                } 
             } else {
                 number = data["userEvent"][event][9]
+                if (number < 0){
+                    number = round(-number, 2) 
+                } else {
+                    number = round(number , 2)
+                } 
             }
             let text = document.createTextNode(number)
             td = document.createElement("td")
@@ -788,8 +802,18 @@ function printTableConditionalBenefits() {
             let number
             if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
                 number = data["rent"] - data["userEvent"][event][8]
+                if(number < 0) {
+                    number = round(-number, 3)
+                } else {
+                    number = round(number, 3)
+                }
             } else {
                 number = data["rent"] - data["userEvent"][event][9]
+                if(number < 0) {
+                    number = round(-number, 3)
+                } else {
+                    number = round(number, 3)
+                }
             }
             if (number > data["userMinimization"][strategy][7]) {
                 data["userMinimization"][strategy][7] = number
@@ -826,17 +850,24 @@ function printTableConditionalBenefits() {
             let number
             if (data["userEvent"][event][0] === data["userMinimization"][strategy][1]) {
                 number = data["rent"] - data["userEvent"][event][8]
+                if(number < 0){
+                    number = round(-number, 3)
+                } else {
+                    number = round(number, 3)
+                }
             } else {
                 number = data["rent"] - data["userEvent"][event][9]
+                if(number < 0){
+                    number = round(-number, 3)
+                } else {
+                    number = round(number, 3)
+                }
             }
             if (number < data["userEvent"][event][10]) {
                 data["userEvent"][event][10] = number
             }
             let text = document.createTextNode(number)
             td = document.createElement("td")
-            if (number === minMaxValue) {
-                td.setAttribute("class", "blue")
-            }
             td.appendChild(text)
             tr.appendChild(td)
             if (number > data["userMinimization"][strategy][7]) {
@@ -873,9 +904,6 @@ function printTableConditionalBenefits() {
     for (let i = 0; i < data["countEvent"]; i++) {
         let td = document.createElement("td")
         let text = document.createTextNode(data["userEvent"][i][10])
-        if (data["userEvent"][i][10] === minMaxValue) {
-            td.setAttribute("class", "blue")
-        }
         td.appendChild(text)
         tr.appendChild(td)
     }
@@ -911,6 +939,11 @@ function printTableEconomicEffectsAfterRealizationStrategy() {
                 number = 0
             } else {
                 number = data["userEvent"][event][9] - data["userEvent"][event][8]
+                if (number < 0) {
+                    number = round(-number, 3)
+                } else {
+                    number = round(number, 3)
+                }
             }
             let text = document.createTextNode(number)
             td = document.createElement("td")
@@ -961,7 +994,7 @@ function printTableCalculationEstimatedCharacteristics() {
         tr.appendChild(td)
 
         for (let event = 0; event < 4; event++) {
-            let number = round(data["userMinimization"][strategy][8] * iks[event] * 0.1 + data["userMinimization"][strategy][7] * (1 - iks[event] * 0.1), 0)
+            let number = round(data["userMinimization"][strategy][8] * iks[event] * 0.1 + data["userMinimization"][strategy][7] * (1 - iks[event] * 0.1), 3)
             let text = document.createTextNode(number)
             td = document.createElement("td")
             td.appendChild(text)
@@ -980,15 +1013,27 @@ function printTableCalculationEstimatedCharacteristics() {
     for (let event = 0; event < 4; event++) {
         let max = 0
         let max_strategy = 0
+        let max_strategy_list = []
+        let count= 0
         for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
-            let number = round(data["userMinimization"][strategy][8] * iks[event] * 0.1 + data["userMinimization"][strategy][7] * (1 - iks[event] * 0.1), 0)
-            if (number >= max) {
+            let number = round(data["userMinimization"][strategy][8] * iks[event] * 0.1 + data["userMinimization"][strategy][7] * (1 - iks[event] * 0.1), 3)
+            if (number > max) {
                 max = number
                 max_strategy = strategy
+                max_strategy_list = []
+                max_strategy_list.push(strategy)
+                count = 1
+            } else if (number === max) {
+                max_strategy_list.push(strategy)
+                count++
             }
         }
         let td = document.createElement("td")
-        let text = document.createTextNode(data["userMinimization"][max_strategy][4])
+        let text = ""
+        for (let i = 0; i < count; i++){
+            text = text + " " + String(data["userMinimization"][max_strategy_list[i]][4])
+        }
+        text = document.createTextNode(text)
         td.appendChild(text)
         tr.appendChild(td)
     }
@@ -1057,13 +1102,13 @@ function criteriaGurvic() {
     td = document.createElement("td")
     let max = 0
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
-        let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 0)
+        let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 3)
         if (number > max) {
             max = number
         }
     }
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
-        let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 0)
+        let number = round(data["userMinimization"][strategy][8] * 0.5 + data["userMinimization"][strategy][7] * 0.5, 3)
         if (number === max) {
             data['gurvicPessimist'] = data['gurvicPessimist'].concat(data["userMinimization"][strategy][0], '; ')
         }
@@ -1091,13 +1136,13 @@ function criteriaGurvic() {
     td = document.createElement("td")
     max = 0
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
-        let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 0)
+        let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 3)
         if (number > max) {
             max = number
         }
     }
     for (let strategy = 0; strategy < data["countStrategy"]; strategy++) {
-        let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 0)
+        let number = round(data["userMinimization"][strategy][8] * 0.9 + data["userMinimization"][strategy][7] * 0.1, 3)
         if (number === max) {
             data['gurvicOptimist'] = data['gurvicOptimist'].concat(data["userMinimization"][strategy][0], '; ')
         }
